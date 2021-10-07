@@ -23,7 +23,7 @@ class Tipos extends Component
     public $pagination = 5;
     public $buscar = '';
     //propiedades
-    public $tip_desc, $tip_img, $img_antigua;
+    public $tip_desc, $tip_img, $tip_img_ant;
     // Id y Actualizar
     public $selected_id = null, $selected_id_edit = null;
     public $updateMode = false;
@@ -88,7 +88,7 @@ class Tipos extends Component
         $this->selected_id = null;
         $this->selected_id_edit = null;
 
-        $this->img_antigua = null;
+        $this->tip_img_ant = null;
 
         $this->buscar = '';
 
@@ -107,6 +107,7 @@ class Tipos extends Component
         $datos =
             [
                 'tip_desc'   => $this->tip_desc,
+                'tip_img'   => $this->tip_img,
             ];
 
         /*  ------------------------   PARA SUBIR UNA IMAGEN EN LA CARPETA PUBLIC CREAT Images\Tipos   ---------------------------- */
@@ -114,7 +115,7 @@ class Tipos extends Component
         //Verificamos que la se haya cargado una imagen
         if (!empty($this->tip_img)) {
             //si la imagen de ahora es diferente a que se tenia ingresa al if
-            if ($this->tip_img != $this->img_antigua) {
+            if ($this->tip_img != $this->tip_img_ant) {
                 $image = $this->tip_img;
                 $nameImg = $this->tip_desc . '-' . substr(uniqid(rand(), true), 8, 8) . '.' . $image->getClientOriginalExtension();
                 $move = Image::make($image)->save('images/tipos/' . $nameImg);
@@ -138,8 +139,6 @@ class Tipos extends Component
         {
             $this->validate([
                 'tip_desc'  => 'required|unique:tipos,tip_desc,' . $this->selected_id_edit . ',tip_id',
-
-                'tip_img'   =>  'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
             Tipo::find($this->selected_id_edit)->update($datos);
             $this->emit('closeModal');
@@ -155,6 +154,8 @@ class Tipos extends Component
         $this->selected_id_edit = $id;
         $this->tip_desc = $data->tip_desc;
         $this->tip_img = $data->tip_img;
+
+        $this->tip_img_ant=$data->tip_img;
 
         $this->updateMode = true;
     }
