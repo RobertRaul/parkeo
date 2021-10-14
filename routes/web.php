@@ -24,3 +24,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::view('tipocomprobante', 'templates.tipocomprobante');
 Route::view('series', 'templates.series');
 Route::view('tipos', 'templates.tipos');
+Route::view('tarifas', 'templates.tarifas');

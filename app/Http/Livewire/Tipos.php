@@ -43,7 +43,6 @@ class Tipos extends Component
     protected $rules =
     [
         'tip_desc'  => 'required|unique:tipos,tip_desc',
-
         'tip_img'   =>  'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
     ];
 

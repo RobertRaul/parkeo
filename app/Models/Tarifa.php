@@ -27,7 +27,7 @@ class Tarifa extends Model
     public function Tipos()
     {
         return $this->belongsTo(Tipo::class,'tar_tipoid','tip_id');
-        // con $this hacemos referencia a esta clase "Serie" y belognsTo decimos: pertenece, entonces decimos, Una SERIE pertenece a una tipo de Comprobante
+        // con $this hacemos referencia a esta clase "Tarifa" y belognsTo decimos: pertenece, entonces decimos, Una Tarifa pertenece a una Tipo de Vehiculo
     }
 
 }
