@@ -225,41 +225,47 @@ return [
     */
 
     'menu' => [
-            // Sidebar items:
-            [
-                'type' => 'sidebar-menu-search',
-                'text' => 'search',
-            ],
-            //Tipo de Comprobante
-            [
-                'text' => 'Tipo Comprobante',
-                'url' => 'tipocomprobante',
-                'icon' => 'fas fa-fw fa-user',
-            ],
-             //Series
-             [
-                'text' => 'Series',
-                'url' => 'series',
-                'icon' => 'fas fa-fw fa-user',
-            ],
-             //Tipos
-             [
-                'text' => 'Tipos Vehiculos',
-                'url' => 'tipos',
-                'icon' => 'fas fa-fw fa-user',
-            ],    
-            //Tarifas
-            [
+        // Sidebar items:
+        [
+            'type' => 'sidebar-menu-search',
+            'text' => 'search',
+        ],
+        //Tipo de Comprobante
+        [
+            'text' => 'Tipo Comprobante',
+            'url' => 'tipocomprobante',
+            'icon' => 'fas fa-fw fa-user',
+        ],
+        //Series
+        [
+            'text' => 'Series',
+            'url' => 'series',
+            'icon' => 'fas fa-fw fa-user',
+        ],
+        //Tipos
+        [
+            'text' => 'Tipos Vehiculos',
+            'url' => 'tipos',
+            'icon' => 'fas fa-fw fa-user',
+        ],
+        //Tarifas
+        [
             'text' => 'Tarifa',
             'url' => 'tarifas',
             'icon' => 'fas fa-fw fa-user',
-            ],   
-            //Cajones
-            [
-                'text' => 'Cajones',
-                'url' => 'cajones',
-                'icon' => 'fas fa-fw fa-user',
-            ],   
+        ],
+        //Cajones
+        [
+            'text' => 'Cajones',
+            'url' => 'cajones',
+            'icon' => 'fas fa-fw fa-user',
+        ],
+        //Tipo de Documento
+        [
+            'text' => 'Tipo de Documento',
+            'url' => 'tipodocumento',
+            'icon' => 'fas fa-fw fa-user',
+        ],
         [
             'text'    => 'multilevel',
             'icon'    => 'fas fa-fw fa-share',
