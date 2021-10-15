@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Http\Livewire\Tipos;
+use App\Models\Tipo;
 use Illuminate\Database\Eloquent\Model;
 
 class Tarifa extends Model
@@ -19,7 +19,7 @@ class Tarifa extends Model
         ->where('tar_id','like','%'. $value .'%')
         ->orWhere('tar_desc','like','%' . $value . '%')
         ->orWhere('tar_tiempo','like','%' . $value . '%')
-        ->orWhere('tar_tipoid','like','%' . $value . '%')
+        ->orWhere('tip_desc','like','%' . $value . '%')
         ->orWhere('tar_estado','like','%' . $value . '%')
         ->join('tipos','tip_id','=','tar_tipoid');
     }

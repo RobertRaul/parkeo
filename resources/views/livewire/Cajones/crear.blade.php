@@ -4,9 +4,9 @@
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">
             @if($updateMode ==false)
-                Registrar Tipo de Vehiculo
+                Registrar Cajones
             @else
-                Modificar Tipo de Vehiculo
+                Modificar Cajones
             @endif
           </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -15,19 +15,11 @@
         </div>
         <div class="modal-body">
             <form>
-
                 <div class="form-group">
-                    <label for="tip_desc">Descripcion</label>
-                    <input wire:model="tip_desc" type="text" class="form-control" id="tip_desc" placeholder="Tipo">
-                    @error('tip_desc') <span class="error text-danger">{{ $message }}</span> @enderror
+                    <label for="caj_desc">Cajon</label>
+                    <input wire:model="caj_desc" type="text" class="form-control" id="caj_desc" placeholder="Descripcion">
+                    @error('caj_desc') <span class="error text-danger">{{ $message }}</span> @enderror
                 </div>
-
-                <div class="form-group">
-                    <label for="tip_img">Imagen</label>
-                    <input wire:model="tip_img" type="file" class="form-control" id="tip_img" placeholder="Imagen a Seleccionar">
-                    @error('tip_img') <span class="error text-danger">{{ $message }}</span> @enderror
-                </div>
-
             </form>
         </div>
         <div class="modal-footer">

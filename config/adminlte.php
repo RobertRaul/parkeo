@@ -230,25 +230,36 @@ return [
                 'type' => 'sidebar-menu-search',
                 'text' => 'search',
             ],
-            //Mantenimiento
+            //Tipo de Comprobante
             [
                 'text' => 'Tipo Comprobante',
                 'url' => 'tipocomprobante',
                 'icon' => 'fas fa-fw fa-user',
             ],
-             //Mantenimiento
+             //Series
              [
                 'text' => 'Series',
                 'url' => 'series',
                 'icon' => 'fas fa-fw fa-user',
             ],
-    
-             //Mantenimiento
+             //Tipos
              [
-                'text' => 'Tipos',
+                'text' => 'Tipos Vehiculos',
                 'url' => 'tipos',
                 'icon' => 'fas fa-fw fa-user',
             ],    
+            //Tarifas
+            [
+            'text' => 'Tarifa',
+            'url' => 'tarifas',
+            'icon' => 'fas fa-fw fa-user',
+            ],   
+            //Cajones
+            [
+                'text' => 'Cajones',
+                'url' => 'cajones',
+                'icon' => 'fas fa-fw fa-user',
+            ],   
         [
             'text'    => 'multilevel',
             'icon'    => 'fas fa-fw fa-share',

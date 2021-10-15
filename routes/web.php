@@ -25,3 +25,4 @@ Route::view('tipocomprobante', 'templates.tipocomprobante');
 Route::view('series', 'templates.series');
 Route::view('tipos', 'templates.tipos');
 Route::view('tarifas', 'templates.tarifas');
+Route::view('cajones', 'templates.cajones');

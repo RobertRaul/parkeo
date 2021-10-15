@@ -1,7 +1,7 @@
 @extends('actions.listado')
 
 @section('name_component')
-Tipos
+Tipos de Vehiculos
 @endsection
 
 @section('button_new')
@@ -20,7 +20,7 @@ Tipos
     @include('actions.headerorder',['campo_a_ordenar' => 'tip_id']) Id</th>
 
 <th class="text-center" wire:click="Header_Orderby('tip_desc')" class="text-center" style="cursor: pointer;">
-    @include('actions.headerorder',['campo_a_ordenar' => 'tip_desc']) Descripcion</th>
+    @include('actions.headerorder',['campo_a_ordenar' => 'tip_desc'])Vehiculos</th>
 
 <th class="text-center" wire:click="Header_Orderby('tip_img')" class="text-center" style="cursor: pointer;">
     @include('actions.headerorder',['campo_a_ordenar' => 'tip_img']) Imagen</th>

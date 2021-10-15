@@ -6,7 +6,6 @@ use Livewire\Component;
 use App\Models\Tarifa;
 use App\Models\Tipo;
 use Livewire\WithPagination;
-use Illuminate\Support\Str;
 
 class Tarifas extends Component
 {
@@ -43,8 +42,8 @@ class Tarifas extends Component
 
     protected $rules =
     [
-        'tar_desc'  => 'required|unique:tarifas.tar_desc',
-        'tar_tiempo'=>'not_in:ELEGIR',
+        'tar_desc'  => 'required|unique:tarifas,tar_desc',
+        'tar_tiempo'=>'not_in:Elegir',
         'tar_precio'=>'required|numeric|between:0,999999.99',
         'tar_tipoid'=>'not_in:Elegir'
     ];
@@ -67,8 +66,8 @@ class Tarifas extends Component
     {
         //dentro de este mnetodo se pone todas la validacione en vivo
         $this->validateOnly($propertyName, [
-            'tar_desc'  => 'required|unique:tarifas.tar_desc,'.$this->selected_id.',tar_id',
-            'tar_tiempo'=>'not_in:ELEGIR',
+            'tar_desc'  => 'required|unique:tarifas,tar_desc,'.$this->selected_id_edit.',tar_id',
+            'tar_tiempo'=>'not_in:Elegir',
             'tar_precio'=>'required|numeric|between:0,999999.99',
             'tar_tipoid'=>'not_in:Elegir'
         ]);
@@ -127,8 +126,8 @@ class Tarifas extends Component
         else
         {
             $this->validate([
-                'tar_desc'  =>'required|unique:tarifas.tar_desc,'.$this->selected_id.',tar_id',
-                'tar_tiempo'=>'not_in:ELEGIR',
+                'tar_desc'  =>'required|unique:tarifas,tar_desc,'.$this->selected_id_edit.',tar_id',
+                'tar_tiempo'=>'not_in:Elegir',
                 'tar_precio'=>'required|numeric|between:0,999999.99',
                 'tar_tipoid'=>'not_in:Elegir'
             ]);

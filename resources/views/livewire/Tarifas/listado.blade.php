@@ -17,16 +17,16 @@
         @include('actions.headerorder',['campo_a_ordenar' => 'tar_id']) Id</th>
 
     <th class="text-center" wire:click="Header_Orderby('tar_desc')" class="text-center" style="cursor: pointer;">
-        @include('actions.headerorder',['campo_a_ordenar' => 'tar_desc']) Descripcion</th>
+        @include('actions.headerorder',['campo_a_ordenar' => 'tar_desc']) Tarifa</th>
 
     <th class="text-center" wire:click="Header_Orderby('tar_tiempo')" class="text-center" style="cursor: pointer;">
-        @include('actions.headerorder',['campo_a_ordenar' => 'tar_tiempo']) Tiempo</th>
+        @include('actions.headerorder',['campo_a_ordenar' => 'tar_tiempo'])Tiempo</th>
 
     <th class="text-center" wire:click="Header_Orderby('tar_precio')" class="text-center" style="cursor: pointer;">
         @include('actions.headerorder',['campo_a_ordenar' => 'tar_precio']) Precio</th>
 
     <th class="text-center" wire:click="Header_Orderby('tar_tipoid')" class="text-center" style="cursor: pointer;">
-        @include('actions.headerorder',['campo_a_ordenar' => 'tar_tipoid']) Tipo</th>
+        @include('actions.headerorder',['campo_a_ordenar' => 'tar_tipoid']) Tipo de Vehiculo</th>
 
     <th class="text-center" wire:click="Header_Orderby('tar_estado')" class="text-center" style="cursor: pointer;">
         @include('actions.headerorder',['campo_a_ordenar' => 'tar_estado']) Estado</th>
@@ -48,10 +48,10 @@
             <td>{{ $d->Tipos->tip_desc }} </td>
 
             <td class="text-center">
-                @if ($d->ser_estado == 'Activo')
-                    <h5><span class="badge badge-success">{{ $d->ser_estado }}</span></h5>
+                @if ($d->tar_estado == 'Activo')
+                    <h5><span class="badge badge-success">{{ $d->tar_estado }}</span></h5>
                 @else
-                    <h5><span class="badge badge-danger">{{ $d->ser_estado }}</span></h5>
+                    <h5><span class="badge badge-danger">{{ $d->tar_estado }}</span></h5>
                 @endif
             </td>
 
@@ -61,7 +61,7 @@
                     <i class="fas fa-pencil-alt"></i>
                 </button>
                                 {{----------------------------activar desactivar------------------------------------}}
-                @if ($d->ser_estado == 'Activo')
+                @if ($d->tar_estado == 'Activo')
                     @if ($selected_id == $d->tar_id)
                         <button wire:click="Desactivar_Activar({{ $d->tar_id }},'Desactivado')" type="button"
                             class="btn btn-secondary"><i class="fa fa-check"></i></button>
