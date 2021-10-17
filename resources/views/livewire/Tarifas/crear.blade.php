@@ -1,7 +1,11 @@
 <div wire:ignore.self class="modal fade" id="Modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-header">
+        @if($updateMode ==false)
+        <div class="modal-header modal-header-success"> {{--Modal color verde Success--}}
+        @else
+        <div class="modal-header modal-header-warning"> {{--Modal color amarillo Success--}}
+        @endif
           <h5 class="modal-title" id="exampleModalLabel">
             @if($updateMode ==false)
                 Registrar Tarifa

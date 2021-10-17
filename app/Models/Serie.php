@@ -12,7 +12,6 @@ class Serie extends Model
 
     protected $fillable= ['ser_tpcomid','ser_serie','ser_numero','ser_estado'];
 
-    
     public function scopeSearch($query,$value)
     {
         return $query

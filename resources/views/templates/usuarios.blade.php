@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Tipo Comprobante')
+@section('title', 'Usuarios')
 
 @section('content')
     <br>
-    @livewire('tipo-comprobantes')
+    @livewire('usuarios')
     @include('actions.modal') {{-- css para el color de los modals --}}
 @stop

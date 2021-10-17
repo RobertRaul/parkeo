@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use APP\Models\TipoDocumento;
-
 use Illuminate\Database\Eloquent\Model;
 
 class Empleado extends Model
@@ -12,7 +10,8 @@ class Empleado extends Model
     protected $primaryKey="emp_id";
     public $timestamps=false;
 
-    protected $fillable= ['emp_id','emp_tpdi','emp_numdoc','emp_apellidos','emp_nombres','emp_celular','emp_email','emp_direccion','emp_estado'];
+    protected $fillable= ['emp_tpdi','emp_numdoc','emp_apellidos',
+    'emp_nombres','emp_celular','emp_email','emp_direccion','emp_estado'];
 
     public function scopeSearch($query,$value)
     {

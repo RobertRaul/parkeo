@@ -266,6 +266,12 @@ return [
             'url' => 'tipodocumento',
             'icon' => 'fas fa-fw fa-user',
         ],
+        //Empleado
+        [
+        'text' => 'Empleados',
+        'url' => 'empleados',
+        'icon' => 'fas fa-fw fa-user',
+        ],
         [
             'text'    => 'multilevel',
             'icon'    => 'fas fa-fw fa-share',

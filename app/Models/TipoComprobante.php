@@ -13,7 +13,7 @@ class TipoComprobante extends Model
     protected $fillable= ['tpc_desc','tpc_estado'];
 
     //PARA QUE LAS CONSULTAS DE ELOQUENT NO RECUEPRE 1 SINO 01
-    public $incrementing = false;
+    //public $incrementing   = false;
 
     public function scopeSearch($query,$value)
     {
