@@ -28,3 +28,5 @@ Route::view('tarifas', 'templates.tarifas');
 Route::view('cajones', 'templates.cajones');
 Route::view('tipodocumento', 'templates.tipodocumento');
 Route::view('empleados', 'templates.empleados');
+Route::view('usuarios', 'templates.usuarios');
+

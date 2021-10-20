@@ -272,6 +272,12 @@ return [
         'url' => 'empleados',
         'icon' => 'fas fa-fw fa-user',
         ],
+        //Usuarios
+        [
+        'text' => 'Usuarios',
+        'url' => 'usuarios',
+        'icon' => 'fas fa-fw fa-user',
+        ],
         [
             'text'    => 'multilevel',
             'icon'    => 'fas fa-fw fa-share',
@@ -384,17 +390,17 @@ return [
             ],
         ],
         'Select2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js',
+                    'asset' => true,
+                    'location' => 'vendor/select2/css/select2.min.css',
                 ],
                 [
                     'type' => 'css',
-                    'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css',
+                    'asset' => true,
+                    'location' => 'vendor/select2/js/select2.min.js',
                 ],
             ],
         ],

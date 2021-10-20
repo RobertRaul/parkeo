@@ -31,11 +31,12 @@ class User extends Authenticatable
         ->Orwhere('us_empid','like','%' . $val . '%')
         ->join('empleados','emp_id','=','us_empid');
     }
-    public function Tipodocumento()
+    
+    public function Empleados()
     {
-        return $this->belongsTo(Empleado::class,'us_empid','emp_id');
-        // con $this hacemos referencia a esta clase "Usuario" y belognsTo decimos: pertenece, entonces decimos, Una Usuario pertenece a un Empleado
+        return $this->hasOne(Empleado::class,'emp_id','us_empid');
     }
+    
     protected $hidden = [
         'password', 'remember_token',
     ];
