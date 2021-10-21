@@ -104,7 +104,7 @@
     {{-- Custom Scripts --}}
     @yield('adminlte_js')
 
-    
+
     <script>
         window.livewire.on('msgOK',mensaje=>{
             toastr.success( mensaje,"Informe",{ timeOut: 2000 })
@@ -125,7 +125,6 @@
         window.livewire.on('closeModal', () => {
 		$('#Modal').modal('hide');
         });
-
     </script>
 
 

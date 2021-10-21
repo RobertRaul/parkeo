@@ -5,6 +5,8 @@ namespace App\Http\Livewire;
 use App\Models\Empleado;
 use Livewire\Component;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Livewire\WithPagination;
 
 class Usuarios extends Component
@@ -17,10 +19,10 @@ class Usuarios extends Component
     public $Campo='us_id';
     public $OrderBy='desc';
     public $pagination=5;
-    public $buscar='';    
+    public $buscar='';
 
     //propiedades
-    public $us_usuario,$us_password,$us_rol='Elegir',$us_empid='Elegir';     
+    public $us_usuario,$us_password,$us_rol='Elegir',$us_empid='Elegir';
     // Id y Actualizar
     public $selected_id=null,$selected_id_edit=null;
     public $updateMode=false;
@@ -29,8 +31,8 @@ class Usuarios extends Component
 
     public function render()
     {
-        $this->empleados=Empleado::where('emp_estado','Activo')->get();
-
+        //$this->empleados=Empleado::where('emp_estado','Activo')->get();
+        $this->empleados=DB::select('SELECT emp_id,concat(TRIM(emp_apellidos)," ",TRIM(emp_nombres)) as emp_nombres FROM empleados where emp_estado="Activo" order by emp_apellidos;');
         $data=User::query()
         ->search($this->buscar)
         ->orderBy($this->Campo,$this->OrderBy)
@@ -46,20 +48,21 @@ class Usuarios extends Component
         'us_usuario' =>'required|unique:usuarios,us_usuario',
         'us_password'=>'required|min:6',
         'us_rol'     =>'not_in:Elegir',
-        'us_empid'     =>'not_in:Elegir'
+        'us_empid'   =>'not_in:Elegir|unique:usuarios,us_empid'
     ];
 
     protected $messages =
     [
         'us_usuario.required' =>'El campo es requerido',
         'us_usuario.unique'   =>'Ya existe un Empleado con ese usuario',
-       
+
         'us_password.required'=>'El campo es requerido',
         'us_password.min'     =>'La contraseña debe tener minimo 6 caracteres',
 
         'us_rol.not_in'       =>'Seleccione el rol del Usuario',
 
         'us_empid.not_in'     =>'Seleccione el Empleado del Usuario',
+        'us_empid.unique'     =>'El empleado ya cuenta con un usuario',
     ];
 
     //validaciones en vivo
@@ -70,7 +73,7 @@ class Usuarios extends Component
             'us_usuario' =>'required|unique:usuarios,us_usuario,'. $this->selected_id_edit .',us_id',
             'us_password'=>'required|min:6',
             'us_rol'     =>'not_in:Elegir',
-            'us_empid'     =>'not_in:Elegir'                      
+            'us_empid'   =>'not_in:Elegir|unique:usuarios,us_empid,'.$this->selected_id_edit . ',us_id',
         ]);
     }
     public function updatingSearch()
@@ -79,10 +82,10 @@ class Usuarios extends Component
     }
     public function Header_Orderby($campo_a_ordenar)
     {
-        if($this->OrderBy=='asc')        
-            $this->OrderBy='desc';        
-        else        
-            $this->OrderBy='asc';        
+        if($this->OrderBy=='asc')
+            $this->OrderBy='desc';
+        else
+            $this->OrderBy='asc';
 
         return $this->Campo=$campo_a_ordenar;
     }
@@ -110,10 +113,19 @@ class Usuarios extends Component
     //meotod registrar y actualizar
     public function store_update()
     {
+        $emp=User::findOrFail($this->us_empid);
+        if($emp->count()>0)//Si encontramos resultados de este empleado
+        {
+            if($emp->us_empid != $this->selected_id_edit)//validamos que el
+            {
+                $this->emit('msgERROR','El Empleado ya cuenta con usuario');
+                return;
+            }
+        }
         $datos=
         [
             'us_usuario'   => $this->us_usuario,
-            'us_password'   => $this->us_password,
+            'us_password'   => Hash::make($this->us_password),
             'us_rol'   => $this->us_rol,
             'us_empid'   => $this->us_empid,
         ];
@@ -121,7 +133,7 @@ class Usuarios extends Component
         if($this->selected_id_edit<=0)
         {
             $this->validate();
-            User::create($datos);   
+            User::create($datos);
             $this->emit('closeModal');
             $this->emit('msgOK','Registro Creado');
         }
@@ -131,7 +143,7 @@ class Usuarios extends Component
                 'us_usuario' =>'required|unique:usuarios,us_usuario,'. $this->selected_id_edit .',us_id',
                 'us_password'=>'required|min:6',
                 'us_rol'     =>'not_in:Elegir',
-                'us_empid'     =>'not_in:Elegir'             
+                'us_empid'     =>'not_in:Elegir'
             ]);
             User::find($this->selected_id_edit)->update($datos);
             $this->emit('closeModal');
@@ -156,14 +168,14 @@ class Usuarios extends Component
 
     //Pone el valor del ID a la propieda $selected_id
     public function Confirmar_Desactivar($id)
-    {       
-        $this->selected_id =$id;        
-    }    
+    {
+        $this->selected_id =$id;
+    }
 
     //Desactiva y activa dependiente del valor enviado
     public function Desactivar_Activar($id,$value)
     {
-        $record=User::find($id);
+        $record=User::findOrFail($id);
         $record->update([
             'us_estado'=>$value
         ]);

@@ -17,13 +17,13 @@
         @include('actions.headerorder',['campo_a_ordenar' => 'us_id']) Id</th>
 
     <th class="text-center" wire:click="Header_Orderby('us_usuario')" class="text-center" style="cursor: pointer;">
-        @include('actions.headerorder',['campo_a_ordenar' => 'us_usuario']) Usuarios</th>
+        @include('actions.headerorder',['campo_a_ordenar' => 'us_usuario']) Usuario</th>
 
     <th class="text-center" wire:click="Header_Orderby('us_rol')" class="text-center" style="cursor: pointer;">
         @include('actions.headerorder',['campo_a_ordenar' => 'us_rol']) Rol</th>
 
-    <th class="text-center" wire:click="Header_Orderby('us_empid')" class="text-center" style="cursor: pointer;">
-        @include('actions.headerorder',['campo_a_ordenar' => 'us_empid']) Empleado</th>
+    <th class="text-center" wire:click="Header_Orderby('emp_apellidos')" class="text-center" style="cursor: pointer;">
+        @include('actions.headerorder',['campo_a_ordenar' => 'emp_apellidos']) Empleado</th>
 
     <th class="text-center" wire:click="Header_Orderby('us_fechr')" class="text-center" style="cursor: pointer;">
         @include('actions.headerorder',['campo_a_ordenar' => 'us_fechr']) Fecha R.</th>
@@ -39,11 +39,13 @@
         <tr>
             <td class="text-center">{{ $d->us_id }} </td>
 
-            <td>{{ $d->TipoComprobante->tpc_desc }} </td>
+            <td>{{ $d->us_usuario }} </td>
 
-            <td>{{ $d->us_rol }} </td>
+            <td class="text-center">{{ $d->us_rol }} </td>
 
-            <td>{{ $d->us_empid }} </td>
+            <td>{{ $d->Empleados->emp_apellidos}} {{ $d->Empleados->emp_nombres}} </td>
+
+            <td class="text-center">{{ $d->us_fechr }}</td>
 
             <td class="text-center">
                 @if ($d->us_estado == 'Activo')
@@ -58,27 +60,28 @@
                 <button wire:click="edit({{ $d->us_id}})" type="button" class="btn btn-warning" data-toggle="modal" data-target="#Modal">
                     <i class="fas fa-pencil-alt"></i>
                 </button>
-                                {{----------------------------activar desactivar------------------------------------}}             
+                                {{----------------------------activar desactivar------------------------------------}}
                 @if ($d->us_estado == 'Activo')
                     @if ($selected_id == $d->us_id)
-                        <button wire:click="Desactivar_Activar({{ $d->us_id }},'Desactivado')" type="button"
+                        <button wire:click="Desactivar_Activar({{$d->us_id}},'Desactivado')" type="button"
                             class="btn btn-secondary"><i class="fa fa-check"></i></button>
                     @else
-                        <button wire:click="Confirmar_Desactivar({{ $d->us_id }})" type="button"
+                        <button wire:click="Confirmar_Desactivar({{$d->us_id}})" type="button"
                             class="btn btn-danger"><i class="fas fa-arrow-down"></i>
                         </button>
                     @endif
                 @else
                     @if ($selected_id == $d->us_id)
-                        <button wire:click="Desactivar_Activar({{ $d->us_id }},'Activo')" type="button"
+                        <button wire:click="Desactivar_Activar({{$d->us_id}},'Activo')" type="button"
                             class="btn btn-secondary"><i class="fas fa-check"></i></i></button>
                     @else
-                        <button wire:click="Confirmar_Desactivar({{ $d->us_id }})" type="button"
+                        <button wire:click="Confirmar_Desactivar({{$d->us_id}})" type="button"
                             class="btn btn-success"><i class="fas fa-arrow-up"></i>
                         </button>
                     @endif
-                @endif                           
+                @endif
             </td>
         </tr>
     @endforeach
 @endsection
+

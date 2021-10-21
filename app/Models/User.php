@@ -14,7 +14,7 @@ class User extends Authenticatable
     public $timestamps = false;
 
     protected $fillable = [
-       'us_usuario','us_password','us_rol','us_empid'
+       'us_usuario','us_password','us_rol','us_empid','us_estado'
     ];
 
     public function getAuthPassword()
@@ -25,18 +25,19 @@ class User extends Authenticatable
     public function scopeSearch($query,$val)
     {
         return $query
-        ->where('us_usuario','like','%' . $val . '%')
+        ->where('us_id','like','%' . $val . '%')
+        ->Orwhere('us_usuario','like','%' . $val . '%')
         ->Orwhere('us_password','like','%' . $val . '%')
         ->Orwhere('us_rol','like','%' . $val . '%')
         ->Orwhere('us_empid','like','%' . $val . '%')
         ->join('empleados','emp_id','=','us_empid');
     }
-    
+
     public function Empleados()
     {
         return $this->hasOne(Empleado::class,'emp_id','us_empid');
     }
-    
+
     protected $hidden = [
         'password', 'remember_token',
     ];

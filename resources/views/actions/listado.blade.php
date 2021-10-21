@@ -12,7 +12,7 @@
     <div class="card-body">
 
         @yield('card_body')
-        
+
         {{--BUSCADOOR --}}
         @include('actions.buscador')
 
@@ -31,5 +31,6 @@
             @include('actions.paginacion')
         </div>
     </div>
-
 </div>
+
+
