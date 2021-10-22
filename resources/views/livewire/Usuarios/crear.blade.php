@@ -82,8 +82,9 @@
                 @this.set('us_empid', data);
             });
 
-
-            $('.cbousuarios').val(@this.us_empid).trigger('change');
+           /* No cambia nada
+           $('.cbousuarios').val(@this.us_empid).trigger('change');
+           */
         });
     </script>
 @endsection
