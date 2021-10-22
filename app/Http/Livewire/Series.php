@@ -53,11 +53,12 @@ class Series extends Component
     [
         'ser_tpcomid.not_in' => 'Seleccione un comprobante',
         
-        'ser_serie.required' => 'El campo es requerido',
+        'ser_serie.required' => 'El campo Serie es requerido',
         'ser_serie.unique'   => 'Ya existe un registro con ese valor',
         'ser_serie.min'      => 'El campo solicita 4 caracteres',
         'ser_serie.max'      => 'El campo solicita 4 caracteres como maximo',
 
+        'ser_numero.required' => 'El campo Numero  es requerido',
         'ser_numero.numeric' => 'Solo se acepta numeros',
         'ser_numero.min'     => 'El valor minimo es el numero 1',
     ];

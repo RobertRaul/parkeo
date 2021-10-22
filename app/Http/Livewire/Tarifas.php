@@ -55,7 +55,7 @@ class Tarifas extends Component
 
         'tar_tiempo.not_in' => 'Seleccione un Tiempo',
 
-        'tar_precio.required' => 'El capo es requerido',
+        'tar_precio.required' => 'El campo es requerido',
         'tar_precio.numeric' => 'Solo se acepta numeros',
 
         'tar_tipoid.not_in'  => 'Seleccione un Tipo',
