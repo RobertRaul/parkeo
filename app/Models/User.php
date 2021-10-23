@@ -5,10 +5,14 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    //laravel permission
+    use HasRoles;
+
     protected $table = "usuarios";
     protected $primaryKey = "us_id";
     public $timestamps = false;

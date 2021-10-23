@@ -56,8 +56,6 @@
                     @error('us_empid') <span class="error text-danger">{{ $message }}</span> @enderror
                 </div>
             </form>
-            {{ $us_empid }}
-
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal" wire:click="cancel()">Cancelar</button>

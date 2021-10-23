@@ -178,6 +178,8 @@ return [
         Intervention\Image\ImageServiceProvider::class,
 
         Codedge\Fpdf\FpdfServiceProvider::class,
+
+        Spatie\Permission\PermissionServiceProvider::class,
     ],
 
     /*

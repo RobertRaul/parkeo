@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Livewire\WithPagination;
 
+
 class Usuarios extends Component
 {
     //paginado
@@ -114,17 +115,7 @@ class Usuarios extends Component
     }
     //meotod registrar y actualizar
     public function store_update()
-    {
-        if ($this->updateMode == true) {
-            $emp = User::find($this->us_empid);
-            if (count($emp->us_empid)) //Si tenemos resultados con este empleado entramos al if
-            {
-                if ($emp->us_empid != $this->selected_id_edit) //validamos que el
-                {
-                    $this->emit('msgERROR', 'El Empleado seleccionado ya cuenta con usuario');
-                }
-            }
-        }
+    {       
         $datos =
             [
                 'us_usuario'   => $this->us_usuario,
