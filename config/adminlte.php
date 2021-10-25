@@ -278,6 +278,12 @@ return [
         'url' => 'usuarios',
         'icon' => 'fas fa-fw fa-user',
         ],
+         //Permisos
+         [
+            'text' => 'Permisos',
+            'url' => 'permisos',
+            'icon' => 'fas fa-fw fa-user',
+            ],
         [
             'text'    => 'multilevel',
             'icon'    => 'fas fa-fw fa-share',
