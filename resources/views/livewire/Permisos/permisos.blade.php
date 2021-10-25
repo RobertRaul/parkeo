@@ -1,4 +1,4 @@
-<div class="tab-pane fade show active" id="permisos_listado" role="tabpanel">
+<div class="tab-pane fade {{ $tab == 'permisos' ? 'show active' : '' }}" id="permisos_listado" role="tabpanel">
     <div class="row">
         <div class="col-sm-12 col-md-7">
             <h6 class="text-center"><b>Listado de Permisos</b></h6>
@@ -23,19 +23,26 @@
                     <tr class="text-center">Permisos</tr>
                     <tr class="text-center">Roles<br>Con el Permiso</tr>
                     <tr class="text-center">Acciones</tr>
-                    <tr class="text-center"></tr>
+                    <tr class="text-center">
+                        <div class="n-check">
+                            <label class="new-control new-checkbox checkbox-primary">
+                            <input type="checkbox" class="new-control-input seleccionar-todos">
+                            <span class="new-control-indicator">Todos</span>
+                            </label>
+                        </div>
+                    </tr>
                 </thead>
                 <tbody>
                     @foreach ($permisos as $p)
                         <tr>
                             <td> {{$p->name}} </td>
-                            <td class="text-center"> {{\App\User::permission($p->name)->count()}} </td>
+                            <td class="text-center"> {{\App\Models\User::permission($p->name)->count()}} </td>
                             <td class="text-center">
                                 <span style="cursor: pointer" onclick="showPermission('{{$p}}')">
                                     <i class="fas fa-pencil-alt text-center"></i>
                                 </span>
 
-                                @if (\App\User::permission($p->name)->count() <=0)
+                                @if (\App\Models\User::permission($p->name)->count() <=0)
                                     <a href="javascript:void(0)" onclick="Confirmar('{{$p->id}}')" title="Eliminar Permiso">
                                     <i class="fas fa-trash text-center"></i>
                                 @endif
@@ -60,7 +67,7 @@
     <div class="col-sm-12 col-md-5">
         <h6 class="text-left"><b>Elegir Usuario</b></h6>
         <div class="input-group">
-            <select wire:model="rolSelected" id="rolId" class="form-control">
+            <select wire:model="rolSelected" id="rolesSelected" class="form-control">
                 <option value="Seleccionar">Seleccionar</option>
                 @foreach ($roles as $r)
                     <option value="{{$r->id}}"> {{$r->rol_name}} </option>

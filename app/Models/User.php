@@ -10,7 +10,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     use Notifiable;
-    //laravel permission
+    //laravel permission, al usar ese HasRoles, al modelo user tiene metodos disponibles
     use HasRoles;
 
     protected $table = "usuarios";
