@@ -11,67 +11,66 @@
                 <input type="text" id="rolName" class="form-control" autocomplete="off">
                 <input type="text" id="rolId">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" wire:click="CrearRol($('#rolName').val(), $('#rolId').val())">
+                    <span class="input-group-text" wire:click="$emit('CrearRol',$('#rolName').val(), $('#rolId').val())">
                         <i class="fas fa-save"></i>
                     </span>
                 </div>
             </div>
 
-
-        <div class="table-responsive">
-            <table id="tblRoles" class="table table-striped table-bordered dt-responsive nowrap mb-4">
-                <thead>
-                    <tr>
-                        <th class="text-center">Rol</th>
-                        <th class="text-center">Asignados</th>
-                        <th class="text-center">Acciones</th>
-                        <th class="text-center">Todos</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($roles as $r)
+              <div class="table-responsive">
+                <table id="tblroles" class="table table-striped table-bordered dt-responsive nowrap mb-4">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Rol</th>
+                            <th class="text-center">Asignados</th>
+                            <th class="text-center">Acciones</th>
+                            <th class="text-center">Todos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($roles as $r)
                         <tr>
                             <td> {{$r->name}} </td>
-                            <td class="text-center"> {{\App\Models\User::role($r->name)->count()}} </td>
+                            <td class="text-center"> {{\App\Models\User::role($r->name)->count()}}</td>
                             <td class="text-center">
                                 <span style="cursor: pointer" onclick="showRole('{{$r}}')">
                                     <i class="fas fa-pencil-alt text-center"></i>
                                 </span>
 
-                                @if (\App\Models\User::role($r->name)->count()<=0)
-                                    <a href="javascript:void(0)" onclick="Confirm('{{$r->id}}')" title="Eliminar Role">
+                                @if (\App\Models\User::role($r->name)->count()<=0) <a href="javascript:void(0)"
+                                    onclick="Confirm('{{$r->id}}')" title="Eliminar Role">
                                     <i class="fas fa-trash text-center"></i>
-                                @endif
+                                    @endif
                             </td>
+
                             <td class="text-center">
-                                <div class="n-check" id="divRoles">
-                                    <label class="new-control new-checkbox checkbox-primary">
-                                        <input data-name="{{$r->name}} " type="checkbox" class="new-control-input checkbox-rol">
-                                        <span class="new-control-indicator">
-                                            Asignar
-                                        </span>
-                                    </label>
-                                </div>
+
+                                {{-- ESTE ES UN CONTROL PERSONALIZADO DE ADMINLTE/forms/general elements --}}
+                                <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success" id="divRoles">
+                                    <input type="checkbox" class="custom-control-input" id="{{$r->id}}" data-name="{{$r->name}}"  {{ $r->checked ==  1 ? 'checked' : ''}}>
+                                    <label class="custom-control-label" for="{{$r->id}}"></label>
+                                  </div>
                             </td>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
 
-    <div class="col-sm-12 col-md-5">
-        <h6 class="text-left"><b>Elegir Usuario</b></h6>
-        <div class="input-group">
-            <select wire:model="userSelected" id="userId" class="form-control">
-                <option value="Seleccionar">Seleccionar</option>
-                @foreach ($usuarios as $u)
+        <div class="col-sm-12 col-md-5">
+            <h6 class="text-left"><b>Elegir Usuario</b></h6>
+            <div class="input-group">
+                <select wire:model="userSelected" id="userId" class="form-control">
+                    <option value="Seleccionar">Seleccionar</option>
+                    @foreach ($usuarios as $u)
                     <option value="{{$u->us_id}}"> {{$u->us_usuario}} </option>
-                @endforeach
-            </select>
+                    @endforeach
+                </select>
+            </div>
+
+            <button type="button" onclick="AsignarRoles()" class="btn btn-primary mt-4">Asignar Roles</button>
         </div>
 
-        <button type="button" onclick="AsignarRoles()" class="btn btn-primary mt-4">Asignar Roles</button>
     </div>
-
 </div>

@@ -13,7 +13,7 @@ use Monolog\Handler\RollbarHandler;
 class Permisos extends Component
 {
     //creacion de variables publicas
-    public $permisoTitle = 'Crear', $rolTitle = 'Crear', $userSelected;
+    public $permisoTitle = 'Crear', $rolTitle = 'Crear', $userSelected="Seleccionar";
     //roles
     public $tab = 'roles', $rolSelected;
 
@@ -25,7 +25,7 @@ class Permisos extends Component
         $roles = Role::select('*', DB::RAW("0 as checked"))->get();
 
         //verificamos que haya algun usuario seleccionado
-        if ($this->userSelected != '' && $this->userSelected != 'Seleccionar') {
+        if ($this->userSelected != 'Seleccionar') {
             //hacemos un foreach a todos los roles
             foreach ($roles as $r) {
                 //buscamos al usuario seleccionado
@@ -70,7 +70,7 @@ class Permisos extends Component
         $this->rolTitle = 'Crear';
         $this->permisoTitle = 'Crear';
 
-        $this->userSelected = '';
+        $this->userSelected = 'Seleccionar';
         $this->rolSelected = '';
     }
 
@@ -84,18 +84,22 @@ class Permisos extends Component
 
     public function SaveRol($rolNombre)
     {
-        $rol = Role::where('name', $rolNombre)->first(); // buscamos el rol con ese nombre
-        if ($rol) //si lo encuentra mandamos mensaje de que ya existe
-        {
-            $this->emit('msgERROR', 'El Rol que intentas registrar ya existe en le sistema');
-            return;
+        if ($rolNombre) {
+            $rol = Role::where('name', $rolNombre)->first(); // buscamos el rol con ese nombre
+            if ($rol) //si lo encuentra mandamos mensaje de que ya existe
+            {
+                $this->emit('msgERROR', 'El Rol que intentas registrar ya existe en le sistema');
+                return;
+            }
+            //caso contrario, registramos el rol
+            Role::create([
+                'name' => $rolNombre
+            ]);
+            $this->emit('msgOK', 'Rol registrado correctamente');
+            $this->resetInput();
+        } else {
+            $this->emit('msgERROR', 'Ingrese algun rol');
         }
-        //caso contrario, registramos el rol
-        Role::create([
-            'name' => $rolNombre
-        ]);
-        $this->emit('msgOK', 'Rol registrado correctamente');
-        $this->resetInput();
     }
 
     public function UpdateRol($rolNombre, $rolId)
@@ -116,7 +120,6 @@ class Permisos extends Component
 
     public function destroyRol($rolId)
     {
-        $this->emit('msgOK', 'Rol eliminado correctamente');
         Role::find($rolId)->delete();
         $this->emit('msgOK', 'Rol eliminado correctamente');
     }
@@ -135,7 +138,7 @@ class Permisos extends Component
     }
 
     //Escuchadores
-    protected $listaners =
+    protected $listeners =
     [
         //Nombre del listener  en el archivo blade=> metodo al que llama en este archivo
         "destroyRol" => "destroyRol",
@@ -153,16 +156,15 @@ class Permisos extends Component
     public function CrearPermiso($permisoNombre, $permisoId)
     {
         if ($permisoId)
-            $this->UpdatePermiso($permisoNombre,$permisoId);
+            $this->UpdatePermiso($permisoNombre, $permisoId);
         else
             $this->SavePermiso($permisoNombre);
     }
 
     public function SavePermiso($permisoNombre)
     {
-        $permiso = Permission::where('name',$permisoNombre)->first();
-        if ($permiso)
-        {
+        $permiso = Permission::where('name', $permisoNombre)->first();
+        if ($permiso) {
             $this->emit('msgERROR', 'El permiso que intentas registrar ya existe en el sistema');
             return;
         }
@@ -173,17 +175,16 @@ class Permisos extends Component
         $this->resetInput();
     }
 
-    public function UpdatePermiso($permisoNombre,$permisoId)
+    public function UpdatePermiso($permisoNombre, $permisoId)
     {
-        $permiso = Permission::where('name',$permisoNombre)->where('id','<>',$permisoId)-first();
-        if($permiso)
-        {
+        $permiso = Permission::where('name', $permisoNombre)->where('id', '<>', $permisoId) - first();
+        if ($permiso) {
             $this->emit('msgERROR', 'El permiso que intentas registrar ya existe en el sistema');
             return;
         }
 
         $permiso = Permission::find($permisoId);
-        $permiso->name=$permisoNombre;
+        $permiso->name = $permisoNombre;
         $permiso->save();
         $this->emit('msgOK', 'Permiso actualizado correctamente');
         $this->resetInput();
@@ -196,13 +197,11 @@ class Permisos extends Component
         $this->resetInput();
     }
 
-    public function AsignarPermisos($permisosList,$rolId)
+    public function AsignarPermisos($permisosList, $rolId)
     {
-        if ($rolId > 0)
-        {
+        if ($rolId > 0) {
             $rol = Role::find($rolId);
-            if ($rol)
-            {
+            if ($rol) {
                 //actualiza toda lista de permisos de este rol
                 $rol->syncPermissions($permisosList);
                 $this->emit('msgOK', 'Permisos asignados correctamente');
@@ -210,5 +209,4 @@ class Permisos extends Component
             }
         }
     }
-
 }

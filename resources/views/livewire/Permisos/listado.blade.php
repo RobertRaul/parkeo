@@ -3,15 +3,18 @@
         <ul class="nav nav-tabs card-header-tabs">
 
             <li class="nav-item">
-                <a href="#roles_listado" class="nav-link {{ $tab == 'roles' ? 'active' : ''}}" data-toggle="pill" role="tab" wire:click="$set('tab','roles')">
+                <a href="#roles_listado" class="nav-link {{ $tab == 'roles' ? 'active' : ''}}" data-toggle="pill"
+                    role="tab" wire:click="$set('tab','roles')">
                     <i class="fas fa-user-tag"></i> Roles</a>
             </li>
             <li class="nav-item">
-                <a href="#permisos_listado"class="nav-link {{ $tab == 'permisos' ? 'active' : ''}}" data-toggle="pill" role="tab" wire:click="$set('tab','permisos')">
-                   <i class="fas fa-user-tag"></i>Permisos</a>
+                <a href="#permisos_listado" class="nav-link {{ $tab == 'permisos' ? 'active' : ''}}" data-toggle="pill"
+                    role="tab" wire:click="$set('tab','permisos')">
+                    <i class="fas fa-user-tag"></i>Permisos</a>
             </li>
 
-            {{-- con el wire:click($set), cambiamos el valor de la variable "tab" a permisos, la variable tab se encuentra en livewire/permisos.php --}}
+            {{-- con el wire:click($set), cambiamos el valor de la variable "tab" a permisos, la variable tab se
+            encuentra en livewire/permisos.php --}}
         </ul>
     </div>
     <div class="card-body">
@@ -41,7 +44,7 @@
 
 
     //funcion eliminar roles
-    function Confirm(id) 
+    function Confirm(id)
     {
         Swal.fire({
                 title: 'Confirmar',
@@ -52,23 +55,13 @@
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Aceptar',
                 cancelButtonText: 'Cancelar',
-//                closeOnConfirm: false
-            }).then((result) => {
-                if (result.value) {
-                    window.livewire.emit('destroyRol', id) //emitimos evento anularingreso                  
+            }).then((result)=>{
+                if (result.value)
+                {
+                    window.livewire.emit('destroyRol', id)
+                    swal.close()
                 }
             })
-
-        /*    function() {
-                window.livewire.emit('EliminarRol', id)
-                toastr.success("Rol Eliminado con exito", "Informe", { timeOut: 2000 })
-                $('#rolName').val('')
-                $('#rolId').val(0)
-                $('#permisoName').val('')
-                $('#permisoId').val(0)
-
-                swal.close()
-            })*/
     }
     //obtenemos los checks de la tabla tblRoles para registrarlos
     function AsignarRoles()
@@ -88,7 +81,8 @@
         return;
       }
 
-      window.livewire.emit('AisgnarRoles',rolesList)
+      window.livewire.emit('AsignarRoles',rolesList)
+
     }
 
     document.addEventListener('DOMContentLoaded',function(){
@@ -98,14 +92,12 @@
         $(tab).tab('show')
       })
 
-      window.livewire.on('msgOK',msgText =>{
+    window.livewire.on('msgOK',msgText =>{
         $('#permisoName').val('')
         $('#permisoId').val(0)
         $('#rolName').val('')
         $('#rolId').val(0)
       })
-
-
 
       //en el cuerpo buscamos un click que tenga la clase "seleccionar todos"
       $('body').on('click','.seleccionar-todos',function(){
