@@ -76,11 +76,10 @@ class Permisos extends Component
 
     public function CrearRol($rolNombre, $rolId)
     {
-        $this->emit('msgOK', 'Rol registrado correctamente' . $rolNombre . $rolId);
-       /* if ($rolId)
+        if ($rolId)
             $this->UpdateRol($rolNombre, $rolId);
         else
-            $this->SaveRol($rolNombre);*/
+            $this->SaveRol($rolNombre);
     }
 
     public function SaveRol($rolNombre)
@@ -117,6 +116,7 @@ class Permisos extends Component
 
     public function destroyRol($rolId)
     {
+        $this->emit('msgOK', 'Rol eliminado correctamente');
         Role::find($rolId)->delete();
         $this->emit('msgOK', 'Rol eliminado correctamente');
     }
@@ -138,7 +138,7 @@ class Permisos extends Component
     protected $listaners =
     [
         //Nombre del listener  en el archivo blade=> metodo al que llama en este archivo
-        'destroyRol' => 'destroyRol',
+        "destroyRol" => "destroyRol",
         'CrearRol' => 'CrearRol',
         'AsignarRoles' => 'AsignarRoles',
 

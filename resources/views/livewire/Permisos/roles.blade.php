@@ -11,7 +11,7 @@
                 <input type="text" id="rolName" class="form-control" autocomplete="off">
                 <input type="text" id="rolId">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" wire:click="$emit('CrearRol')">
+                    <span class="input-group-text" wire:click="CrearRol($('#rolName').val(), $('#rolId').val())">
                         <i class="fas fa-save"></i>
                     </span>
                 </div>
@@ -38,8 +38,8 @@
                                     <i class="fas fa-pencil-alt text-center"></i>
                                 </span>
 
-                                @if (\App\Models\User::role($r->name)->count() <=0)
-                                    <a href="javascript:void(0)" onclick="Confirmar('{{$r->id}}')" title="Eliminar Role">
+                                @if (\App\Models\User::role($r->name)->count()<=0)
+                                    <a href="javascript:void(0)" onclick="Confirm('{{$r->id}}')" title="Eliminar Role">
                                     <i class="fas fa-trash text-center"></i>
                                 @endif
                             </td>

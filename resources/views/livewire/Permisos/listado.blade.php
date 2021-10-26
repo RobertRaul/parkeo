@@ -41,8 +41,9 @@
 
 
     //funcion eliminar roles
-    function Confirm(id) {
-        swal({
+    function Confirm(id) 
+    {
+        Swal.fire({
                 title: 'Confirmar',
                 text: '¿Deseas Eliminar el Rol?',
                 type: 'warning',
@@ -51,20 +52,23 @@
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Aceptar',
                 cancelButtonText: 'Cancelar',
-                closeOnConfirm: false
-            },
-            function() {
+//                closeOnConfirm: false
+            }).then((result) => {
+                if (result.value) {
+                    window.livewire.emit('destroyRol', id) //emitimos evento anularingreso                  
+                }
+            })
+
+        /*    function() {
                 window.livewire.emit('EliminarRol', id)
-                toastr.success("Rol Eliminado con exito", "Informe", {
-                    timeOut: 2000
-                })
+                toastr.success("Rol Eliminado con exito", "Informe", { timeOut: 2000 })
                 $('#rolName').val('')
                 $('#rolId').val(0)
                 $('#permisoName').val('')
                 $('#permisoId').val(0)
 
                 swal.close()
-            })
+            })*/
     }
     //obtenemos los checks de la tabla tblRoles para registrarlos
     function AsignarRoles()
@@ -94,7 +98,7 @@
         $(tab).tab('show')
       })
 
-      window.livewire.on('msg-ok',msgText =>{
+      window.livewire.on('msgOK',msgText =>{
         $('#permisoName').val('')
         $('#permisoId').val(0)
         $('#rolName').val('')
@@ -148,9 +152,6 @@
 
       window.livewire.emit('AsignarPermisos',permisosList,$('#rolesSelected :option:selected').val())
     }
-
-
-
 
 
 </script>

@@ -11,7 +11,7 @@
                 <input type="text" id="permisoName" class="form-control" autocomplete="off">
                 <input type="hidden" id="permisoId">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" wire:click="$emit('CrearPermiso',$('#permisoName').val(), $('#permisoId').val())">
+                    <span class="input-group-text" wire:click="CrearRol($('#permisoName').val(), $('#permisoId').val())">
                         <i class="fas fa-save"></i>
                     </span>
                 </div>
