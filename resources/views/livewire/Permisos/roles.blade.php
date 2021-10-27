@@ -18,11 +18,11 @@
             </div>
 
               <div class="table-responsive">
-                <table id="tblroles" class="table table-striped table-bordered dt-responsive nowrap mb-4">
+                <table id="tblroles" class="table table-striped table-bordered dt-responsive nowrap mb-4 prueb">
                     <thead>
                         <tr>
                             <th class="text-center">Rol</th>
-                            <th class="text-center">Asignados</th>
+                            <th class="text-center">Usuarios <br> Asignados</th>
                             <th class="text-center">Acciones</th>
                             <th class="text-center">Todos</th>
                         </tr>

@@ -97,9 +97,8 @@ class Permisos extends Component
             ]);
             $this->emit('msgOK', 'Rol registrado correctamente');
             $this->resetInput();
-        } else {
-            $this->emit('msgERROR', 'Ingrese algun rol');
         }
+
     }
 
     public function UpdateRol($rolNombre, $rolId)
@@ -128,7 +127,8 @@ class Permisos extends Component
     {
         if ($this->userSelected) {
             $user = User::find($this->userSelected);
-            if ($user) {
+            if ($user)
+            {
                 //este metodo eliminar el rol anterior y se le asigna uno nuevo
                 $user->syncRoles($rolesList);
                 $this->emit('msgOK', 'Roles asignados correctamente');

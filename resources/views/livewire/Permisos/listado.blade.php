@@ -83,7 +83,11 @@
 
       window.livewire.emit('AsignarRoles',rolesList)
 
+      //funcion para desactivar todos los checkboxes despues de la carga
+      //es necesario por que no algunos checkboxes no se desactivan solos
+      $('table#tblroles input[type=checkbox]').attr('disabled','true');
     }
+
 
     document.addEventListener('DOMContentLoaded',function(){
       //escuchamos el evento del backend donde se ejecute activar tab
