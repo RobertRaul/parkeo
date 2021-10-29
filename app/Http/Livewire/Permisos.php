@@ -15,7 +15,7 @@ class Permisos extends Component
     //creacion de variables publicas
     public $permisoTitle = 'Crear', $rolTitle = 'Crear', $userSelected="Seleccionar";
     //roles
-    public $tab = 'roles', $rolSelected;
+    public $tab = 'roles', $rolSelected="Seleccionar";
 
     public function render()
     {
@@ -71,7 +71,7 @@ class Permisos extends Component
         $this->permisoTitle = 'Crear';
 
         $this->userSelected = 'Seleccionar';
-        $this->rolSelected = '';
+        $this->rolSelected = 'Seleccionar';
     }
 
     public function CrearRol($rolNombre, $rolId)
@@ -197,10 +197,10 @@ class Permisos extends Component
         $this->resetInput();
     }
 
-    public function AsignarPermisos($permisosList, $rolId)
+    public function AsignarPermisos($permisosList)
     {
-        if ($rolId > 0) {
-            $rol = Role::find($rolId);
+        if ($this->rolSelected) {
+            $rol = Role::find($this->rolSelected);
             if ($rol) {
                 //actualiza toda lista de permisos de este rol
                 $rol->syncPermissions($permisosList);

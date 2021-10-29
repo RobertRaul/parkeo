@@ -9,7 +9,7 @@
                     </span>
                 </div>
                 <input type="text" id="rolName" class="form-control" autocomplete="off">
-                <input type="text" id="rolId">
+                <input type="hidden" id="rolId">
                 <div class="input-group-prepend">
                     <span class="input-group-text" wire:click="$emit('CrearRol',$('#rolName').val(), $('#rolId').val())">
                         <i class="fas fa-save"></i>
@@ -24,7 +24,7 @@
                             <th class="text-center">Rol</th>
                             <th class="text-center">Usuarios <br> Asignados</th>
                             <th class="text-center">Acciones</th>
-                            <th class="text-center">Todos</th>
+                            <th class="text-center">Estado</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -33,13 +33,14 @@
                             <td> {{$r->name}} </td>
                             <td class="text-center"> {{\App\Models\User::role($r->name)->count()}}</td>
                             <td class="text-center">
-                                <span style="cursor: pointer" onclick="showRole('{{$r}}')">
-                                    <i class="fas fa-pencil-alt text-center"></i>
-                                </span>
+                                <button type="button" class="btn btn-warning" style="cursor: pointer" onclick="showRole('{{$r}}')">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
 
-                                @if (\App\Models\User::role($r->name)->count()<=0) <a href="javascript:void(0)"
-                                    onclick="Confirm('{{$r->id}}')" title="Eliminar Role">
+                                @if (\App\Models\User::role($r->name)->count()<=0)
+                                <button type="button" class="btn btn-danger" onclick="Confirm('{{$r->id}}')">
                                     <i class="fas fa-trash text-center"></i>
+                                </button>
                                     @endif
                             </td>
 

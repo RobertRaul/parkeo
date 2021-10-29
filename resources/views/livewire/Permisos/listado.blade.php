@@ -10,7 +10,7 @@
             <li class="nav-item">
                 <a href="#permisos_listado" class="nav-link {{ $tab == 'permisos' ? 'active' : ''}}" data-toggle="pill"
                     role="tab" wire:click="$set('tab','permisos')">
-                    <i class="fas fa-user-tag"></i>Permisos</a>
+                    <i class="fas fa-key"></i>Permisos</a>
             </li>
 
             {{-- con el wire:click($set), cambiamos el valor de la variable "tab" a permisos, la variable tab se
@@ -82,12 +82,10 @@
       }
 
       window.livewire.emit('AsignarRoles',rolesList)
-
       //funcion para desactivar todos los checkboxes despues de la carga
       //es necesario por que no algunos checkboxes no se desactivan solos
       $('table#tblroles input[type=checkbox]').attr('disabled','true');
     }
-
 
     document.addEventListener('DOMContentLoaded',function(){
       //escuchamos el evento del backend donde se ejecute activar tab
@@ -140,13 +138,16 @@
         toastr.error("Selecciona al menos un permiso","Informe",{ timeOut: 2000 })
         return;
       }
-      else if($('#rolesSelected option:selected').val() == 'Seleccionar') //validamos el combo que este seleccionado, roles.blade linea 63
+      if($('#rolesSelected option:selected').val() == 'Seleccionar') //validamos el combo que este seleccionado, roles.blade linea 63
       {
         toastr.error("Selecciona al menos un rol","Informe",{ timeOut: 2000 })
         return;
       }
 
-      window.livewire.emit('AsignarPermisos',permisosList,$('#rolesSelected :option:selected').val())
+      window.livewire.emit('AsignarPermisos',permisosList) //$('#rolesSelected :option:selected').val()
+    //funcion para desactivar todos los checkboxes despues de la carga
+      //es necesario por que no algunos checkboxes no se desactivan solos
+        $('table#tblPermisos input[type=checkbox]').attr('disabled','true');
     }
 
 
