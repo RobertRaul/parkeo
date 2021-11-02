@@ -14,12 +14,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/inicio', 'HomeController@index')->name('home');
 
 Route::view('tipocomprobante', 'templates.tipocomprobante');
 Route::view('series', 'templates.series');

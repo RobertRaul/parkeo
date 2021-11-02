@@ -24,18 +24,18 @@
     <form action="{{ $login_url }}" method="post">
         {{ csrf_field() }}
 
-        {{-- Email field --}}
+        {{-- Usuario field --}}
         <div class="input-group mb-3">
-            <input type="email" name="email" class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}"
-                   value="{{ old('email') }}" placeholder="{{ __('adminlte::adminlte.email') }}" autofocus>
+            <input type="text" name="us_usuario" class="form-control {{ $errors->has('us_usuario') ? 'is-invalid' : '' }}"
+                   value="{{ old('us_usuario') }}" placeholder="Usuario" autofocus>
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-envelope {{ config('adminlte.classes_auth_icon', '') }}"></span>
+                    <span class="fas fa-user {{ config('adminlte.classes_auth_icon', '') }}"></span>
                 </div>
             </div>
-            @if($errors->has('email'))
+            @if($errors->has('us_usuario'))
                 <div class="invalid-feedback">
-                    <strong>{{ $errors->first('email') }}</strong>
+                    <strong>{{ $errors->first('us_usuario') }}</strong>
                 </div>
             @endif
         </div>
@@ -58,7 +58,12 @@
 
         {{-- Login field --}}
         <div class="row">
-
+            {{-- <div class="col-7">
+                <div class="icheck-primary">
+                    <input type="checkbox" name="remember" id="remember">
+                    <label for="remember">{{ __('adminlte::adminlte.remember_me') }}</label>
+                </div>
+            </div> --}}
             <div class="col-12">
                 <button type=submit class="btn btn-block {{ config('adminlte.classes_auth_btn', 'btn-flat btn-primary') }}">
                     <span class="fas fa-sign-in-alt"></span>
@@ -70,9 +75,8 @@
     </form>
 @stop
 
-{{--
-@section('auth_footer')
-     Password reset link
+{{-- @section('auth_footer')
+    Password reset link
     @if($password_reset_url)
         <p class="my-0">
             <a href="{{ $password_reset_url }}">
@@ -81,7 +85,7 @@
         </p>
     @endif
 
-     Register link
+    Register link
     @if($register_url)
         <p class="my-0">
             <a href="{{ $register_url }}">

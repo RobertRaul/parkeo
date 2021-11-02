@@ -19,14 +19,28 @@ class LoginController extends Controller
     |
     */
 
+
+    /*
+    Para trabajar con nuestras propias variables de login debemos implementar los metodos
+    En Auth/LoginController public function username() retornando el campo usuario de nuestra tabla
+    En Models/User public function getAuthPassword() retornando el campo contraseña de nuestra tabla
+    tambien en la vista de login.blade.php solo cambiar el nombre y valores de email a nuestro usuario
+     */
+
     use AuthenticatesUsers;
+
+    public function username()
+    {
+        return 'us_usuario';
+    }
+
 
     /**
      * Where to redirect users after login.
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/inicio';//RouteServiceProvider::HOME
 
     /**
      * Create a new controller instance.

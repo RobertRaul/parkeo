@@ -43,17 +43,17 @@
                         <tr>
                             <td> {{$p->name}} </td>
                             <td class="text-center"> {{\App\Models\User::permission($p->name)->count()}} </td>
-                            <td class="text-center">
+                            {{-- <td class="text-center">
 
                                 {{-- <button type="button" class="btn btn-warning" style="cursor: pointer" onclick="showPermission('{{$p}}')">
                                     <i class="fas fa-pencil-alt"></i>
-                                </button> --}}
+                                </button> 
 
                                 @if (\App\Models\User::permission($p->name)->count() <=0)
                                     <a href="javascript:void(0)" onclick="Confirmar('{{$p->id}}')" title="Eliminar Permiso">
                                     <i class="fas fa-trash text-center"></i>
                                 @endif
-                            </td>
+                            </td> --}}
                             <td class="text-center">
 
                                     {{-- ESTE ES UN CONTROL PERSONALIZADO DE ADMINLTE/forms/general elements --}}
