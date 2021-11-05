@@ -268,22 +268,28 @@ return [
         ],
         //Empleado
         [
-        'text' => 'Empleados',
-        'url' => 'empleados',
-        'icon' => 'fas fa-fw fa-user',
+            'text' => 'Empleados',
+            'url' => 'empleados',
+            'icon' => 'fas fa-fw fa-user',
         ],
         //Usuarios
         [
-        'text' => 'Usuarios',
-        'url' => 'usuarios',
-        'icon' => 'fas fa-fw fa-user',
+            'text' => 'Usuarios',
+            'url' => 'usuarios',
+            'icon' => 'fas fa-fw fa-user',
         ],
-         //Permisos
-         [
+        //Permisos
+        [
             'text' => 'Permisos',
             'url' => 'permisos',
             'icon' => 'fas fa-fw fa-user',
-            ],
+        ],
+        //Cajas
+        [
+            'text' => 'Cajas',
+            'url' => 'cajas',
+            'icon' => 'fas fa-fw fa-user',
+        ],
         [
             'text'    => 'multilevel',
             'icon'    => 'fas fa-fw fa-share',

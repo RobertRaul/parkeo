@@ -30,3 +30,4 @@ Route::view('tipodocumento', 'templates.tipodocumento');
 Route::view('empleados', 'templates.empleados');
 Route::view('usuarios', 'templates.usuarios');
 Route::view('permisos', 'templates.permisos');
+Route::view('cajas', 'templates.cajas');

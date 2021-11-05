@@ -104,6 +104,27 @@
     {{-- Custom Scripts --}}
     @yield('adminlte_js')
 
+
+    <script>
+
+        window.livewire.on('msgOK',mensaje=>{
+            toastr.success(mensaje,"Informe",{timeOut: 2000})
+        });
+        window.livewire.on('msgERROR',mensaje=>{
+            toastr.error(mensaje,"Informe",{timeOut: 2000})
+        });
+        window.livewire.on('msgEDIT',mensaje=>{
+            toastr.warning(mensaje,"Informe",{timeOut: 2000})
+        });
+        window.livewire.on('msgINFO',mensaje=>{
+            toastr.info(mensaje,"Informe",{timeOut: 2000})
+        });
+        window.livewire.on('closeModal', () =>{
+            $('#Modal').modal('hide');
+        });
+
+    </script>
+
 </body>
 
 </html>

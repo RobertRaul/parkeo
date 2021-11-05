@@ -10,7 +10,7 @@ class Cajon extends Model
     protected $primaryKey="caj_id";
     public $timestamps=false;
 
-    protected $fillable= ['caj_id','caj_desc','caj_estado'];
+    protected $fillable= ['caj_desc','caj_estado'];
 
     public function scopeSearch($query,$value)
     {
@@ -19,4 +19,6 @@ class Cajon extends Model
         ->orWhere('caj_desc','like','%' . $value . '%')
         ->orWhere('caj_estado','like','%' . $value . '%');
     }
+
+
 }
