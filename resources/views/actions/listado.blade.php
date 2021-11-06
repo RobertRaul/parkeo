@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card card-light">
     <div class="card-header container-fluid">
         <div class="row">
             <div class="col-md-10">

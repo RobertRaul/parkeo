@@ -42,7 +42,7 @@ class Cajones extends Component
     [
         'caj_desc' =>'required|unique:cajones,caj_desc'
     ];
-    protected $messagess =
+    protected $messages =
     [
         'caj_desc.required' =>'El campo es requerido',
         'caj_desc.unique'   =>'Ya existe un registro con ese valor',

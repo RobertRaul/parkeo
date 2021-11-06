@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Caja;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\WithPagination;
 
@@ -19,23 +20,23 @@ class Cajas extends Component
     public $pagination = 5;
     public $buscar = '';
     //propiedades
-    public $caj_id, $caj_minic, $caj_feaper, $caj_fecierr, $caj_usid;
+    public $caj_id, $caj_minic;
     // Id y Actualizar
     public $selected_id = null, $selected_id_edit = null;
     public $updateMode = false;
 
     public function render()
     {
-        $data = Caja::query()
+        $cajas = Caja::query()
             ->search($this->buscar)
             ->where('caj_usid', '=', Auth::id())
             ->orderBy($this->Campo, $this->OrderBy)
             ->paginate($this->pagination);
-
+       
         return view(
             'livewire.cajas.listado',
             [
-                'data' => $data
+                'cajas' => $cajas
             ]
         );
     }
@@ -44,9 +45,9 @@ class Cajas extends Component
     [
         'caj_minic' => 'required|numeric|min:0',
     ];
-    protected $messagess =
+    protected $messages =
     [
-        'caj_minic.required' => 'El campo es requerido',
+        'caj_minic.required' => 'Ingrese un monto inicial',
         'caj_minic.numeric' => 'Solo se aceptan numeros',
         'caj_minic.min'     => 'El valor minimo es 0',
     ];
@@ -105,7 +106,7 @@ class Cajas extends Component
         $datos =
             [
                 'caj_minic'   => $this->caj_minic,
-                'caj_feaper' =>  $this->caj_feaper,
+                'caj_feaper' =>  Carbon::now(),
                 'caj_usid'  =>   Auth::id(),
             ];
         //realizamos validacion para registrar
