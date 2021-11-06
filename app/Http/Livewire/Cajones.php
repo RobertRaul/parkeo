@@ -7,7 +7,7 @@ use App\Models\Cajon;
 use Livewire\WithPagination;
 
 class Cajones extends Component
-{   
+{
     //paginado
     use WithPagination;
     //Tipo de paginacion
@@ -26,7 +26,7 @@ class Cajones extends Component
     public $tipos;
 
     public function render()
-    {   
+    {
         $data = Cajon::query()
         ->search($this->buscar)
         ->orderBy($this->Campo,$this->OrderBy)
@@ -74,12 +74,12 @@ class Cajones extends Component
      public function resetInput()
      {
          $this->caj_desc = null;
- 
+
          $this->selected_id = null;
          $this->selected_id_edit = null;
- 
+
          $this->buscar = '';
- 
+
          $this->updateMode = false;
      }
      //cancelar y limpiar imputs

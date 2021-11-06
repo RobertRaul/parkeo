@@ -28,7 +28,7 @@ class Empleados extends Component
 
     public function render()
     {
-        $this->tipodocumento=TipoDocumento::where('tpdi_estado','Activo')->get();
+        $this->tipodocumento=TipoDocumento::where('tpdi_estado','Activo')->whereNotIn('tpdi_id',[1])->get();
 
         $data = Empleado::query()
         ->search($this->buscar)
@@ -169,7 +169,7 @@ class Empleados extends Component
         $this->emp_email = $data->emp_email;
         $this->emp_direccion = $data->emp_direccion;
         $this->tar_tipoid = $data->tar_tipoid;
- 
+
         $this->updateMode = true;
     }
 

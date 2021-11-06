@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Caja;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Livewire\WithPagination;
 
 class Cajas extends Component
@@ -20,19 +21,31 @@ class Cajas extends Component
     public $pagination = 5;
     public $buscar = '';
     //propiedades
-    public $caj_id, $caj_minic;
+    public $caj_id, $caj_minic ,$caj_codigo;
     // Id y Actualizar
     public $selected_id = null, $selected_id_edit = null;
     public $updateMode = false;
 
     public function render()
     {
+//        $val = Caja::where('caj_st','Aperturado')->where('caj_usid',Auth::id())->first();
+        $data =DB::select("SELECT caj_id FROM cajas WHERE caj_st='Open' and caj_usid= ?",[Auth::id()]);
+        $cantidad=count($data);
+        if($cantidad>0)
+        {
+            $this->caj_codigo=$data[0]->caj_id;
+        }
+        else
+        {
+            $this->caj_codigo=-1;
+        }
+
         $cajas = Caja::query()
             ->search($this->buscar)
             ->where('caj_usid', '=', Auth::id())
             ->orderBy($this->Campo, $this->OrderBy)
             ->paginate($this->pagination);
-       
+
         return view(
             'livewire.cajas.listado',
             [
@@ -110,12 +123,14 @@ class Cajas extends Component
                 'caj_usid'  =>   Auth::id(),
             ];
         //realizamos validacion para registrar
-        if ($this->selected_id_edit <= 0) {
+        if ($this->selected_id_edit <= 0)
+        {
             $this->validate();
             Caja::create($datos);
             $this->emit('closeModal');
             $this->emit('msgOK', 'Caja Aperturada');
-        } else //realizamos la actualizacion
+        }
+        else //realizamos la actualizacion -> SIN  EJECUCION TEMPORALMENTE
         {
             $this->validate();
             Caja::find($this->selected_id_edit)->update($datos);
@@ -141,11 +156,12 @@ class Cajas extends Component
     }
 
     //Desactiva y activa dependiente del valor enviado
-    public function Cerrar_Caja($id)
+    public function Cerrar_Caja()
     {
-        $record = Caja::find($id);
+        $record = Caja::find($this->caj_codigo);
         $record->update([
-            'caj_estado' => 'Cerrado'
+            'caj_st' => 'Close',
+            'caj_fecierr' => Carbon::now()
         ]);
         $this->emit('msgINFO', 'Caja Cerrada Correctamente');
         $this->resetInput();

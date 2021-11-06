@@ -31,3 +31,4 @@ Route::view('empleados', 'templates.empleados');
 Route::view('usuarios', 'templates.usuarios');
 Route::view('permisos', 'templates.permisos');
 Route::view('cajas', 'templates.cajas');
+Route::view('clientes', 'templates.clientes');

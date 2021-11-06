@@ -25,6 +25,7 @@ class TipoDocumentos extends Component
     {
         $data=TipoDocumento::query()
         ->search($this->buscar)
+        ->whereNotIn('tpdi_id',[1])
         ->orderBy($this->Campo,$this-> OrderBy)
         ->paginate($this->pagination);
         return view('livewire.tipodocumento.listado',

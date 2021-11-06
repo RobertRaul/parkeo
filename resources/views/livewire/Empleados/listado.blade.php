@@ -27,7 +27,7 @@
 
     <th class="text-center" wire:click="Header_Orderby('emp_nombres')" class="text-center" style="cursor: pointer;">
         @include('actions.headerorder',['campo_a_ordenar' => 'emp_nombres']) Nombres</th>
-        
+
     <th class="text-center" wire:click="Header_Orderby('emp_celular')" class="text-center" style="cursor: pointer;">
         @include('actions.headerorder',['campo_a_ordenar' => 'emp_celular']) Celular</th>
 
@@ -47,13 +47,13 @@
     @foreach ($data as $d)
         <tr>
             <td class="text-center">{{ $d->emp_id }} </td>
-            <td>{{ $d->Tipodocumento->tpdi_desc }} </td>
+            <td>{{ $d->tpdi_desc }} </td>
             <td>{{ $d->emp_numdoc }} </td>
             <td>{{ $d->emp_apellidos }} </td>
             <td>{{ $d->emp_nombres }} </td>
             <td>{{ $d->emp_celular }} </td>
             <td>{{ $d->emp_email }} </td>
-            <td>{{ $d->emp_direccion }} </td>    
+            <td>{{ $d->emp_direccion }} </td>
 
             <td class="text-center">
                 @if ($d->emp_estado == 'Activo')

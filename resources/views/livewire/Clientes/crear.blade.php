@@ -9,9 +9,9 @@
             @endif
             <h5 class="modal-title" id="exampleModalLabel">
                 @if ($updateMode == false)
-                    Registrar Empleados
+                    Registrar Clientes
                 @else
-                    Modificar Empleados
+                    Modificar Clientes
                 @endif
             </h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -23,55 +23,41 @@
                 <div class="form-row">
                     <div class="col-md-6">
                         <label>Tp. Documento</label>
-                        <select wire:model="emp_tpdi" class="form-control">
+                        <select wire:model="clie_tpdi" class="form-control">
                             <option value="Elegir">Elegir</option>
-                            @foreach ($tipodocumento as $td)
+                            @foreach ($tipodoc as $td)
                                 <option value="{{ $td->tpdi_id }}">{{ $td->tpdi_desc }} </option>
                             @endforeach
                         </select>
-                        @error('emp_tpdi') <span class="error text-danger">{{ $message }}</span> @enderror
+                        @error('clie_tpdi') <span class="error text-danger">{{ $message }}</span> @enderror
                     </div>
 
                     <div class="col-md-6">
-                        <label for="emp_numdoc">Nro Documento</label>
-                        <input wire:model="emp_numdoc" type="text" class="form-control" id="emp_numdoc"
+                        <label for="clie_numdoc">Nro Documento</label>
+                        <input wire:model="clie_numdoc" type="text" class="form-control" id="clie_numdoc"
                             placeholder="N° Documento">
-                        @error('emp_numdoc') <span class="error text-danger">{{ $message }}</span> @enderror
+                        @error('clie_numdoc') <span class="error text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="emp_apellidos">Apellidos</label>
-                    <input wire:model="emp_apellidos" type="text" class="form-control" id="emp_apellidos"
-                        placeholder="Apellidos del Empleado">
-                    @error('emp_apellidos') <span class="error text-danger">{{ $message }}</span> @enderror
-                </div>
-
-                <div class="form-group">
-                    <label for="emp_nombres">Nombres</label>
-                    <input wire:model="emp_nombres" type="text" class="form-control" id="emp_nombres"
+                    <label for="clie_nombres">Nombres / Razon Social</label>
+                    <input wire:model="clie_nombres" type="text" class="form-control" id="clie_nombres"
                         placeholder="Nombres">
-                    @error('emp_nombres') <span class="error text-danger">{{ $message }}</span> @enderror
+                    @error('clie_nombres') <span class="error text-danger">{{ $message }}</span> @enderror
                 </div>
 
                 <div class="form-group">
-                    <label for="emp_celular">Celular</label>
-                    <input wire:model="emp_celular" type="text" class="form-control" id="emp_celular"
+                    <label for="clie_celular">Celular</label>
+                    <input wire:model="clie_celular" type="text" class="form-control" id="clie_celular"
                         placeholder="Celular">
-                    @error('emp_celular') <span class="error text-danger">{{ $message }}</span> @enderror
+                    @error('clie_celular') <span class="error text-danger">{{ $message }}</span> @enderror
                 </div>
 
                 <div class="form-group">
-                    <label for="emp_email">Email</label>
-                    <input wire:model="emp_email" type="text" class="form-control" id="emp_email" placeholder="Email">
-                    @error('emp_email') <span class="error text-danger">{{ $message }}</span> @enderror
-                </div>
-
-                <div class="form-group">
-                    <label for="emp_direccion">Direccion</label>
-                    <input wire:model="emp_direccion" type="text" class="form-control" id="emp_direccion"
-                        placeholder="Direccion">
-                    @error('emp_direccion') <span class="error text-danger">{{ $message }}</span> @enderror
+                    <label for="clie_email">Email</label>
+                    <input wire:model="clie_email" type="text" class="form-control" id="clie_email" placeholder="Email">
+                    @error('clie_email') <span class="error text-danger">{{ $message }}</span> @enderror
                 </div>
 
             </form>
