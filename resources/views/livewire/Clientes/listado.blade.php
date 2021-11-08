@@ -41,11 +41,11 @@
     @foreach ($data as $d)
         <tr>
             <td class="text-center">{{ $d->clie_id }} </td>
-            <td>{{ $d->tpdi_desc }} </td>
-            <td>{{ $d->clie_numdoc }} </td>
+            <td class="text-center">{{ $d->tpdi_desc }} </td>
+            <td class="text-center">{{ $d->clie_numdoc }} </td>
             <td>{{ $d->clie_nombres }} </td>
-            <td>{{ $d->clie_celular }} </td>
-            <td>{{ $d->clie_email }} </td>
+            <td class="text-center">{{ $d->clie_celular }} </td>
+            <td class="text-center">{{ $d->clie_email }} </td>
 
             <td class="text-center">
                 @if ($d->clie_estado == 'Activo')
@@ -61,7 +61,7 @@
                     <i class="fas fa-pencil-alt"></i>
                 </button>
                                 {{----------------------------activar desactivar------------------------------------}}
-                @if ($d->emp_estado == 'Activo')
+                @if ($d->clie_estado == 'Activo')
                     @if ($selected_id == $d->clie_id)
                         <button wire:click="Desactivar_Activar({{ $d->clie_id }},'Desactivado')" type="button"
                             class="btn btn-secondary"><i class="fa fa-check"></i></button>

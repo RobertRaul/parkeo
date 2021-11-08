@@ -47,12 +47,12 @@
     @foreach ($data as $d)
         <tr>
             <td class="text-center">{{ $d->emp_id }} </td>
-            <td>{{ $d->tpdi_desc }} </td>
-            <td>{{ $d->emp_numdoc }} </td>
+            <td class="text-center">{{ $d->tpdi_desc }} </td>
+            <td >{{ $d->emp_numdoc }} </td>
             <td>{{ $d->emp_apellidos }} </td>
             <td>{{ $d->emp_nombres }} </td>
-            <td>{{ $d->emp_celular }} </td>
-            <td>{{ $d->emp_email }} </td>
+            <td class="text-center">{{ $d->emp_celular }} </td>
+            <td class="text-center">{{ $d->emp_email }} </td>
             <td>{{ $d->emp_direccion }} </td>
 
             <td class="text-center">

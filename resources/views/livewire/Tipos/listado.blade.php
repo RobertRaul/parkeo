@@ -37,7 +37,7 @@ Tipos de Vehiculos
 <tr>
     <td class="text-center">{{$d->tip_id }} </td>
 
-    <td>{{$d->tip_desc }} </td>
+    <td class="text-center">{{$d->tip_desc }} </td>
 
     <td class="text-center" style="width:350px;">
         @if (!@empty($d->tip_img))

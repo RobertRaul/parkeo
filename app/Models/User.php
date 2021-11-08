@@ -42,6 +42,14 @@ class User extends Authenticatable
         return $this->hasOne(Empleado::class,'emp_id','us_empid');
     }
 
+    
+    public function Rentas()
+    {
+        return $this->hasMany(Renta::class,'rent_usid','us_id');
+        //Con esto le hemos dicho a laravel que cada Objeto Usuario, tiene relacion uno a mucho con Rentas
+        // con this hacemos referencia a esta clase Usuario y con hasMany decimos: pertenece A UNA O MUCHAS RENTAS.
+    }
+
     protected $hidden = [
         'password', 'remember_token',
     ];

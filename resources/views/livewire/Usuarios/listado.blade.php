@@ -39,7 +39,7 @@
         <tr>
             <td class="text-center">{{ $d->us_id }} </td>
 
-            <td>{{ $d->us_usuario }} </td>
+            <td class="text-center" >{{ $d->us_usuario }} </td>
 
             <td class="text-center">{{ $d->us_rol }} </td>
 

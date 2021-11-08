@@ -32,6 +32,7 @@ class Clientes extends Component
         $data = Cliente::query()
 
         ->search($this->buscar)
+        ->whereNotIn('clie_id',[1])
         ->orderBy($this->Campo,$this->OrderBy)
         ->paginate($this->pagination);
 

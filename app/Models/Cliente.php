@@ -29,6 +29,12 @@ class Cliente extends Model
     {
         return $this->belongsTo(TipoDocumento::class,'tpdi_desc','tpdi_id');
         // con $this hacemos referencia a esta clase "Cliente" y belognsTo decimos: pertenece, entonces decimos, Un Cliente pertenece a una Tipo Documento
+    }    
+    public function Rentas()
+    {
+        return $this->hasMany(Renta::class,'rent_client','clie_id');
+        //Con esto le hemos dicho a laravel que cada Objeto Cliente, tiene relacion uno a mucho con Rentas
+        // con this hacemos referencia a esta clase Cliente y con hasMany decimos: pertenece A UNA O MUCHAS RENTAS.
     }
 }
 

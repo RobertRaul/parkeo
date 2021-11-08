@@ -25,6 +25,16 @@
                     <input wire:model="caj_desc" type="text" class="form-control" id="caj_desc" placeholder="Descripcion">
                     @error('caj_desc') <span class="error text-danger">{{ $message }}</span> @enderror
                 </div>
+       
+                  <label>Tipo de Vehiculo</label>
+                    <select wire:model="caj_tipoid" class="form-control">
+                        <option value="Elegir">Elegir</option>
+                        @foreach ($vehiculos as $v)
+                            <option value="{{ $v->tip_id }}">{{ $v->tip_desc }} </option>
+                        @endforeach
+                    </select>
+                    @error('caj_tipoid') <span class="error text-danger">{{ $message }}</span> @enderror
+              
             </form>
         </div>
         <div class="modal-footer">

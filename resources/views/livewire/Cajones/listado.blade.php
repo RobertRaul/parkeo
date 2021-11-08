@@ -16,6 +16,9 @@
     <th class="text-center" wire:click="Header_Orderby('caj_id')" class="text-center" style="cursor: pointer;">
         @include('actions.headerorder',['campo_a_ordenar' => 'caj_id']) Id</th>
 
+    <th class="text-center" wire:click="Header_Orderby('tip_desc')" class="text-center" style="cursor: pointer;">
+        @include('actions.headerorder',['campo_a_ordenar' => 'tip_desc']) Tp. Vehiculo</th>
+
     <th class="text-center" wire:click="Header_Orderby('caj_desc')" class="text-center" style="cursor: pointer;">
         @include('actions.headerorder',['campo_a_ordenar' => 'caj_desc']) Caja</th>
     
@@ -30,7 +33,9 @@
         <tr>
             <td class="text-center">{{ $d->caj_id }} </td>
 
-            <td>{{ $d->caj_desc }} </td>
+            <td class="text-center">{{ $d->tip_desc }} </td>
+
+            <td class="text-center">{{ $d->caj_desc }} </td>
 
             <td class="text-center">
                 @if ($d->caj_estado == 'Libre')

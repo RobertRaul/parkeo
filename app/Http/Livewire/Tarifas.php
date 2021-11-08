@@ -19,7 +19,7 @@ class Tarifas extends Component
     public $pagination = 5;
     public $buscar = '';
     //propiedades
-    public $tar_desc, $tar_tiempo = 'Elegir', $tar_precio, $tar_tipoid = 'Elegir';
+    public $tar_desc, $tar_tiempo = 'Elegir', $tar_precio;
     // Id y Actualizar
     public $selected_id = null, $selected_id_edit = null;
     public $updateMode = false;
@@ -32,9 +32,7 @@ class Tarifas extends Component
             ->search($this->buscar)
             ->orderBy($this->Campo, $this->OrderBy)
             ->paginate($this->pagination);
-
-        $this->tipos = Tipo::where('tip_estado', 'Activo')->get();
-
+     
         return view('livewire.tarifas.listado', [
             'data' => $data
         ]);
@@ -45,7 +43,6 @@ class Tarifas extends Component
         'tar_desc'  => 'required|unique:tarifas,tar_desc',
         'tar_tiempo' => 'not_in:Elegir',
         'tar_precio' => 'required|numeric|between:0,999999.99',
-        'tar_tipoid' => 'not_in:Elegir'
     ];
 
     protected $messages =
@@ -57,8 +54,6 @@ class Tarifas extends Component
 
         'tar_precio.required' => 'El campo es requerido',
         'tar_precio.numeric' => 'Solo se acepta numeros',
-
-        'tar_tipoid.not_in'  => 'Seleccione un Tipo',
     ];
 
     //validaciones en vivo
@@ -69,7 +64,6 @@ class Tarifas extends Component
             'tar_desc'  => 'required|unique:tarifas,tar_desc,' . $this->selected_id_edit . ',tar_id',
             'tar_tiempo' => 'not_in:Elegir',
             'tar_precio' => 'required|numeric|between:0,999999.99',
-            'tar_tipoid' => 'not_in:Elegir'
         ]);
     }
     public function updatingSearch(): void
@@ -91,7 +85,6 @@ class Tarifas extends Component
         $this->tar_desc = null;
         $this->tar_tiempo = 'Elegir';
         $this->tar_precio = null;
-        $this->tar_tipoid = 'Elegir';
 
         $this->selected_id = null;
         $this->selected_id_edit = null;
@@ -113,7 +106,6 @@ class Tarifas extends Component
                 'tar_desc' => $this->tar_desc,
                 'tar_tiempo' => $this->tar_tiempo,
                 'tar_precio' => $this->tar_precio,
-                'tar_tipoid' => $this->tar_tipoid,
             ];
         //realizamos validacion para registrar
         if ($this->selected_id_edit <= 0) {
@@ -126,7 +118,6 @@ class Tarifas extends Component
                 'tar_desc'  => 'required|unique:tarifas,tar_desc,' . $this->selected_id_edit . ',tar_id',
                 'tar_tiempo' => 'not_in:Elegir',
                 'tar_precio' => 'required|numeric|between:0,999999.99',
-                'tar_tipoid' => 'not_in:Elegir'
             ]);
             Tarifa::find($this->selected_id_edit)->update($datos);
             $this->emit('closeModal');
@@ -142,7 +133,6 @@ class Tarifas extends Component
         $this->tar_desc = $data->tar_desc;
         $this->tar_tiempo = $data->tar_tiempo;
         $this->tar_precio = $data->tar_precio;
-        $this->tar_tipoid = $data->tar_tipoid;
 
         $this->updateMode = true;
     }

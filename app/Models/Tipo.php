@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tipo extends Model
 {
-    protected $table ="tipos";
+    protected $table ="tipo_vehiculo";
     protected $primaryKey="tip_id";
     public $timestamps = false;
 
@@ -21,5 +21,4 @@ class Tipo extends Model
         ->orWhere('tip_img','like','%' . $value . '%')
         ->orWhere('tip_estado','like','%' . $value . '%');
     }
-
 }

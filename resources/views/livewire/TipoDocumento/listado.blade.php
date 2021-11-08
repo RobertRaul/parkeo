@@ -25,7 +25,7 @@
             <tr>
                 <td class="text-center">{{$d->tpdi_id }} </td>
 
-                <td>{{$d->tpdi_desc }} </td>
+                <td class="text-center">{{$d->tpdi_desc }} </td>
 
                 <td class="text-center">
                     @if ($d->tpdi_estado =='Activo')

@@ -33,8 +33,6 @@
                         <option value="Minutos">Minutos</option>
                         <option value="Hora">Hora</option>
                         <option value="Dia">Dia</option>
-                        <option value="Semana">Semana</option>
-                        <option value="Mes">Mes</option>
                     </select>
                     @error('tar_tiempo') <span class="error text-danger">{{ $message }}</span> @enderror
                 </div>
@@ -44,18 +42,6 @@
                     <input wire:model="tar_precio" type="text" class="form-control" id="tar_precio" placeholder="Precio">
                     @error('tar_precio') <span class="error text-danger">{{ $message }}</span> @enderror
                 </div>
-
-                <div class="form-group">
-                    <label>Tipo de Vehiculo</label>
-                    <select wire:model="tar_tipoid" class="form-control">
-                        <option value="Elegir">Elegir</option>
-                        @foreach ($tipos as $t)
-                        <option value="{{ $t->tip_id }}">{{ $t->tip_desc }}</option>
-                        @endforeach
-                    </select>
-                    @error('tar_tipoid') <span class="error text-danger">{{ $message }}</span> @enderror
-                </div>
-
 
             </form>
         </div>

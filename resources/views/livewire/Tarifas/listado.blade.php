@@ -17,16 +17,13 @@
         @include('actions.headerorder',['campo_a_ordenar' => 'tar_id']) Id</th>
 
     <th class="text-center" wire:click="Header_Orderby('tar_desc')" class="text-center" style="cursor: pointer;">
-        @include('actions.headerorder',['campo_a_ordenar' => 'tar_desc']) Tarifa</th>
+        @include('actions.headerorder',['campo_a_ordenar' => 'tar_desc']) Descripcion</th>
 
     <th class="text-center" wire:click="Header_Orderby('tar_tiempo')" class="text-center" style="cursor: pointer;">
         @include('actions.headerorder',['campo_a_ordenar' => 'tar_tiempo'])Tiempo</th>
 
     <th class="text-center" wire:click="Header_Orderby('tar_precio')" class="text-center" style="cursor: pointer;">
         @include('actions.headerorder',['campo_a_ordenar' => 'tar_precio']) Precio</th>
-
-    <th class="text-center" wire:click="Header_Orderby('tar_tipoid')" class="text-center" style="cursor: pointer;">
-        @include('actions.headerorder',['campo_a_ordenar' => 'tar_tipoid']) Tipo de Vehiculo</th>
 
     <th class="text-center" wire:click="Header_Orderby('tar_estado')" class="text-center" style="cursor: pointer;">
         @include('actions.headerorder',['campo_a_ordenar' => 'tar_estado']) Estado</th>
@@ -39,13 +36,11 @@
         <tr>
             <td class="text-center">{{ $d->tar_id }} </td>
 
-            <td>{{ $d->tip_desc }} </td>
+            <td class="text-center"> {{ $d->tar_desc }} </td>
 
-            <td>{{ $d->tar_tiempo }} </td>
+            <td class="text-center">{{ $d->tar_tiempo }} </td>
 
-            <td>{{ $d->tar_precio }} </td>
-
-            <td>{{ $d->Tipos->tip_desc }} </td>
+            <td class="text-center">{{ $d->tar_precio }} </td>
 
             <td class="text-center">
                 @if ($d->tar_estado == 'Activo')
