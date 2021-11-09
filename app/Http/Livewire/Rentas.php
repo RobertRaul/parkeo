@@ -46,7 +46,7 @@ class Rentas extends Component
 
         $this->cajones = DB::table('cajones')
                         ->select('*', DB::RAW("'' AS barcode"), DB::RAW("'' AS tarifa_id"))
-                        ->join('tipos', 'tip_id', '=', 'caj_tipoid')
+                        ->join('tipo_vehiculo', 'tip_id', '=', 'caj_tipoid')
                         ->orderBy('caj_id', 'asc')
                         ->get();
         
@@ -106,7 +106,6 @@ class Rentas extends Component
             'clie_celular'  => 'required|numeric',
 
             'rent_llaves' => 'not_in:Elegir',
-
         ]);
     }
     //limpiar los inputs

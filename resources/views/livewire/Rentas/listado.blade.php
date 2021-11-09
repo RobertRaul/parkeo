@@ -50,7 +50,7 @@
                                         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
                                             @if ($c->caj_estado == 'Libre')
                                                 <span id="{{ $c->caj_id }}" style="cursor: pointer;"
-                                                    data-status="{{ $c->caj_estado }}" data-id="{{ $c->caj_id }}" onclick="$set('accion',1)"
+                                                    data-status="{{ $c->caj_estado }}" data-id="{{ $c->caj_id }}" onclick="abrirModal('{{$c->caj_id}}')"
                                                     class="badge-chip badge-success mt-2 mb-2 ml-2 bs-popover">
                                                 @else
                                                     <span id="{{ $c->caj_id }}" style="cursor: pointer;"
@@ -68,6 +68,8 @@
                     </div>
 
                     <input type="hidden" id="caj_id"/> {{--input para que cuando se haga click en ticket rapido se ponga aqui ---}}
+                    @include('livewire.rentas.visita')
+
                 </div>
             </div>
         </div>
@@ -76,3 +78,12 @@
     @endif
 
 </div>
+
+
+<script>
+    function abrirModal(cajonid)
+    {
+        $('#caj_id').val(cajonid);
+        $('#modalTicket').modal('show')
+    }
+</script>
