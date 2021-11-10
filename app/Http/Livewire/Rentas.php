@@ -228,6 +228,7 @@ class Rentas extends Component
     }
 
     protected $listeners = [
-
+        'cliente_general' => '',
+        'vehiculo_general' => '',
     ];
 }
