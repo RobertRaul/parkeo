@@ -296,6 +296,12 @@ return [
             'url' => 'clientes',
             'icon' => 'fas fa-fw fa-user',
         ],
+          //Rentas
+          [
+            'text' => 'Rentas',
+            'url' => 'rentas',
+            'icon' => 'fas fa-fw fa-user',
+        ],
         [
             'text'    => 'multilevel',
             'icon'    => 'fas fa-fw fa-share',

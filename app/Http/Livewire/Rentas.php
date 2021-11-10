@@ -33,7 +33,7 @@ class Rentas extends Component
     public $clie_tpdi = 'Elegir', $clie_numdoc, $clie_nombres, $clie_celular, $clie_email;
     // Id y Ver Estado
     public $selected_id = null, $selected_id_edit = null;
-    public $viewmode = false, $accion = 1; //0 = Listado - 1 = Registro; 
+    public $viewmode = false, $accion = 0; //0 = Listado - 1 = Registro;
     //array publicas
     public $tarifas, $cajones, $clientes, $tipodoc;
     //booleanos para verificar si el vehiculo se VEHICULO GENERAL Y Si el cliente es CLIENTE GENERAL
@@ -50,11 +50,7 @@ class Rentas extends Component
             ->orderBy('caj_id', 'asc')
             ->get();
 
-
-
         $this->clientes = Cliente::where('clie_estado', 'Activo')->whereNotIn('clie_id', [1])->get();
-
-
 
         return view('livewire.rentas.listado');
     }
@@ -131,6 +127,7 @@ class Rentas extends Component
         $this->clie_email = null;
 
         $this->viewmode = false;
+
         $this->accion = 0;
     }
 
@@ -156,7 +153,7 @@ class Rentas extends Component
             $datos =
                 [
                     'rent_tarid' =>  $this->rent_tarifa,
-                    'rent_vehiculo'   => 1,                   
+                    'rent_vehiculo'   => 1,
                     'rent_client'  =>  1,
                     'rent_cajonid' => $this->rent_cajonid,
                     'rent_llaves' => $this->rent_llaves,
@@ -179,10 +176,10 @@ class Rentas extends Component
                 'clie_celular' => $this->clie_celular,
                 'clie_email' => $this->clie_email,
             ];
-            //validamos si se selecciono un VEHICULO GENERAL            
+            //validamos si se selecciono un VEHICULO GENERAL
 
             if ($this->vehiculo_general)
-                $datos[0]['rent_vehiculo'] = 1; //podnemos el ID del VEHICULO GENERAL EN LA DATA     
+                $datos[0]['rent_vehiculo'] = 1; //podnemos el ID del VEHICULO GENERAL EN LA DATA
             else {
                 $this->validate();
                 $veh = Vehiculo::create($datos_vehiculo);
@@ -223,10 +220,14 @@ class Rentas extends Component
 
             $this->resetInput();
             DB::commit();
-        } 
+        }
         catch (\Throwable $th) {
             DB::rollback();
             throw $th;
         }
     }
+
+    protected $listeners = [
+
+    ];
 }

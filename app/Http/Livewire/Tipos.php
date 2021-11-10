@@ -60,7 +60,7 @@ class Tipos extends Component
         $this->validateOnly($propertyName, [
             'tip_desc'  => 'required|unique:tipos,tip_desc,' . $this->selected_id_edit . ',tip_id',
 
-            'tip_img'   =>  'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'tip_img'   =>  'image|mimes:jpeg,png,jpg,gif,svg|max:6144',
         ]);
     }
 
