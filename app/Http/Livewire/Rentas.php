@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\DB;
 class Rentas extends Component
 {
     //paginado
-    use WithPagination;
+  //  use WithPagination;
     //Tipo de paginacion
     protected $paginationTheme = 'bootstrap';
     //acciones
@@ -33,11 +33,11 @@ class Rentas extends Component
     public $clie_tpdi = 'Elegir', $clie_numdoc, $clie_nombres, $clie_celular, $clie_email;
     // Id y Ver Estado
     public $selected_id = null, $selected_id_edit = null;
-    public $viewmode = false, $accion = 0; //0 = Listado - 1 = Registro; 
+    public $viewmode = false, $accion = 1; //0 = Listado - 1 = Registro; 
     //array publicas
     public $tarifas, $cajones, $clientes, $tipodoc;
     //booleanos para verificar si el vehiculo se VEHICULO GENERAL Y Si el cliente es CLIENTE GENERAL
-    public $vehiculo_general = false, $cliente_general = false;
+    public $vehiculo_general = true, $cliente_general = true, $ticket_rapido = true;
 
     public function render()
     {
@@ -45,11 +45,11 @@ class Rentas extends Component
         $this->tipodoc = TipoDocumento::where('tpdi_estado', 'Activo')->whereNotIn('tpdi_id', [1])->get();
 
         $this->cajones = DB::table('cajones')
-                        ->select('*', DB::RAW("'' AS barcode"), DB::RAW("'' AS tarifa_id"))
-                        ->join('tipo_vehiculo', 'tip_id', '=', 'caj_tipoid')
-                        ->orderBy('caj_id', 'asc')
-                        ->get();
-        
+            ->select('*', DB::RAW("'' AS barcode"), DB::RAW("'' AS tarifa_id"))
+            ->join('tipo_vehiculo', 'tip_id', '=', 'caj_tipoid')
+            ->orderBy('caj_id', 'asc')
+            ->get();
+
 
 
         $this->clientes = Cliente::where('clie_estado', 'Activo')->whereNotIn('clie_id', [1])->get();
@@ -155,8 +155,8 @@ class Rentas extends Component
         try {
             $datos =
                 [
-                    'rent_vehiculo'   => 1,
-                    'rent_tarifa' =>  $this->rent_tarifa,
+                    'rent_tarid' =>  $this->rent_tarifa,
+                    'rent_vehiculo'   => 1,                   
                     'rent_client'  =>  1,
                     'rent_cajonid' => $this->rent_cajonid,
                     'rent_llaves' => $this->rent_llaves,
@@ -179,7 +179,8 @@ class Rentas extends Component
                 'clie_celular' => $this->clie_celular,
                 'clie_email' => $this->clie_email,
             ];
-            //validamos si se selecciono un VEHICULO GENERAL
+            //validamos si se selecciono un VEHICULO GENERAL            
+
             if ($this->vehiculo_general)
                 $datos[0]['rent_vehiculo'] = 1; //podnemos el ID del VEHICULO GENERAL EN LA DATA     
             else {
@@ -187,6 +188,7 @@ class Rentas extends Component
                 $veh = Vehiculo::create($datos_vehiculo);
                 $idveh = $veh->veh_id;
                 $datos[0]['rent_vehiculo'] = $idveh; //podnemos el id del vehiculo registrado
+                $this->emit('msgOK', 'Vehiculo Registrada Correctamente');
             }
             //validamos si se selecciono el CLiente general
             if ($this->cliente_general)
@@ -196,16 +198,34 @@ class Rentas extends Component
                 $clien = Cliente::create($datos_cliente);
                 $idclie = $clien->clie_id;
                 $datos[0]['rent_client'] = $idclie;
+                $this->emit('msgOK', 'Cliente Registrada Correctamente');
             }
 
-            $this->validate();
-            Renta::create($datos);
-            $this->emit('closeModal');
+            if ($this->ticket_rapido) {
+                $this->validate([
+                    'rent_tarifa' => 'not_in:Elegir',
+                    'rent_llaves' => 'not_in:Elegir',
+                ]);
+                Renta::create($datos);
+            } else {
+                $this->validate();
+                Renta::create($datos);
+            }
+
+            //desactivamos el cajon  y lo ponemos en ocupado
+            $cajon = Cajon::find($this->rent_cajonid);
+            $cajon->update([
+                'caj_estado' => 'Ocupado'
+            ]);
+
+            $this->emit('closeModalTicketVisita');
             $this->emit('msgOK', 'Renta Registrada Correctamente');
 
             $this->resetInput();
-        } catch (\Throwable $th) {
-            DB::rollBack();
+            DB::commit();
+        } 
+        catch (\Throwable $th) {
+            DB::rollback();
             throw $th;
         }
     }

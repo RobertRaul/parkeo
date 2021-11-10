@@ -19,7 +19,7 @@
         </div>
         <div class="modal-body">
             <form>
-                <div class="form-row">
+                <div class="form-row">            
                     <div class="col-md-6">
                         <label>Tp. Documento</label>
                         <select wire:model="emp_tpdi" class="form-control">

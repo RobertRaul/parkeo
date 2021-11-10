@@ -122,7 +122,9 @@
         window.livewire.on('closeModal', () =>{
             $('#Modal').modal('hide');
         });
-
+        window.livewire.on('closeModalTicketVisita', () =>{
+            $('#modalTicket').modal('hide');
+        });
     </script>
 
 </body>

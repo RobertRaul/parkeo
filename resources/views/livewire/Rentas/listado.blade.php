@@ -1,6 +1,7 @@
 <div>
     @if ($accion == 0)
         <div class="main-content">
+            @include('livewire.rentas.visita')
             <div class="row">
                 <div class="col-lg-12 layout-spacing layout-top-spacing">
                     <div class="card">
@@ -21,7 +22,7 @@
                                         <input type="text" id="code" class="form-control" maxlength="9"
                                             placeholder="Escanea el código de barras" autofocus>
                                         <div class="input-group-append">
-                                            <span wire:click="$set('barcode','')" class="input-group-text "
+                                            <span wire:click="$set('barcode','')" class="input-group-text"
                                                 style="cursor:pointer; "><i class="fas fa-trash-alt"></i> </span>
                                         </div>
                                     </div>
@@ -34,7 +35,7 @@
                                 </div>
 
                                 <div class="col-lg-4 col-md-4 col-sm-12">
-                                    <button class="btn btn-primary btn-block">
+                                    <button class="btn btn-primary btn-block" wire:click="$set('accion',1)">
                                         <i class="fas fa-print"></i>
                                         Ticket de Renta
                                     </button>
@@ -50,8 +51,8 @@
                                         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
                                             @if ($c->caj_estado == 'Libre')
                                                 <span id="{{ $c->caj_id }}" style="cursor: pointer;"
-                                                    data-status="{{ $c->caj_estado }}" data-id="{{ $c->caj_id }}" onclick="abrirModal('{{$c->caj_id}}')"
-                                                    class="badge-chip badge-success mt-2 mb-2 ml-2 bs-popover">
+                                                    data-status="{{ $c->caj_estado }}" data-id="{{ $c->caj_id }}"  data-toggle="modal" data-target="#modalTicket"
+                                                    class="badge-chip badge-success mt-2 mb-2 ml-2 bs-popover" wire:click="$set('rent_cajonid','{{$c->caj_id}}')">
                                                 @else
                                                     <span id="{{ $c->caj_id }}" style="cursor: pointer;"
                                                         data-status="{{ $c->caj_estado }}" data-id="{{ $c->caj_id }}" data-barcode="{{ $c->caj_id }}" onclick="$set('accion',1)"
@@ -67,23 +68,17 @@
                         </div>
                     </div>
 
-                    <input type="hidden" id="caj_id"/> {{--input para que cuando se haga click en ticket rapido se ponga aqui ---}}
-                    @include('livewire.rentas.visita')
-
+                    <input type="hidden" id="caj_id"/> {{--input para que cuando se haga click en ticket rapido se ponga aqui ---}}        
                 </div>
             </div>
         </div>
     @else
-
+        @include('livewire.rentas.crear')
     @endif
 
 </div>
 
 
 <script>
-    function abrirModal(cajonid)
-    {
-        $('#caj_id').val(cajonid);
-        $('#modalTicket').modal('show')
-    }
+
 </script>

@@ -5,15 +5,16 @@
                 <h5 class="modal-title">Generar Ticket Rapido</h5>
             </div>
             <div class="modal-body">
-                <form>
+                <form>      
                     <div class="form-group">
                         <label>Tarifa</label>
                         <select wire:model="rent_tarifa" class="form-control">
                           <option value="Elegir">Elegir</option>
                           @foreach ($tarifas as $t)
-                              <option value="{{$t->tar_id}}"> {{$t->tar_desc}} - Precio: {{$t->tar_precio}} Tiempo: {{$t->tar_tiempo}}</option>
+                              <option value="{{$t->tar_id}}" class="form-control">{{$t->tar_desc}} - Precio: S/ {{$t->tar_precio}} - Tiempo: {{$t->tar_tiempo}}</option>
                           @endforeach
                         </select>
+                        @error('rent_tarifa') <span class="error text-danger">{{ $message }}</span> @enderror
                     </div>
 
                     <div class="form-group">
@@ -23,19 +24,20 @@
                           <option value="Si">Si</option>
                           <option value="No">No</option>
                         </select>
+                        @error('rent_llaves') <span class="error text-danger">{{ $message }}</span> @enderror
                     </div>
 
                     <div class="form-group">
                         <label>Observacion</label>
-                        <textarea class="form-control" rows="3"></textarea>
-                        <input type="text" wire:model="rent_obser" id="comment" maxlength="30" class="form-control">
+                        <textarea class="form-control" rows="2"  wire:model="rent_obser"></textarea>
+                        @error('rent_obser') <span class="error text-danger">{{ $message }}</span> @enderror
                     </div>
 
                 </form>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-dark" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Cancelar</button>
-                <button type="button" class="btn btn-primary saveRenta">Guardar</button>
+                <button class="btn btn-secondary" data-dismiss="modal" wire:click="cancel()"> Cancelar</button>
+                <button type="button" class="btn btn-primary saveRenta" wire:click="store_update()">Guardar</button>
 
             </div>
         </div>
