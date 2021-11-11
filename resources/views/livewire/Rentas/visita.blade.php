@@ -5,13 +5,13 @@
                 <h5 class="modal-title">Generar Ticket Rapido</h5>
             </div>
             <div class="modal-body">
-                <form>      
+                <form>
                     <div class="form-group">
                         <label>Tarifa</label>
                         <select wire:model="rent_tarifa" class="form-control">
                           <option value="Elegir">Elegir</option>
                           @foreach ($tarifas as $t)
-                              <option value="{{$t->tar_id}}" class="form-control">{{$t->tar_desc}} - Precio: S/ {{$t->tar_precio}} - Tiempo: {{$t->tar_tiempo}}</option>
+                              <option value="{{$t->tar_id}}" class="form-control">{{$t->tar_desc}} - Precio: S/ {{$t->tar_precio}} * {{$t->tar_tiempo}}</option>
                           @endforeach
                         </select>
                         @error('rent_tarifa') <span class="error text-danger">{{ $message }}</span> @enderror
@@ -37,7 +37,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" data-dismiss="modal" wire:click="cancel()"> Cancelar</button>
-                <button type="button" class="btn btn-primary saveRenta" wire:click="renta_visita()">Guardar</button>
+                <button type="button" class="btn btn-primary" wire:click="renta_visita()">Guardar</button>
 
             </div>
         </div>

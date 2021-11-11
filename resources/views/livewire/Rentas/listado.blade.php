@@ -87,38 +87,44 @@
         //en el cuerpo buscamos un click que tenga la clase "clientes"
         $('body').on('click', '.clientes', function() {
             //verificamos si esta chekeado o no
+           
+
+           
+            /*
             var estado = $(this).is(':checked') ? true : false;
-          
             $("#tipodoc").prop('disabled', estado);
             $("#nrodoc").prop('disabled', estado);
             $("#nombres").prop('disabled', estado);
             $("#celular").prop('disabled', estado);
-            $("#email").prop('disabled', estado);      
-            $("#cliente_select").prop('disabled', estado);     
+            $("#email").prop('disabled', estado);
+            $("#cliente_select").prop('disabled', estado);*/
             //limpiamos el texto de las validaciones
-            $("#tpdoc_message").text(''); 
-            $("#numdoc_message").text(''); 
-            $("#nombres_message").text(''); 
-            $("#cel_message").text(''); 
 
-            $('#cliente_value').val(estado);
+            $("#tpdoc_message").text('');
+            $("#numdoc_message").text('');
+            $("#nombres_message").text('');
+            $("#cel_message").text('');
+            
+            var valu = $(this).is(':checked') ? "yes" : "no";
+            $('#cliente_value').val(valu);
         })
 
         //en el cuerpo buscamos un click que tenga la clase "vehiculos"
         $('body').on('click', '.vehiculos', function() {
             //verificamos si esta chekeado o no
-            var estado = $(this).is(':checked') ? true : false;
-
+            /*
+            var estado = $(this).is(':checked') ? true : false;       
             $("#placa").prop('disabled', estado);
             $("#modelo").prop('disabled', estado);
             $("#marca").prop('disabled', estado);
-            $("#color").prop('disabled', estado);        
+            $("#color").prop('disabled', estado);*/
 
+            $("#foto_message").text('');
             //limpiamos el texto de las validacones
-            $("#placa_message").text(''); 
-            $("#modelo_message").text(''); 
-
-            $('#vehiculo_value').val(estado);  
+            $("#placa_message").text('');
+            $("#modelo_message").text('');
+            var valu = $(this).is(':checked') ? "yes" : "no";
+            $('#vehiculo_value').val(valu);
         })
     })
 

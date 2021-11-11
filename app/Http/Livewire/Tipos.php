@@ -43,7 +43,7 @@ class Tipos extends Component
     protected $rules =
     [
         'tip_desc'  => 'required|unique:tipos,tip_desc',
-        'tip_img'   =>  'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'tip_img'   =>  'image|mimes:jpeg,png,jpg,gif,svg|max:4096',
     ];
 
     protected $messages =
@@ -60,7 +60,7 @@ class Tipos extends Component
         $this->validateOnly($propertyName, [
             'tip_desc'  => 'required|unique:tipos,tip_desc,' . $this->selected_id_edit . ',tip_id',
 
-            'tip_img'   =>  'image|mimes:jpeg,png,jpg,gif,svg|max:6144',
+            'tip_img'   =>  'image|mimes:jpeg,png,jpg,gif,svg|max:4096',
         ]);
     }
 
@@ -109,7 +109,7 @@ class Tipos extends Component
                 'tip_img'   => $this->tip_img,
             ];
 
-        /*  ------------------------   PARA SUBIR UNA IMAGEN EN LA CARPETA PUBLIC CREAT Images\Tipos   ---------------------------- */
+        /*  ------------------------   PARA SUBIR UNA IMAGEN EN LA CARPETA PUBLIC CREAR Images\Tipos   ---------------------------- */
 
         //Verificamos que la se haya cargado una imagen
         if (!empty($this->tip_img)) {

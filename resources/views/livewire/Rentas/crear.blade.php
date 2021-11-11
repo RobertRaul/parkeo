@@ -22,17 +22,17 @@
                 <!--div Datos del Cliente -->
                 <div class="row mt-4">
                     <h4 class="col-sm-4">
-                        <span class="badge badge-pill badge-info">
+                        <span class="badge badge-pill badge-primary">
                             Datos del Cliente
                         </span>
-                        <input type="hidden" id="cliente_value" value="false" class="form-control">                      
+                        <input type="hidden" id="cliente_value">
                     </h4>
-                
+
                     <div class="col-sm-4 custom-control custom-checkbox">
                         <input class="custom-control-input clientes" type="checkbox" id="checkboxpublico">
                         <label for="checkboxpublico" class="custom-control-label">Publico General</label>
                     </div>
-                  
+
                     <div class="col-sm-4" wire:ignore>
                         <select class="form-control" id="cliente_select">
                             <option value="Buscar">Buscar</option>
@@ -43,7 +43,7 @@
                     </div>
 
                     <div class="form-group col-lg-2 col-md-2 col-sm-12">
-                        <label for="">Tipo Documento</label>
+                        <label class="text-danger">Tipo Documento</label>
                         <div class="input-group mb-2 mr-sm-2">
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><i class="fas fa-filter"></i></div>
@@ -59,7 +59,7 @@
                         @enderror
                     </div>
                     <div class="form-group col-lg-2 col-md-2 col-sm-12">
-                        <label for="">Nro Doc</label>
+                        <label class="text-danger">Nro Doc</label>
                         <div class="input-group mb-2 mr-sm-2">
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><i class="fas fa-sort-numeric-up-alt"></i></div>
@@ -71,7 +71,7 @@
                     </div>
 
                     <div class="form-group col-lg-3 col-md-3 col-sm-12">
-                        <label for="">Nombres</label>
+                        <label class="text-danger">Nombres</label>
                         <div class="input-group mb-2 mr-sm-2">
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><i class="fas fa-text-height"></i></div>
@@ -82,7 +82,7 @@
                         @error('clie_nombres') <span class="error text-danger" id="nombres_message">{{ $message }}</span> @enderror
                     </div>
                     <div class="form-group col-lg-2 col-md-2 col-sm-12">
-                        <label for="">Celular</label>
+                        <label class="text-danger">Celular</label>
                         <div class="input-group mb-2 mr-sm-2">
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><i class="fas fa-phone"></i></div>
@@ -106,10 +106,10 @@
                 <!--div Datos del Vehiculo -->
                 <div class="row mt-4">
                     <h4 class="col-sm-4">
-                        <span class="badge badge-pill badge-info">
+                        <span class="badge badge-pill badge-primary">
                             Datos del Vehiculo
                         </span>
-                        <input type="hidden" id="vehiculo_value" value="false" class="form-control">
+                        <input type="hidden" id="vehiculo_value">
                     </h4>
                     <div class="col-sm-4 custom-control custom-checkbox">
                         <input class="custom-control-input vehiculos" type="checkbox" id="checkboxvehiculo">
@@ -117,11 +117,11 @@
                     </div>
 
                     <div class="col-sm-4">
-                       
+
                     </div>
 
                     <div class="form-group col-lg-2 col-md-2 col-sm-12">
-                        <label for="">Placa</label>
+                        <label class="text-danger">Placa</label>
                         <div class="input-group mb-2 mr-sm-2">
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><i class="fas fa-chess-board"></i></div>
@@ -133,7 +133,7 @@
                     </div>
 
                     <div class="form-group col-lg-2 col-md-2 col-sm-12">
-                        <label for="">Modelo</label>
+                        <label class="text-danger">Modelo</label>
                         <div class="input-group mb-2 mr-sm-2">
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><i class="fas fa-car"></i></div>
@@ -168,13 +168,46 @@
                         <div class="input-group mb-2 mr-sm-2">
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><i class="fas fa-camera-retro"></i></div>
-                            </div>                         
+                            </div>
                             <input wire:model="veh_foto" type="file" class="form-control" id="tip_img" id="foto">
                         </div>
+                        @error('veh_foto') <span class="error text-danger" id="foto_message">{{ $message }}</span> @enderror
                     </div>
                 </div>
+
+                <div class="row">
+
+                    <div class="col-md-2 col-lg-2 col-sm-12">
+                        <label for="">Dejo Llaves?</label>
+                        <select wire:model="rent_llaves" class="form-control">
+                            <option value="Elegir">Elegir</option>
+                            <option value="Si">Si</option>
+                            <option value="No">No</option>
+                          </select>
+                          @error('rent_llaves') <span class="error text-danger">{{ $message }}</span> @enderror
+                    </div>
+
+                    <div class="col-md-4 col-lg-4 col-sm-12">
+                        <label>Observacion</label>
+                        <input class="form-control" wire:model="rent_obser">
+                    </div>
+
+                    <div class="col-md-4 col-lg-4 col-sm-12">
+                        <label>Tarifa</label>
+                        <select wire:model="rent_tarifa" class="form-control">
+                          <option value="Elegir">Elegir</option>
+                          @foreach ($tarifas as $t)
+                              <option value="{{$t->tar_id}}" class="form-control">{{$t->tar_desc}} - Precio: S/ {{$t->tar_precio}} * {{$t->tar_tiempo}}</option>
+                          @endforeach
+                        </select>
+                        @error('rent_tarifa') <span class="error text-danger">{{ $message }}</span> @enderror
+                    </div>                    
+                </div>
+                <div class="col-md-2 col-lg-2 col-sm-12">                
+                    <button wire:click.prevent="$emit('ticketrenta',$('#cliente_value').val(),$('#vehiculo_value').val())" class="btn btn-primary mt-4">Registrar Renta</button>
+                </div>
             </div>
-        </div>
+        </div>        
     </div>
 
 </section>
@@ -182,17 +215,16 @@
 
 <script>
 
+    $(document).ready(function(){
+        //buscamos el select con el id cliente_Select y cargamos el plugin select2
+        $('#cliente_select').select2();
 
-
-$(document).ready(function(){
-    //buscamos el select con el id cliente_Select y cargamos el plugin select2
-    $('#cliente_select').select2();
-
-    $('#cliente_select').on('change',function(e){
-        //cuando se haga el cambio del select capturamos el valor y lo pondemos en data
-        var data = $('#cliente_select').select2("val");
-        @this.set('clie_findID',data);
+        $('#cliente_select').on('change',function(e){
+            //cuando se haga el cambio del select capturamos el valor y lo pondemos en data
+            var data = $('#cliente_select').select2("val")
+            @this.set('clie_findID',data);
+            window.livewire.emit('cargar_data',data)
+        });
     });
-});
 
 </script>
