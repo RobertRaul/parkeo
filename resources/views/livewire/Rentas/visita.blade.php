@@ -37,7 +37,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" data-dismiss="modal" wire:click="cancel()"> Cancelar</button>
-                <button type="button" class="btn btn-primary saveRenta" wire:click="store_update()">Guardar</button>
+                <button type="button" class="btn btn-primary saveRenta" wire:click="renta_visita()">Guardar</button>
 
             </div>
         </div>
