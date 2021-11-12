@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Caja;
 use Livewire\Component;
 use App\Models\Renta;
 
@@ -13,12 +14,13 @@ use App\Models\Usuario;
 use App\Models\TipoDocumento;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use DB;
 
 use Livewire\WithFileUploads;
 
 use Intervention\Image\ImageManagerStatic as Image;
 
+use App\Models\Ingreso;
 
 class Rentas extends Component
 {
@@ -29,23 +31,48 @@ class Rentas extends Component
     //acciones
     public $Campo = 'rent_id';
     public $OrderBy = 'desc';
+
     //propiedades
     public $rent_tarifa = 'Elegir', $rent_client, $rent_cajonid = 'Elegir', $rent_llaves = 'Elegir', $rent_obser, $rent_codigo;
+
     //propiedades para registrar un vehiculo
     public $veh_placa, $veh_modelo, $veh_marca, $veh_color, $veh_foto;
+
     //propiedades para registrar un cliente
     public $clie_id, $clie_tpdi = 'Elegir', $clie_numdoc, $clie_nombres, $clie_celular, $clie_email;
+
     // Id y Ver Estado
     public $selected_id = null, $selected_id_edit = null;
+
     public $viewmode = false, $accion = 0; //0 = Listado - 1 = Registro;
+
     //array publicas
-    public $tarifas, $cajones, $clientes, $tipodoc;
+    public $tarifas, $cajones, $clientes, $tipodoc, $series;
     public $clie_findID;
+
     //booleanos para verificar si el vehiculo se VEHICULO GENERAL Y Si el cliente es CLIENTE GENERAL
-    public $vehiculo_general = "si", $cliente_general = "si";
+    public $vehiculo_general ="si", $cliente_general ="si";
+
+    //propiedades para registrar el ingreso
+    public $ing_cajid,$ing_rentid,$ing_serid='Elegir',$ing_serie ,$ing_numero,$ing_tppago='Elegir',$ing_nref,$ing_subtotal,$ing_igv,$ing_total,$ing_motivo;
+
+    //Caja
+    public $caja_aperturada;
 
     public function render()
     {
+        $caja =DB::select("SELECT caj_id FROM cajas WHERE caj_st='Open' and caj_usid= ?",[Auth::id()]);
+        $cantidad=count($caja);
+        dd($caja);
+        if($cantidad>0)
+        {
+            $this->caj_codigo=$caja[0]->caj_id;
+        }
+        else
+        {
+            $this->caj_codigo=-1;
+        }
+
         $this->tarifas = Tarifa::where('tar_estado', 'Activo')->get();
         $this->tipodoc = TipoDocumento::where('tpdi_estado', 'Activo')->whereNotIn('tpdi_id', [1])->get();
 
@@ -58,6 +85,7 @@ class Rentas extends Component
         $this->clientes = Cliente::where('clie_estado', 'Activo')->whereNotIn('clie_id', [1])->get();
 
         return view('livewire.rentas.listado');
+
     }
     protected $rules =
     [
@@ -241,15 +269,15 @@ class Rentas extends Component
                 'veh_color' => $this->veh_color,
                 'veh_foto' => $this->veh_foto,
             ];
-            //validamos si se selecciono el CLiente general          
+            //validamos si se selecciono el CLiente general
             if ($this->cliente_general == "yes") {
                 $datos[0]['rent_client'] = 1;
             } else //en esta opcion tenemos 2 formar **1 Si el usuario busco un paciente entonces ya no registramos **2 hacemos el registro desde cero
             {
                 if ($this->clie_id > 0) {
-                    
+
                         $datos['rent_client'] = $this->clie_id; //cargamos el ID recuperado a la renta
-                    
+
                 } else {
                     $this->validate([
                         'clie_tpdi' => 'not_in:Elegir',
@@ -329,4 +357,56 @@ class Rentas extends Component
             $this->clie_email = "";
         }
     }
+
+
+    //*****************************************INGRESO************************************************** */
+
+    public function Ingreso()
+    {
+        /*
+        $ing_cajid,$ing_rentid,$ing_serid,$ing_serie,$ing_numero,$ing_tppago='Elegir',$ing_nref,$ing_subtotal,$ing_igv,$ing_total,$ing_estado,$ing_motivo;
+*/
+        //reglas de validación
+        $rules = [
+            'ing_serid'     => 'not_in:required',
+            'ing_tppago'     => 'not_in:required',
+        ];
+
+        //mensajes personalizados
+        $customMessages = [
+            'ing_serid.not_in' => 'Selecciona una serie',
+            'ing_tppago.not_in' => 'Selecciona un tipo de pago',
+        ];
+
+          //ejecutamos las validaciones
+        $this->validate($rules, $customMessages);
+
+        //iniciamos la transaccion
+        DB::beginTransaction();
+
+        try {
+            //buscamos la caja activa del usuario
+            $caja = Caja::where('caj_st','Aperturado')->where('caj_usid',Auth::id());
+
+            $datos =[
+                'ing_cajid' => $this->ing_cajid,
+                'ing_rentid' => $this->ing_rentid,
+                'ing_serid' => $this->ing_serid,
+                'ing_serie' => $this->ing_serie,
+                'ing_numero' => $this->ing_numero,
+                'ing_tppago' => $this->ing_tppago,
+                'ing_nref' => $this->ing_nref,
+                'ing_subtotal' => $this->ing_subtotal,
+                'ing_igv' => $this->ing_igv,
+                'ing_total' => $this->ing_total,
+                'ing_usid' => Auth::id(),
+            ];
+
+        }
+        catch (\Throwable $th)
+        {
+            //throw $th;
+        }
+    }
+
 }

@@ -6,7 +6,7 @@
                     <div class="col-md-10">
                         <h3>
                             <i class="fas fa-cash-register"></i>
-                            Caja
+                            Caja {{ $caj_codigo }}
                         </h3>
                     </div>
                     <div class="col-md-1 float-right">
@@ -114,4 +114,9 @@
                 }
             })
     }
+
+
+    window.addEventListener("DOMContentLoaded", function () {
+        Livewire.emit("caja_mensajes");
+    });
 </script>
