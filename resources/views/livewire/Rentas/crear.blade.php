@@ -13,7 +13,7 @@
                         </button>
                     </div>
                     <div class="col-8">
-                        <h5 class="text-center"><b>TICKET DE PENSIÓN</b></h5>
+                        <h5 class="text-center"><b>TICKET DE RENTA</b></h5>                    
                     </div>
                     <div class="col-2 text-right">
                         <label></label>
@@ -21,16 +21,16 @@
                 </div>
                 <!--div Datos del Cliente -->
                 <div class="row mt-4">
-                    <h4 class="col-sm-4">
-                        <span class="badge badge-pill badge-primary">
-                            Datos del Cliente
-                        </span>
-                        <input type="hidden" id="cliente_value">
-                    </h4>
-
-                    <div class="col-sm-4 custom-control custom-checkbox">
+                    <h5 class="col-sm-4 custom-control custom-checkbox">
+                        {{-- <span class="badge badge-pill badge-primary">
+                           Datos del Cliente
+                        </span> --}}
                         <input class="custom-control-input clientes" type="checkbox" id="checkboxpublico">
                         <label for="checkboxpublico" class="custom-control-label">Publico General</label>
+                    </h5>
+
+                    <div class="col-sm-4">
+                      
                     </div>
 
                     <div class="col-sm-4" wire:ignore>
@@ -64,8 +64,8 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><i class="fas fa-sort-numeric-up-alt"></i></div>
                             </div>
-                            <input wire:model="clie_numdoc" type="text" class="form-control" maxlength="30"
-                                placeholder="123456789" id="nrodoc">
+                            <input wire:model="clie_numdoc" type="text" class="form-control" maxlength="11"
+                                id="nrodoc">
                         </div>
                         @error('clie_numdoc') <span class="error text-danger" id="numdoc_message">{{ $message }}</span> @enderror
                     </div>
@@ -76,8 +76,8 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><i class="fas fa-text-height"></i></div>
                             </div>
-                            <input wire:model="clie_nombres" type="text" class="form-control" maxlength="30"
-                                placeholder="Pepe Luis Fox" id="nombres">
+                            <input wire:model="clie_nombres" type="text" class="form-control" maxlength="40"
+                                 id="nombres">
                         </div>
                         @error('clie_nombres') <span class="error text-danger" id="nombres_message">{{ $message }}</span> @enderror
                     </div>
@@ -87,8 +87,8 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><i class="fas fa-phone"></i></div>
                             </div>
-                            <input wire:model="clie_celular" type="text" class="form-control" maxlength="30"
-                                placeholder="955 555 355" id="celular">
+                            <input wire:model="clie_celular" type="text" class="form-control" maxlength="12"
+                                id="celular">
                         </div>
                         @error('clie_celular') <span class="error text-danger" id="cel_message">{{ $message }}</span> @enderror
                     </div>
@@ -98,22 +98,22 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><i class="fas fa-at"></i></div>
                             </div>
-                            <input wire:model="clie_email" type="text" class="form-control" maxlength="30" placeholder="hola@gmail.com"
+                            <input wire:model="clie_email" type="text" class="form-control" maxlength="40"
                                 id="email">
                         </div>
                     </div>
                 </div>
                 <!--div Datos del Vehiculo -->
                 <div class="row mt-4">
-                    <h4 class="col-sm-4">
-                        <span class="badge badge-pill badge-primary">
-                            Datos del Vehiculo
-                        </span>
-                        <input type="hidden" id="vehiculo_value">
-                    </h4>
-                    <div class="col-sm-4 custom-control custom-checkbox">
+                    <h5 class="col-sm-4 custom-control custom-checkbox">
+                        {{-- <span class="badge badge-pill badge-primary">
+                           Datos del Vehiculo
+                        </span> --}}
                         <input class="custom-control-input vehiculos" type="checkbox" id="checkboxvehiculo">
                         <label for="checkboxvehiculo" class="custom-control-label">Vehiculo General</label>
+                    </h5>
+                    <div class="col-sm-4">
+                     
                     </div>
 
                     <div class="col-sm-4">
@@ -126,8 +126,8 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><i class="fas fa-chess-board"></i></div>
                             </div>
-                            <input wire:model="veh_placa" type="text" class="form-control" maxlength="30"
-                                placeholder="ABC-123" id="placa">
+                            <input wire:model="veh_placa" type="text" class="form-control" maxlength="8"
+                                id="placa">
                         </div>
                         @error('veh_placa') <span class="error text-danger" id="placa_message">{{ $message }}</span> @enderror
                     </div>
@@ -139,7 +139,7 @@
                                 <div class="input-group-text"><i class="fas fa-car"></i></div>
                             </div>
                             <input wire:model="veh_modelo" type="text" class="form-control" maxlength="30"
-                                placeholder="Centra" id="modelo">
+                                id="modelo">
                         </div>
                         @error('veh_modelo') <span class="error text-danger" id="modelo_message">{{ $message }}</span> @enderror
                     </div>
@@ -150,7 +150,7 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><i class="fas fa-stroopwafel"></i></div>
                             </div>
-                            <input wire:model="veh_marca" type="text" class="form-control" maxlength="30" id="marca" placeholder="Toyota">
+                            <input wire:model="veh_marca" type="text" class="form-control" maxlength="30" id="marca" >
                         </div>
                     </div>
 
@@ -160,7 +160,7 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><i class="fas fa-tint"></i></div>
                             </div>
-                            <input wire:model="veh_color" type="text" class="form-control" maxlength="30" placeholder="Rojo" id="color">
+                            <input wire:model="veh_color" type="text" class="form-control" maxlength="30"  id="color">
                         </div>
                     </div>
                     <div class="form-group col-lg-3 col-md-3 col-sm-12">
@@ -178,7 +178,21 @@
                 <div class="row">
 
                     <div class="col-md-2 col-lg-2 col-sm-12">
-                        <label for="">Dejo Llaves?</label>
+                        <label class="text-danger">Cajon</label>
+                        <select wire:model="rent_cajonid" class="form-control">
+                            <option value="Elegir">Elegir</option>
+                         @foreach ($cajones as $ca)
+                             @if ($ca->caj_estado=='Libre')
+                                 <option value="{{$ca->caj_id}}">{{$ca->caj_desc}}</option>
+                             @endif
+                         @endforeach
+                          </select>
+                          @error('rent_cajonid') <span class="error text-danger">{{ $message }}</span> @enderror
+                    </div>
+
+
+                    <div class="col-md-2 col-lg-2 col-sm-12">
+                        <label class="text-danger">Dejo Llaves?</label>
                         <select wire:model="rent_llaves" class="form-control">
                             <option value="Elegir">Elegir</option>
                             <option value="Si">Si</option>
@@ -193,7 +207,7 @@
                     </div>
 
                     <div class="col-md-4 col-lg-4 col-sm-12">
-                        <label>Tarifa</label>
+                        <label class="text-danger">Tarifa</label>
                         <select wire:model="rent_tarifa" class="form-control">
                           <option value="Elegir">Elegir</option>
                           @foreach ($tarifas as $t)
@@ -204,7 +218,7 @@
                     </div>                    
                 </div>
                 <div class="col-md-2 col-lg-2 col-sm-12">                
-                    <button wire:click.prevent="$emit('ticketrenta',$('#cliente_value').val(),$('#vehiculo_value').val())" class="btn btn-primary mt-4">Registrar Renta</button>
+                    <button wire:click.prevent="$emit('ticketrenta')" class="btn btn-primary mt-4">Registrar Renta</button>
                 </div>
             </div>
         </div>        

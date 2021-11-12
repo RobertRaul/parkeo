@@ -22,7 +22,7 @@
                                         <input type="text" id="code" class="form-control" maxlength="9"
                                             placeholder="Escanea el código de barras" autofocus>
                                         <div class="input-group-append">
-                                            <span wire:click="$set('barcode','')" class="input-group-text"
+                                            <span wire:click="$set('rent_codigo','')" class="input-group-text"
                                                 style="cursor:pointer; "><i class="fas fa-trash-alt"></i> </span>
                                         </div>
                                     </div>
@@ -48,23 +48,23 @@
                             <div class="col">
                                 <div class="row">
                                     @foreach ($cajones as $c)
-                                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                                        <div class="col-lg-2 col-md-2 col-sm-12 text-center">
                                             @if ($c->caj_estado == 'Libre')
                                                 <span id="{{ $c->caj_id }}" style="cursor: pointer;"
                                                     data-status="{{ $c->caj_estado }}" data-id="{{ $c->caj_id }}"
                                                     data-toggle="modal" data-target="#modalTicket"
-                                                    class="badge-chip badge-success mt-2 mb-2 ml-2 bs-popover"
+                                                    class="badge-chip badge-success mt-2 mb-2 ml-2 bs-popover col-sm-12"
                                                     wire:click="$set('rent_cajonid','{{ $c->caj_id }}')">
                                                 @else
                                                     <span id="{{ $c->caj_id }}" style="cursor: pointer;"
                                                         data-status="{{ $c->caj_estado }}"
                                                         data-id="{{ $c->caj_id }}" data-barcode="{{ $c->caj_id }}"
                                                         onclick="$set('accion',1)"
-                                                        class="badge-chip badge-danger mt-2 mb-2 ml-2 bs-popover">
+                                                        class="badge-chip badge-danger mt-2 mb-2 ml-2 bs-popover col-sm-12">
                                             @endif
                                             <img src="{{ url('images/tipos_tumb/' . $c->tip_img) }}" alt=""
                                                 class="img" width="96" height="96">
-                                            <span> {{ $c->caj_desc }} </span>
+                                            <span > {{ $c->caj_desc }} </span>
                                             </span>
                                         </div>
                                     @endforeach
@@ -74,6 +74,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     @elseif($accion==1)
         @include('livewire.rentas.crear')
@@ -86,10 +87,7 @@
 
         //en el cuerpo buscamos un click que tenga la clase "clientes"
         $('body').on('click', '.clientes', function() {
-            //verificamos si esta chekeado o no
-           
-
-           
+            //verificamos si esta chekeado o no                      
             /*
             var estado = $(this).is(':checked') ? true : false;
             $("#tipodoc").prop('disabled', estado);
@@ -106,7 +104,7 @@
             $("#cel_message").text('');
             
             var valu = $(this).is(':checked') ? "yes" : "no";
-            $('#cliente_value').val(valu);
+            @this.set('cliente_general',valu);
         })
 
         //en el cuerpo buscamos un click que tenga la clase "vehiculos"
@@ -124,7 +122,7 @@
             $("#placa_message").text('');
             $("#modelo_message").text('');
             var valu = $(this).is(':checked') ? "yes" : "no";
-            $('#vehiculo_value').val(valu);
+            @this.set('vehiculo_general',valu);
         })
     })
 
