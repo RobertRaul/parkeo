@@ -1,6 +1,7 @@
 @extends('actions.listado')
 
 @section('name_component')
+<i class="far fa-id-card"></i>
     Tipos de Documento
 @endsection
 

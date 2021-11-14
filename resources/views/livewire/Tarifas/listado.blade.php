@@ -1,6 +1,7 @@
 @extends('actions.listado')
 
 @section('name_component')
+<i class="fas fa-money-bill"></i>
     Tarifas
 @endsection
 
@@ -15,9 +16,6 @@
 @section('table_header')
     <th class="text-center" wire:click="Header_Orderby('tar_id')" class="text-center" style="cursor: pointer;">
         @include('actions.headerorder',['campo_a_ordenar' => 'tar_id']) Id</th>
-
-    <th class="text-center" wire:click="Header_Orderby('tar_desc')" class="text-center" style="cursor: pointer;">
-        @include('actions.headerorder',['campo_a_ordenar' => 'tar_desc']) Descripcion</th>
 
     <th class="text-center" wire:click="Header_Orderby('tar_tiempo')" class="text-center" style="cursor: pointer;">
         @include('actions.headerorder',['campo_a_ordenar' => 'tar_tiempo'])Tiempo</th>
@@ -36,11 +34,9 @@
         <tr>
             <td class="text-center">{{ $d->tar_id }} </td>
 
-            <td class="text-center"> {{ $d->tar_desc }} </td>
+            <td class="text-center">{{$d->tar_valor}} {{ $d->tar_tiempo }} </td>
 
-            <td class="text-center">{{ $d->tar_tiempo }} </td>
-
-            <td class="text-center">{{ $d->tar_precio }} </td>
+            <td class="text-center">S/ {{ $d->tar_precio }} </td>
 
             <td class="text-center">
                 @if ($d->tar_estado == 'Activo')

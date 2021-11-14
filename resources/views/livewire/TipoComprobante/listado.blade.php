@@ -1,7 +1,8 @@
 @extends('actions.listado')
 
 @section('name_component')
-    Tipos de Comprobante
+<i class="fas fa-clipboard-list"></i>
+    Tipos de Comprobante 
 @endsection
 
 {{-------------------- CABECERA DE LA TABLA  -------------------}}

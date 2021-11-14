@@ -6,5 +6,6 @@
     <br>
     @livewire('rentas')
     @include('actions.badge')
-@stop
+    @include('actions.modal') {{-- css para el color de los modals --}}
 
+@stop

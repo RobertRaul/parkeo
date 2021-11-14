@@ -5,7 +5,7 @@
             <li class="nav-item">
                 <a href="#roles_listado" class="nav-link {{ $tab == 'roles' ? 'active' : ''}}" data-toggle="pill"
                     role="tab" wire:click="$set('tab','roles')">
-                    <i class="fas fa-user-tag"></i> Roles</a>
+                    <i class="fas fa-cogs"></i> Roles</a>
             </li>
             <li class="nav-item">
                 <a href="#permisos_listado" class="nav-link {{ $tab == 'permisos' ? 'active' : ''}}" data-toggle="pill"

@@ -1,6 +1,7 @@
 @extends('actions.listado')
 
 @section('name_component')
+<i class="fas fa-car-alt"></i>
 Tipos de Vehiculos
 @endsection
 

@@ -19,7 +19,7 @@ class Tarifas extends Component
     public $pagination = 5;
     public $buscar = '';
     //propiedades
-    public $tar_desc, $tar_tiempo = 'Elegir', $tar_precio;
+    public $tar_valor, $tar_tiempo = 'Elegir', $tar_precio;
     // Id y Actualizar
     public $selected_id = null, $selected_id_edit = null;
     public $updateMode = false;
@@ -40,15 +40,15 @@ class Tarifas extends Component
 
     protected $rules =
     [
-        'tar_desc'  => 'required|unique:tarifas,tar_desc',
+        'tar_valor'  => 'required|numeric',
         'tar_tiempo' => 'not_in:Elegir',
         'tar_precio' => 'required|numeric|between:0,999999.99',
     ];
 
     protected $messages =
     [
-        'tar_desc.required' => 'El campo es requerido',
-        'tip_desc.unique'   => 'Ya existe un registro con ese valor',
+        'tar_valor.required' => 'El campo es requerido',
+        'tar_valor.numeric'   => 'Solo se acepta numeros',
 
         'tar_tiempo.not_in' => 'Seleccione un Tiempo',
 
@@ -61,7 +61,7 @@ class Tarifas extends Component
     {
         //dentro de este mnetodo se pone todas la validacione en vivo
         $this->validateOnly($propertyName, [
-            'tar_desc'  => 'required|unique:tarifas,tar_desc,' . $this->selected_id_edit . ',tar_id',
+            'tar_valor'  => 'required|numeric',
             'tar_tiempo' => 'not_in:Elegir',
             'tar_precio' => 'required|numeric|between:0,999999.99',
         ]);
@@ -82,7 +82,7 @@ class Tarifas extends Component
     //limpiar los inputs
     public function resetInput()
     {
-        $this->tar_desc = null;
+        $this->tar_valor = null;
         $this->tar_tiempo = 'Elegir';
         $this->tar_precio = null;
 
@@ -103,7 +103,7 @@ class Tarifas extends Component
     {
         $datos =
             [
-                'tar_desc' => $this->tar_desc,
+                'tar_valor' => $this->tar_valor,
                 'tar_tiempo' => $this->tar_tiempo,
                 'tar_precio' => $this->tar_precio,
             ];
@@ -115,7 +115,7 @@ class Tarifas extends Component
             $this->emit('msgOK', 'Registro Creado');
         } else {
             $this->validate([
-                'tar_desc'  => 'required|unique:tarifas,tar_desc,' . $this->selected_id_edit . ',tar_id',
+                'tar_valor'  => 'required|numeric',
                 'tar_tiempo' => 'not_in:Elegir',
                 'tar_precio' => 'required|numeric|between:0,999999.99',
             ]);
@@ -130,7 +130,7 @@ class Tarifas extends Component
     {
         $data = Tarifa::findOrFail($id);
         $this->selected_id_edit = $id;
-        $this->tar_desc = $data->tar_desc;
+        $this->tar_valor = $data->tar_valor;
         $this->tar_tiempo = $data->tar_tiempo;
         $this->tar_precio = $data->tar_precio;
 

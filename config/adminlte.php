@@ -234,55 +234,55 @@ return [
         [
             'text' => 'Tipo Comprobante',
             'url' => 'tipocomprobante',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'fas fa-clipboard-list',
         ],
         //Series
         [
             'text' => 'Series',
             'url' => 'series',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'fas fa-digital-tachograph',
         ],
         //Tipos
         [
             'text' => 'Tipos Vehiculos',
             'url' => 'tipos',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'fas fa-car-alt',
         ],
         //Tarifas
         [
             'text' => 'Tarifa',
             'url' => 'tarifas',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'fas fa-money-bill',
         ],
         //Cajones
         [
             'text' => 'Cajones',
             'url' => 'cajones',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'fas fa-square-full',
         ],
         //Tipo de Documento
         [
             'text' => 'Tipo de Documento',
             'url' => 'tipodocumento',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'far fa-id-card',
         ],
         //Empleado
         [
             'text' => 'Empleados',
             'url' => 'empleados',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'fas fa-user-friends',
         ],
         //Usuarios
         [
             'text' => 'Usuarios',
             'url' => 'usuarios',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'fas fa-users-cog',
         ],
         //Permisos
         [
             'text' => 'Permisos',
             'url' => 'permisos',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'fas fa-key',
         ],
         //Cajas
         [
@@ -475,6 +475,26 @@ return [
                     'type' => 'js',
                     'asset' => true,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js',
+                ],
+            ],
+        ],
+        'TempusDominusBs4' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/moment/moment.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'vendor/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css',
                 ],
             ],
         ],

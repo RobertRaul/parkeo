@@ -21,6 +21,8 @@ use Livewire\WithFileUploads;
 use Intervention\Image\ImageManagerStatic as Image;
 
 use App\Models\Ingreso;
+use App\Models\Serie;
+use PhpParser\Node\Expr\FuncCall;
 
 class Rentas extends Component
 {
@@ -44,48 +46,58 @@ class Rentas extends Component
     // Id y Ver Estado
     public $selected_id = null, $selected_id_edit = null;
 
-    public $viewmode = false, $accion = 0; //0 = Listado - 1 = Registro;
+    public $viewmode = false, $accion = 2; //0 = Listado - 1 = Registro;
 
     //array publicas
     public $tarifas, $cajones, $clientes, $tipodoc, $series;
     public $clie_findID;
 
     //booleanos para verificar si el vehiculo se VEHICULO GENERAL Y Si el cliente es CLIENTE GENERAL
-    public $vehiculo_general ="si", $cliente_general ="si";
+    public $vehiculo_general = "si", $cliente_general = "si";
 
     //propiedades para registrar el ingreso
-    public $ing_cajid,$ing_rentid,$ing_serid='Elegir',$ing_serie ,$ing_numero,$ing_tppago='Elegir',$ing_nref,$ing_subtotal,$ing_igv,$ing_total,$ing_motivo;
+    public $ing_cajid, $ing_rentid, $ing_serid = 'Elegir', $ing_serie, $ing_numero, $ing_tppago = 'Elegir', $ing_nref, $ing_subtotal, $ing_igv, $ing_total, $ing_motivo;
 
     //Caja
     public $caja_aperturada;
 
-    public function render()
+    //prueba
+    public $fecha_ing, $fecha_sal,$rentas;
+
+    public function mount()
     {
-        $caja =DB::select("SELECT caj_id FROM cajas WHERE caj_st='Open' and caj_usid= ?",[Auth::id()]);
-        $cantidad=count($caja);
-        dd($caja);
-        if($cantidad>0)
-        {
-            $this->caj_codigo=$caja[0]->caj_id;
-        }
+        //  $caja =DB::select("SELECT caj_id FROM cajas WHERE caj_st='Open' and caj_usid= ?",[Auth::id()]);
+        $caj = Caja::where('caj_st', 'Open')
+            ->where('caj_usid', Auth::id())
+            ->whereDate('caj_feaper', DB::raw('CURDATE()'))
+            ->get();
+
+        $cantidad = count($caj);
+
+        if ($cantidad > 0)
+            $this->caja_aperturada = $caj[0]->caj_id;
         else
-        {
-            $this->caj_codigo=-1;
-        }
+            $this->caja_aperturada = -1;
+
 
         $this->tarifas = Tarifa::where('tar_estado', 'Activo')->get();
         $this->tipodoc = TipoDocumento::where('tpdi_estado', 'Activo')->whereNotIn('tpdi_id', [1])->get();
-
-        $this->cajones = DB::table('cajones')
-            ->select('*', DB::RAW("'' AS barcode"), DB::RAW("'' AS tarifa_id"))
-            ->join('tipo_vehiculo', 'tip_id', '=', 'caj_tipoid')
-            ->orderBy('caj_id', 'asc')
-            ->get();
-
         $this->clientes = Cliente::where('clie_estado', 'Activo')->whereNotIn('clie_id', [1])->get();
+        $this->series = Serie::where('ser_estado','Activo')->get();
+        $this->rentas =Renta::all() ;
+    }
+
+    public function render()
+    {
+        $this->cajones = DB::table('cajones')
+        ->select('*', DB::RAW("'' AS barcode"), DB::RAW("'' AS tarifa_id"))
+        ->join('tipo_vehiculo', 'tip_id', '=', 'caj_tipoid')
+        ->orderBy('caj_id', 'asc')
+        ->get();
+        //********************************************************************* */
+
 
         return view('livewire.rentas.listado');
-
     }
     protected $rules =
     [
@@ -168,6 +180,9 @@ class Rentas extends Component
         $this->clie_celular = null;
         $this->clie_email = null;
 
+        $this->ing_serid = 'Elegir';
+        $this->ing_tppago='Elegir';
+
         $this->viewmode = false;
 
         $this->accion = 0;
@@ -237,8 +252,20 @@ class Rentas extends Component
 
     protected $listeners = [
         'ticketrenta' => 'ticket_renta',
-        'cargar_data' => 'buscar_paciente'
+        'cargar_data' => 'buscar_paciente',
+        'renta_mensaje' => 'renta_mensaje',
+        'doCheckOut' => 'doCheckOut'
     ];
+
+    public function renta_mensaje()
+    {
+        $this->emit('msgERROR', 'Debe Realiza una apertura de caja para el dia de hoy');
+    }
+
+    public function doCheckOut()
+    {
+       
+    }
 
     //meotod registrar y actualizar
     public function ticket_renta()
@@ -276,7 +303,7 @@ class Rentas extends Component
             {
                 if ($this->clie_id > 0) {
 
-                        $datos['rent_client'] = $this->clie_id; //cargamos el ID recuperado a la renta
+                    $datos['rent_client'] = $this->clie_id; //cargamos el ID recuperado a la renta
 
                 } else {
                     $this->validate([
@@ -378,7 +405,7 @@ class Rentas extends Component
             'ing_tppago.not_in' => 'Selecciona un tipo de pago',
         ];
 
-          //ejecutamos las validaciones
+        //ejecutamos las validaciones
         $this->validate($rules, $customMessages);
 
         //iniciamos la transaccion
@@ -386,9 +413,9 @@ class Rentas extends Component
 
         try {
             //buscamos la caja activa del usuario
-            $caja = Caja::where('caj_st','Aperturado')->where('caj_usid',Auth::id());
+            $caja = Caja::where('caj_st', 'Aperturado')->where('caj_usid', Auth::id());
 
-            $datos =[
+            $datos = [
                 'ing_cajid' => $this->ing_cajid,
                 'ing_rentid' => $this->ing_rentid,
                 'ing_serid' => $this->ing_serid,
@@ -401,12 +428,8 @@ class Rentas extends Component
                 'ing_total' => $this->ing_total,
                 'ing_usid' => Auth::id(),
             ];
-
-        }
-        catch (\Throwable $th)
-        {
+        } catch (\Throwable $th) {
             //throw $th;
         }
     }
-
 }

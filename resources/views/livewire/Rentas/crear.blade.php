@@ -1,19 +1,18 @@
-<section id="Crear">
-    <div class="card card-success">
+    <div class="card card-primary">
         <div class="card-header">
-            <h3 class="card-title">Registrar Renta</h3>
+            <h5 class="text-center"><b>TICKET DE RENTA</b></h5>               
         </div>
         <div class="card-body">
             <div class="widget-one">
                 <!--div titulo y boton regersar -->
                 <div class="row">
                     <div class="col-2">
-                        <button class="btn btn-danger" wire:click="$set('accion',0)">
+                        <button class="btn btn-danger" wire:click="cancel()">
                             <i class="fas fa-arrow-left"></i>
                         </button>
                     </div>
                     <div class="col-8">
-                        <h5 class="text-center"><b>TICKET DE RENTA</b></h5>                    
+                       
                     </div>
                     <div class="col-2 text-right">
                         <label></label>
@@ -210,8 +209,8 @@
                         <label class="text-danger">Tarifa</label>
                         <select wire:model="rent_tarifa" class="form-control">
                           <option value="Elegir">Elegir</option>
-                          @foreach ($tarifas as $t)
-                              <option value="{{$t->tar_id}}" class="form-control">{{$t->tar_desc}} - Precio: S/ {{$t->tar_precio}} * {{$t->tar_tiempo}}</option>
+                          @foreach ($tarifas as $t)                          
+                                <option value="{{$t->tar_id}}" class="form-control">{{$t->tar_valor}} {{$t->tar_tiempo}} * S/ {{$t->tar_precio}} </option>                           
                           @endforeach
                         </select>
                         @error('rent_tarifa') <span class="error text-danger">{{ $message }}</span> @enderror
@@ -223,9 +222,6 @@
             </div>
         </div>        
     </div>
-
-</section>
-
 
 <script>
 

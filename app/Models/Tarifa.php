@@ -11,13 +11,13 @@ class Tarifa extends Model
     protected $primaryKey="tar_id";
     public $timestamps = false;
 
-    protected $fillable= ['tar_desc','tar_tiempo','tar_precio','tar_estado'];
+    protected $fillable= ['tar_valor','tar_tiempo','tar_precio','tar_estado'];
 
     public function scopeSearch($query,$value)
     {
         return $query
         ->where('tar_id','like','%'. $value .'%')
-        ->orWhere('tar_desc','like','%' . $value . '%')
+        ->orWhere('tar_valor','like','%' . $value . '%')
         ->orWhere('tar_tiempo','like','%' . $value . '%')
         ->orWhere('tar_precio','like','%' . $value . '%')
         ->orWhere('tar_estado','like','%' . $value . '%');

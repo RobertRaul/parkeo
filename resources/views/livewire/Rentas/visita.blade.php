@@ -1,7 +1,7 @@
 <div wire:ignore.self class="modal fade" id="modalTicket" data-backdrop="static" tabindex="-1" role="dialog"   aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header modal-header-success">
+            <div class="modal-header modal-header-primary">
                 <h5 class="modal-title">Generar Ticket Rapido</h5>
             </div>
             <div class="modal-body">
@@ -11,7 +11,7 @@
                         <select wire:model="rent_tarifa" class="form-control">
                           <option value="Elegir">Elegir</option>
                           @foreach ($tarifas as $t)
-                              <option value="{{$t->tar_id}}" class="form-control">{{$t->tar_desc}} - Precio: S/ {{$t->tar_precio}} * {{$t->tar_tiempo}}</option>
+                              <option value="{{$t->tar_id}}" class="form-control">{{$t->tar_valor}} {{$t->tar_tiempo}} * S/ {{$t->tar_precio}} </option>
                           @endforeach
                         </select>
                         @error('rent_tarifa') <span class="error text-danger">{{ $message }}</span> @enderror
