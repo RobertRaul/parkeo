@@ -230,131 +230,96 @@ return [
             'type' => 'sidebar-menu-search',
             'text' => 'search',
         ],
-        //Tipo de Comprobante
         [
-            'text' => 'Tipo Comprobante',
-            'url' => 'tipocomprobante',
-            'icon' => 'fas fa-clipboard-list',
+            'text' => 'Configuracion',
+            'icon'    => 'fas fa-cog',
+            'submenu' => [
+                    //Tipos
+                    [
+                        'text' => 'Tipos Vehiculos',
+                        'url' => 'tipos',
+                        'icon' => 'fas fa-car-alt',
+                    ],
+                      //Tipo de Comprobante
+                    [
+                        'text' => 'Tipo Comprobante',
+                        'url' => 'tipocomprobante',
+                        'icon' => 'fas fa-clipboard-list',
+                    ],
+                    //Tipo de Documento
+                    [
+                        'text' => 'Tipo de Documento',
+                        'url' => 'tipodocumento',
+                        'icon' => 'far fa-id-card',
+                    ],
+                ],
         ],
-        //Series
         [
-            'text' => 'Series',
-            'url' => 'series',
-            'icon' => 'fas fa-digital-tachograph',
+            'text' => 'Mantenimiento',
+            'icon'    => 'fas fa-file-signature',
+            'submenu' => [
+                     //Tarifas
+                    [
+                        'text' => 'Tarifa',
+                        'url' => 'tarifas',
+                        'icon' => 'fas fa-money-bill',
+                    ],
+                    //Cajones
+                    [
+                        'text' => 'Cajones',
+                        'url' => 'cajones',
+                        'icon' => 'fas fa-parking',
+                    ],
+                    //Empleado
+                    [
+                        'text' => 'Empleados',
+                        'url' => 'empleados',
+                        'icon' => 'fas fa-user-friends',
+                    ],
+                      //Clientes
+                    [
+                    'text' => 'Clientes',
+                    'url' => 'clientes',
+                    'icon' => 'fas fa-fw fa-user',
+                    ],
+                      //Series
+                      [
+                        'text' => 'Series',
+                        'url' => 'series',
+                        'icon' => 'fas fa-digital-tachograph',
+                    ],
+            ],
         ],
-        //Tipos
         [
-            'text' => 'Tipos Vehiculos',
-            'url' => 'tipos',
-            'icon' => 'fas fa-car-alt',
+            'text' => 'Seguridad',
+            'icon'    => 'fas fa-shield-alt',
+            'submenu' =>[
+                    //Permisos
+                    [
+                        'text' => 'Permisos',
+                        'url' => 'permisos',
+                        'icon' => 'fas fa-key',
+                    ],
+                    //Usuarios
+                    [
+                        'text' => 'Usuarios',
+                        'url' => 'usuarios',
+                        'icon' => 'fas fa-users-cog',
+                    ],
+
+            ],
         ],
-        //Tarifas
-        [
-            'text' => 'Tarifa',
-            'url' => 'tarifas',
-            'icon' => 'fas fa-money-bill',
-        ],
-        //Cajones
-        [
-            'text' => 'Cajones',
-            'url' => 'cajones',
-            'icon' => 'fas fa-square-full',
-        ],
-        //Tipo de Documento
-        [
-            'text' => 'Tipo de Documento',
-            'url' => 'tipodocumento',
-            'icon' => 'far fa-id-card',
-        ],
-        //Empleado
-        [
-            'text' => 'Empleados',
-            'url' => 'empleados',
-            'icon' => 'fas fa-user-friends',
-        ],
-        //Usuarios
-        [
-            'text' => 'Usuarios',
-            'url' => 'usuarios',
-            'icon' => 'fas fa-users-cog',
-        ],
-        //Permisos
-        [
-            'text' => 'Permisos',
-            'url' => 'permisos',
-            'icon' => 'fas fa-key',
-        ],
-        //Cajas
-        [
+         //Cajas
+         [
             'text' => 'Cajas',
             'url' => 'cajas',
             'icon' => 'fas fa-fw fa-user',
         ],
-          //Clientes
-          [
-            'text' => 'Clientes',
-            'url' => 'clientes',
-            'icon' => 'fas fa-fw fa-user',
-        ],
           //Rentas
-          [
+        [
             'text' => 'Rentas',
             'url' => 'rentas',
             'icon' => 'fas fa-fw fa-user',
-        ],
-        [
-            'text'    => 'multilevel',
-            'icon'    => 'fas fa-fw fa-share',
-            'submenu' => [
-                [
-                    'text' => 'level_one',
-                    'url'  => '#',
-                ],
-                [
-                    'text'    => 'level_one',
-                    'url'     => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url'  => '#',
-                        ],
-                        [
-                            'text'    => 'level_two',
-                            'url'     => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'text' => 'level_one',
-                    'url'  => '#',
-                ],
-            ],
-        ],
-        ['header' => 'labels'],
-        [
-            'text'       => 'important',
-            'icon_color' => 'red',
-            'url'        => '#',
-        ],
-        [
-            'text'       => 'warning',
-            'icon_color' => 'yellow',
-            'url'        => '#',
-        ],
-        [
-            'text'       => 'information',
-            'icon_color' => 'cyan',
-            'url'        => '#',
         ],
     ],
 

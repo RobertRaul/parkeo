@@ -46,7 +46,7 @@ class Rentas extends Component
     // Id y Ver Estado
     public $selected_id = null, $selected_id_edit = null;
 
-    public $viewmode = false, $accion = 2; //0 = Listado - 1 = Registro;
+    public $viewmode = false, $accion = 0; //0 = Listado - 1 = Registro;
 
     //array publicas
     public $tarifas, $cajones, $clientes, $tipodoc, $series;
@@ -264,7 +264,7 @@ class Rentas extends Component
 
     public function doCheckOut()
     {
-       
+
     }
 
     //meotod registrar y actualizar
