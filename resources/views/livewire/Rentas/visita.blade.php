@@ -8,10 +8,12 @@
                 <form>
                     <div class="form-group">
                         <label>Tarifa</label>
-                        <select wire:model="rent_tarifa" class="form-control">
+                        <select wire:model="rent_tarifa" class="form-control text-danger">
                           <option value="Elegir">Elegir</option>
                           @foreach ($tarifas as $t)
-                              <option value="{{$t->tar_id}}" class="form-control">{{$t->tar_valor}} {{$t->tar_tiempo}} * S/ {{$t->tar_precio}} </option>
+                            <option value="{{$t->tar_id}}" class="form-control"> {{$t->tar_valor}} {{$t->tar_tiempo}} * S/ {{$t->tar_precio}}                                 
+                              - Tolerancia: {{$t->tar_tolerancia}} Minutos
+                            </option>
                           @endforeach
                         </select>
                         @error('rent_tarifa') <span class="error text-danger">{{ $message }}</span> @enderror

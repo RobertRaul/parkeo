@@ -21,7 +21,10 @@
         @include('actions.headerorder',['campo_a_ordenar' => 'tar_tiempo'])Tiempo</th>
 
     <th class="text-center" wire:click="Header_Orderby('tar_precio')" class="text-center" style="cursor: pointer;">
-        @include('actions.headerorder',['campo_a_ordenar' => 'tar_precio']) Precio</th>
+        @include('actions.headerorder',['campo_a_ordenar' => 'tar_precio']) Costo por Hora</th>
+        
+    <th class="text-center" wire:click="Header_Orderby('tar_tolerancia')" class="text-center" style="cursor: pointer;">
+        @include('actions.headerorder',['campo_a_ordenar' => 'tar_tolerancia']) Tolerancia en Minutos</th>
 
     <th class="text-center" wire:click="Header_Orderby('tar_estado')" class="text-center" style="cursor: pointer;">
         @include('actions.headerorder',['campo_a_ordenar' => 'tar_estado']) Estado</th>
@@ -37,6 +40,8 @@
             <td class="text-center">{{$d->tar_valor}} {{ $d->tar_tiempo }} </td>
 
             <td class="text-center">S/ {{ $d->tar_precio }} </td>
+
+            <td class="text-center">{{ $d->tar_tolerancia }}  Minutos</td>
 
             <td class="text-center">
                 @if ($d->tar_estado == 'Activo')

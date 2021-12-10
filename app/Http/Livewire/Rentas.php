@@ -35,7 +35,7 @@ class Rentas extends Component
     public $OrderBy = 'desc';
 
     //propiedades
-    public $rent_tarifa = 'Elegir', $rent_client, $rent_cajonid = 'Elegir', $rent_llaves = 'Elegir', $rent_obser, $rent_codigo;
+    public $rent_tarifa = 'Elegir', $rent_client, $rent_cajonid = 'Elegir', $rent_llaves = 'Elegir', $rent_obser, $barcode;
 
     //propiedades para registrar un vehiculo
     public $veh_placa, $veh_modelo, $veh_marca, $veh_color, $veh_foto;
@@ -49,7 +49,7 @@ class Rentas extends Component
     public $viewmode = false, $accion = 0; //0 = Listado - 1 = Registro;
 
     //array publicas
-    public $tarifas, $cajones, $clientes, $tipodoc, $series;
+    public $tarifas, $clientes, $tipodoc, $series;
     public $clie_findID;
 
     //booleanos para verificar si el vehiculo se VEHICULO GENERAL Y Si el cliente es CLIENTE GENERAL
@@ -62,7 +62,10 @@ class Rentas extends Component
     public $caja_aperturada;
 
     //prueba
-    public $fecha_ing, $fecha_sal,$rentas;
+    public $fecha_ing, $fecha_sal, $rentas;
+
+    //informacion para mostrar rentas
+    public $data_rent;
 
     public function mount()
     {
@@ -83,21 +86,26 @@ class Rentas extends Component
         $this->tarifas = Tarifa::where('tar_estado', 'Activo')->get();
         $this->tipodoc = TipoDocumento::where('tpdi_estado', 'Activo')->whereNotIn('tpdi_id', [1])->get();
         $this->clientes = Cliente::where('clie_estado', 'Activo')->whereNotIn('clie_id', [1])->get();
-        $this->series = Serie::where('ser_estado','Activo')->get();
-        $this->rentas =Renta::all() ;
+        $this->series = Serie::where('ser_estado', 'Activo')->get();
+        $this->rentas = Renta::all();
     }
 
     public function render()
     {
-        $this->cajones = DB::table('cajones')
-        ->select('*', DB::RAW("'' AS barcode"), DB::RAW("'' AS tarifa_id"))
-        ->join('tipo_vehiculo', 'tip_id', '=', 'caj_tipoid')
-        ->orderBy('caj_id', 'asc')
-        ->get();
+        $cajones = DB::table('cajones')
+            ->select('*', DB::RAW("'' AS rentaid"), DB::RAW("'' AS tarifa_id"))
+            ->join('tipo_vehiculo', 'tip_id', '=', 'caj_tipoid')
+            ->orderBy('caj_id', 'asc')
+            ->get();
+
+        foreach ($cajones as $c) {
+        }
         //********************************************************************* */
 
 
-        return view('livewire.rentas.listado');
+        return view('livewire.rentas.listado', [
+            'cajones' => $cajones
+        ]);
     }
     protected $rules =
     [
@@ -181,7 +189,7 @@ class Rentas extends Component
         $this->clie_email = null;
 
         $this->ing_serid = 'Elegir';
-        $this->ing_tppago='Elegir';
+        $this->ing_tppago = 'Elegir';
 
         $this->viewmode = false;
 
@@ -254,17 +262,12 @@ class Rentas extends Component
         'ticketrenta' => 'ticket_renta',
         'cargar_data' => 'buscar_paciente',
         'renta_mensaje' => 'renta_mensaje',
-        'doCheckOut' => 'doCheckOut'
+        'darSalida' => 'MostrarTotales'
     ];
 
     public function renta_mensaje()
     {
         $this->emit('msgERROR', 'Debe Realiza una apertura de caja para el dia de hoy');
-    }
-
-    public function doCheckOut()
-    {
-
     }
 
     //meotod registrar y actualizar
@@ -431,5 +434,88 @@ class Rentas extends Component
         } catch (\Throwable $th) {
             //throw $th;
         }
+    }
+
+    //RECUPERAR INFORMACION DEL TICKET
+    public function MostrarTotales($id_cajon)
+    {        
+        $rent = null;
+        //si el ID de la renta es diferente de vacio entones ESTAN BUSCANDO POR EL CODIGO DE BARRAS
+        if ($id_cajon != '') 
+        {
+            $rent = Renta::where('rent_cajonid', $id_cajon)
+                ->select('*', DB::RAW("'' as tiempo"), DB::RAW("0 as Total"))
+                ->where('rent_estado', 'Abierto')
+                ->orderBy('rent_id', 'desc')
+                ->first();
+        } 
+        else if($this->barcode != null)
+        {
+            $rent = Renta::where('rent_id',$this->barcode)
+            ->select('*', DB::RAW("'' as tiempo"), DB::RAW("0 as Total"))
+            ->where('rent_estado', 'Abierto')
+            ->orderBy('rent_id', 'desc')
+            ->first();         
+        }
+
+        if ($rent != null) {
+            $inicio = Carbon::parse($rent->rent_feching);
+            $final = new \DateTime(Carbon::now());
+
+            $rent->tiempo = $inicio->diffInHours($final) . ':' . $inicio->diff($final)->format('%I:%S'); //diferencia en horas + diferencia en segundos
+
+            $rent->Total = $this->calculateTotal($inicio, $rent->rent_tarid);
+
+            $this->data_rent = $rent;
+            $this->emit('openIngreso');
+        } 
+        else 
+        {
+            $this->emit('msgERROR', 'No existe el registro');         
+            return;
+        }
+    }
+
+    //método que calcula el total a cobrar
+    public function calculateTotal($fech_inicio, $tarifaId, $toDate = '')
+    {
+        $fraccion = 0;
+        $tarifa = Tarifa::where('tar_id', $tarifaId)->first();
+        $start  =  Carbon::parse($fech_inicio);
+        $end    =  new \DateTime(Carbon::now());
+        if (!$toDate == '')
+            $end = Carbon::parse($toDate);
+
+        // $tiempo = $start->diffInHours($end) . ':' . $start->diff($end)->format('%I:%S'); //dif en horas + dif en min y seg
+        $minutos = $start->diffInMinutes($end);
+        $horasCompletas = $start->diffInHours($end);
+
+        //tolerancia
+        $tolerancia =  $tarifa->tar_tolerancia;
+        if ($minutos <= (60 + $tolerancia)) //SI EL TIEMPO EN MINNUTOS es igual a LA HORA + LA TOLERENCIA
+        {
+            $fraccion = $tarifa->tar_precio;
+        } else {
+            $m = ($minutos % 60);
+            if (in_array($m, range(0, $tolerancia))) { // después de la 1ra hora, se dan $tolerancia minutos de tolerancia al cliente
+                //
+            } else if (in_array($m, range(6, 30))) {
+                $fraccion = ($tarifa->tar_precio / 2);   //después de la 1ra hora, del minuto 6 al 30 se cobra 50% de la tarifa QUE TENGA
+            } else if (in_array($m, range(31, 59))) {
+                $fraccion = $tarifa->tar_precio;    //después de la 1ra hora, del minuto 31-60 se cobra tarifa completa QUE TENGA
+            }
+        }
+        //retornamos el total a cobrar
+        $total = (($horasCompletas * $tarifa->costo) + $fraccion);
+        return $total;
+    }
+
+    //método para calcular el tiempo que estuvo el vehículo en el estacionamiento
+    public function CalcularTiempo($fechaEntrada)
+    {
+        $start  =  Carbon::parse($fechaEntrada);
+        $end    = new \DateTime(Carbon::now());
+        $tiempo = $start->diffInHours($end) . ':' . $start->diff($end)->format('%I:%S');
+        return $tiempo;
     }
 }

@@ -260,7 +260,7 @@ return [
             'submenu' => [
                      //Tarifas
                     [
-                        'text' => 'Tarifa',
+                        'text' => 'Tarifas',
                         'url' => 'tarifas',
                         'icon' => 'fas fa-money-bill',
                     ],
@@ -268,7 +268,7 @@ return [
                     [
                         'text' => 'Cajones',
                         'url' => 'cajones',
-                        'icon' => 'fas fa-parking',
+                        'icon' => 'fas fa-grip-horizontal',
                     ],
                     //Empleado
                     [
@@ -313,13 +313,13 @@ return [
          [
             'text' => 'Cajas',
             'url' => 'cajas',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'fas fa-cash-register',
         ],
           //Rentas
         [
             'text' => 'Rentas',
             'url' => 'rentas',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'fas fa-parking',
         ],
     ],
 

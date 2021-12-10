@@ -8,72 +8,81 @@
             <div class="modal-body">
                 <form action="">
                     <!--div Datos del Cliente -->
-                    <div class="form-group">
-                        <label>Serie</label>
-                        <div class="input-group mb-2 mr-sm-2">
-                            <select class="form-control" wire:model="ing_serid">
-                                <option value="Elegir">Elegir</option>
-                                @foreach ($series as $s)
-                                    <option value="{{ $s->ser_id }}"> {{ $s->ser_serie }} </option>
-                                @endforeach
-                            </select>
+                    <div class="row">
+                        <div class="form-group col-4">
+                            <label>Serie</label>
+                            <div class="input-group mb-2 mr-sm-2">
+                                <select class="form-control" wire:model="ing_serid">
+                                    <option value="Elegir">Elegir</option>
+                                    @foreach ($series as $s)
+                                        <option value="{{ $s->ser_id }}"> {{ $s->ser_serie }} </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @error('ing_serid') <span class="error text-danger"
+                                    id="numdoc_message">{{ $message }}</span>
+                            @enderror
                         </div>
-                        @error('ing_serid') <span class="error text-danger"
-                                id="numdoc_message">{{ $message }}</span>
-                        @enderror
+
+                        <div class="form-group col-4">
+                            <label>Tp. Pago</label>
+                            <div class="input-group mb-2 mr-sm-2">
+                                <select class="form-control" wire:model="ing_tppago">
+                                    <option value="Elegir">Elegir</option>
+                                    <option value="Efectivo">Efectivo</option>
+                                    <option value="Mastercard">Mastercard</option>
+                                    <option value="Visa">Visa</option>
+                                </select>
+                            </div>
+                            @error('ing_tppago') <span class="error text-danger"
+                                    id="numdoc_message">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="form-group col-3">
+                            <label>Nro Ref</label>
+                            <div class="input-group mb-2 mr-sm-2">
+                                <input wire:model="ing_nref" type="text" class="form-control" maxlength="11">
+                            </div>
+                            @error('ing_nref') <span class="error text-danger"
+                                    id="numdoc_message">{{ $message }}</span>
+                            @enderror
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>Tp. Pago</label>
-                        <div class="input-group mb-2 mr-sm-2">
-                            <select class="form-control" wire:model="ing_tppago">
-                                <option value="Elegir">Elegir</option>
-                                <option value="Efectivo">Efectivo</option>
-                                <option value="Mastercard">Mastercard</option>
-                                <option value="Visa">Visa</option>
-                            </select>
-                        </div>
-                        @error('ing_tppago') <span class="error text-danger"
-                                id="numdoc_message">{{ $message }}</span>
-                        @enderror
-                    </div>
+                    
 
-                    <div class="form-group">
-                        <label>Nro Ref</label>
-                        <div class="input-group mb-2 mr-sm-2">
-                            <input wire:model="ing_nref" type="text" class="form-control" maxlength="11">
+                    <div class="row">
+                        <div class="form-group col-4">
+                            <label>Subtotal</label>
+                            <div class="input-group mb-2 mr-sm-2">
+                                <input wire:model="ing_subtotal" type="text" class="form-control" maxlength="11"
+                                    disabled>
+                            </div>
+                            @error('ing_subtotal') <span class="error text-danger"
+                                id="numdoc_message">{{ $message }}</span> @enderror
                         </div>
-                        @error('ing_nref') <span class="error text-danger"
-                                id="numdoc_message">{{ $message }}</span>
-                        @enderror
-                    </div>
 
-                    <div class="form-group">
-                        <label>Subtotal</label>
-                        <div class="input-group mb-2 mr-sm-2">
-                            <input wire:model="ing_subtotal" type="text" class="form-control" maxlength="11" disabled>
+                        <div class="form-group col-4">
+                            <label>IGV</label>
+                            <div class="input-group mb-2 mr-sm-2">
+                                <input wire:model="ing_igv" type="text" class="form-control" maxlength="11" disabled>
+                            </div>
+                            @error('ing_igv') <span class="error text-danger"
+                                    id="numdoc_message">{{ $message }}</span>
+                            @enderror
                         </div>
-                        @error('ing_subtotal') <span class="error text-danger"
-                            id="numdoc_message">{{ $message }}</span> @enderror
-                    </div>
 
-                    <div class="form-group">
-                        <label>IGV</label>
-                        <div class="input-group mb-2 mr-sm-2">
-                            <input wire:model="ing_igv" type="text" class="form-control" maxlength="11" disabled>
+                        <div class="form-group col-4">
+                            <label>Total</label>
+                            <div class="input-group mb-2 mr-sm-2">
+                                <input wire:model="ing_total" type="text" class="form-control" maxlength="11"
+                                    disabled>
+                            </div>
+                            @error('ing_total') <span class="error text-danger"
+                                    id="numdoc_message">{{ $message }}</span>
+                            @enderror
                         </div>
-                        @error('ing_igv') <span class="error text-danger" id="numdoc_message">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="form-group">
-                        <label>Total</label>
-                        <div class="input-group mb-2 mr-sm-2">
-                            <input wire:model="ing_total" type="text" class="form-control" maxlength="11" disabled>
-                        </div>
-                        @error('ing_total') <span class="error text-danger"
-                                id="numdoc_message">{{ $message }}</span>
-                        @enderror
                     </div>
 
                     <div class="form-group">

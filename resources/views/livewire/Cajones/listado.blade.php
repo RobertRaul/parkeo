@@ -1,7 +1,7 @@
 @extends('actions.listado')
 
 @section('name_component')
-<i class="fas fa-square-full"></i>
+<i class="fas fa-grip-horizontal"></i>
     Cajones
 @endsection
 

@@ -20,7 +20,7 @@
         </div>
         <div class="modal-body">
             <form>
-
+{{-- 
                 <div class="form-group">
                     <label>Tarifa Tiempo</label>
                     <select wire:model="tar_tiempo" class="form-control">
@@ -30,18 +30,24 @@
                         <option value="Dia">Dia</option>
                     </select>
                     @error('tar_tiempo') <span class="error text-danger">{{ $message }}</span> @enderror
-                </div>
+                </div> --}}
 
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label for="tar_valor">Valor del Tiempo en: </label> <label class="text-danger"> {{ $tar_tiempo }}</label>
                     <input wire:model="tar_valor" type="text" class="form-control" id="tar_valor">
                     @error('tar_valor') <span class="error text-danger">{{ $message }}</span> @enderror
+                </div> --}}
+
+                <div class="form-group">
+                    <label for="tar_precio">Costo por Hora S/</label>: 
+                    <input wire:model="tar_precio" type="text" class="form-control" id="tar_precio">
+                    @error('tar_precio') <span class="error text-danger">{{ $message }}</span> @enderror
                 </div>
 
                 <div class="form-group">
-                    <label for="tar_precio">Precio </label>
-                    <input wire:model="tar_precio" type="text" class="form-control" id="tar_precio">
-                    @error('tar_precio') <span class="error text-danger">{{ $message }}</span> @enderror
+                    <label for="tar_tolerancia">Tolerancia en minutos: </label>
+                    <input wire:model="tar_tolerancia" type="text" class="form-control" id="tar_tolerancia">
+                    @error('tar_tolerancia') <span class="error text-danger">{{ $message }}</span> @enderror
                 </div>
 
 

@@ -125,6 +125,10 @@
         window.livewire.on('closeModalTicketVisita', () =>{
             $('#modalTicket').modal('hide');
         });
+
+        window.livewire.on('openIngreso', () =>{
+            $('#modalIngreso').modal('show');        
+        });
     </script>
 
 </body>
