@@ -42,7 +42,7 @@
                     </div>
 
                     <div class="form-group col-lg-2 col-md-2 col-sm-12">
-                        <label class="text-danger">Tipo Documento</label>
+                        <label class="text-danger">Tipo Documento:</label>
                         <div class="input-group mb-2 mr-sm-2">
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><i class="fas fa-filter"></i></div>
@@ -58,7 +58,7 @@
                         @enderror
                     </div>
                     <div class="form-group col-lg-2 col-md-2 col-sm-12">
-                        <label class="text-danger">Nro Doc</label>
+                        <label class="text-danger">Nro Doc:</label>
                         <div class="input-group mb-2 mr-sm-2">
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><i class="fas fa-sort-numeric-up-alt"></i></div>
@@ -70,7 +70,7 @@
                     </div>
 
                     <div class="form-group col-lg-3 col-md-3 col-sm-12">
-                        <label class="text-danger">Nombres</label>
+                        <label class="text-danger">Nombres:</label>
                         <div class="input-group mb-2 mr-sm-2">
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><i class="fas fa-text-height"></i></div>
@@ -81,7 +81,7 @@
                         @error('clie_nombres') <span class="error text-danger" id="nombres_message">{{ $message }}</span> @enderror
                     </div>
                     <div class="form-group col-lg-2 col-md-2 col-sm-12">
-                        <label class="text-danger">Celular</label>
+                        <label class="text-danger">Celular:</label>
                         <div class="input-group mb-2 mr-sm-2">
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><i class="fas fa-phone"></i></div>
@@ -92,7 +92,7 @@
                         @error('clie_celular') <span class="error text-danger" id="cel_message">{{ $message }}</span> @enderror
                     </div>
                     <div class="form-group col-lg-3 col-md-3 col-sm-12">
-                        <label for="">Email</label>
+                        <label for="">Email:</label>
                         <div class="input-group mb-2 mr-sm-2">
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><i class="fas fa-at"></i></div>
@@ -120,7 +120,7 @@
                     </div>
 
                     <div class="form-group col-lg-2 col-md-2 col-sm-12">
-                        <label class="text-danger">Placa</label>
+                        <label class="text-danger">Placa:</label>
                         <div class="input-group mb-2 mr-sm-2">
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><i class="fas fa-chess-board"></i></div>
@@ -132,7 +132,7 @@
                     </div>
 
                     <div class="form-group col-lg-2 col-md-2 col-sm-12">
-                        <label class="text-danger">Modelo</label>
+                        <label class="text-danger">Modelo:</label>
                         <div class="input-group mb-2 mr-sm-2">
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><i class="fas fa-car"></i></div>
@@ -144,7 +144,7 @@
                     </div>
 
                     <div class="form-group col-lg-3 col-md-3 col-sm-12">
-                        <label for="">Marca</label>
+                        <label for="">Marca:</label>
                         <div class="input-group mb-2 mr-sm-2">
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><i class="fas fa-stroopwafel"></i></div>
@@ -154,7 +154,7 @@
                     </div>
 
                     <div class="form-group col-lg-2 col-md-2 col-sm-12">
-                        <label for="">Color</label>
+                        <label for="">Color:</label>
                         <div class="input-group mb-2 mr-sm-2">
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><i class="fas fa-tint"></i></div>
@@ -163,7 +163,7 @@
                         </div>
                     </div>
                     <div class="form-group col-lg-3 col-md-3 col-sm-12">
-                        <label for="">Foto</label>
+                        <label for="">Foto:</label>
                         <div class="input-group mb-2 mr-sm-2">
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><i class="fas fa-camera-retro"></i></div>
@@ -177,7 +177,7 @@
                 <div class="row">
 
                     <div class="col-md-2 col-lg-2 col-sm-12">
-                        <label class="text-danger">Cajon</label>
+                        <label class="text-danger">Cajon:</label>
                         <select wire:model="rent_cajonid" class="form-control">
                             <option value="Elegir">Elegir</option>
                          @foreach ($cajones as $ca)
@@ -191,7 +191,7 @@
 
 
                     <div class="col-md-2 col-lg-2 col-sm-12">
-                        <label class="text-danger">Dejo Llaves?</label>
+                        <label class="text-danger">Dejo Llaves:</label>
                         <select wire:model="rent_llaves" class="form-control">
                             <option value="Elegir">Elegir</option>
                             <option value="Si">Si</option>
@@ -201,12 +201,12 @@
                     </div>
 
                     <div class="col-md-4 col-lg-4 col-sm-12">
-                        <label>Observacion</label>
+                        <label>Observacion:</label>
                         <input class="form-control" wire:model="rent_obser">
                     </div>
 
                     <div class="col-md-4 col-lg-4 col-sm-12">
-                        <label class="text-danger">Tarifa</label>
+                        <label class="text-danger">Tarifa:</label>
                         <select wire:model="rent_tarifa" class="form-control text-danger">
                           <option value="Elegir">Elegir</option>
                           @foreach ($tarifas as $t)                          
@@ -217,8 +217,14 @@
                         @error('rent_tarifa') <span class="error text-danger">{{ $message }}</span> @enderror
                     </div>                    
                 </div>
-                <div class="col-md-2 col-lg-2 col-sm-12">                
-                    <button wire:click.prevent="$emit('ticketrenta')" class="btn btn-primary mt-4">Registrar Renta</button>
+                <div class="row">     
+                    <div class="col-lg-10">
+
+                    </div>
+                    <div  class="col-md-2 col-lg-2 col-sm-12">
+                        <button wire:click.prevent="$emit('ticketrenta')" class="btn btn-primary mt-4">Registrar Renta</button>
+                    </div>
+                   
                 </div>
             </div>
         </div>        

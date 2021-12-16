@@ -46,7 +46,7 @@ class Rentas extends Component
     // Id y Ver Estado
     public $selected_id = null, $selected_id_edit = null;
 
-    public $viewmode = false, $accion = 0; //0 = Listado - 1 = Registro;
+    public $viewmode = false, $accion = 0; //0 = Listado - 1 = Registro 2=Cobrar Ingreso;
 
     //array publicas
     public $tarifas, $clientes, $tipodoc, $series;
@@ -387,15 +387,11 @@ class Rentas extends Component
             $this->clie_email = "";
         }
     }
-
-
     //*****************************************INGRESO************************************************** */
 
     public function Ingreso()
     {
-        /*
-        $ing_cajid,$ing_rentid,$ing_serid,$ing_serie,$ing_numero,$ing_tppago='Elegir',$ing_nref,$ing_subtotal,$ing_igv,$ing_total,$ing_estado,$ing_motivo;
-*/
+
         //reglas de validación
         $rules = [
             'ing_serid'     => 'not_in:required',
@@ -437,10 +433,11 @@ class Rentas extends Component
     }
 
     //RECUPERAR INFORMACION DEL TICKET
-    public function MostrarTotales($id_cajon)
+    public function MostrarTotales($id_cajon,$accion = 2)
     {        
-        $rent = null;
-        //si el ID de la renta es diferente de vacio entones ESTAN BUSCANDO POR EL CODIGO DE BARRAS
+       // $rent = null;
+       $this->accion= $accion;
+        //si el ID del cajon esta en vacio entonces buscan por el ID CAJON
         if ($id_cajon != '') 
         {
             $rent = Renta::where('rent_cajonid', $id_cajon)
@@ -449,7 +446,7 @@ class Rentas extends Component
                 ->orderBy('rent_id', 'desc')
                 ->first();
         } 
-        else if($this->barcode != null)
+        else if($this->barcode != null)//buscan por el codigo de barras
         {
             $rent = Renta::where('rent_id',$this->barcode)
             ->select('*', DB::RAW("'' as tiempo"), DB::RAW("0 as Total"))
@@ -462,7 +459,7 @@ class Rentas extends Component
             $inicio = Carbon::parse($rent->rent_feching);
             $final = new \DateTime(Carbon::now());
 
-            $rent->tiempo = $inicio->diffInHours($final) . ':' . $inicio->diff($final)->format('%I:%S'); //diferencia en horas + diferencia en segundos
+            $rent->tiempo = $inicio->diffInHours($final)  . ':' . $inicio->diff($final)->format('%I:%S'); //diferencia en horas + diferencia en segundos
 
             $rent->Total = $this->calculateTotal($inicio, $rent->rent_tarid);
 
@@ -471,7 +468,8 @@ class Rentas extends Component
         } 
         else 
         {
-            $this->emit('msgERROR', 'No existe el registro');         
+            $this->emit('msgERROR', 'No existe el registro'); 
+            $this->barcode='';        
             return;
         }
     }
@@ -495,18 +493,28 @@ class Rentas extends Component
         if ($minutos <= (60 + $tolerancia)) //SI EL TIEMPO EN MINNUTOS es igual a LA HORA + LA TOLERENCIA
         {
             $fraccion = $tarifa->tar_precio;
-        } else {
+        } 
+        else 
+        {
             $m = ($minutos % 60);
-            if (in_array($m, range(0, $tolerancia))) { // después de la 1ra hora, se dan $tolerancia minutos de tolerancia al cliente
+           // dd($m);
+            if (in_array($m, range(0, $tolerancia))) 
+            { // después de la 1ra hora, se dan $tolerancia minutos de tolerancia al cliente
                 //
-            } else if (in_array($m, range(6, 30))) {
+            } 
+            else if (in_array($m, range(6, 30))) 
+            {
                 $fraccion = ($tarifa->tar_precio / 2);   //después de la 1ra hora, del minuto 6 al 30 se cobra 50% de la tarifa QUE TENGA
-            } else if (in_array($m, range(31, 59))) {
+            } 
+            else if (in_array($m, range(31, 59))) 
+            {
                 $fraccion = $tarifa->tar_precio;    //después de la 1ra hora, del minuto 31-60 se cobra tarifa completa QUE TENGA
             }
+           // dd($fraccion);
         }
         //retornamos el total a cobrar
-        $total = (($horasCompletas * $tarifa->costo) + $fraccion);
+     //   dd($horasCompletas,$tarifa->tar_precio,$fraccion);
+        $total = (($horasCompletas * $tarifa->tar_precio) + $fraccion);
         return $total;
     }
 

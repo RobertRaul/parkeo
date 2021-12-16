@@ -85,11 +85,13 @@
                     @endif
                 </div>
             </div>
-            @include('livewire.rentas.ingreso')
+            
         </div>
     @elseif($accion==1)
         @include('livewire.rentas.crear')
-    @elseif($accion==2)
+    @elseif($accion==2)       
+        @include('livewire.rentas.ingreso')
+    @elseif($accion==3)
         @include('livewire.rentas.probando')
     @endif
 </div>

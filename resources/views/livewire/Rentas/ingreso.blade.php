@@ -2,15 +2,64 @@
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header modal-header-danger">
-                <h5 class="text-center">TICKET DE SALIDA</h5>
+            <div class="modal-header modal-header-success">
+                <h5 class="text-center" style="color: white">TICKET DE SALIDA</h5>
             </div>
             <div class="modal-body">
                 <form action="">
-                    <!--div Datos del Cliente -->
+                    <!--div Datos del Iniciales -->
                     <div class="row">
                         <div class="form-group col-4">
-                            <label>Serie</label>
+                            <label class="text-danger">Codigo:</label>
+                            <div class="input-group mb-2 mr-sm-2">
+                                {{ $data_rent->rent_id }}
+                            </div>
+                        </div>
+
+                        <div class="form-group col-4">
+                            <label class="text-danger">Tarifa:</label>
+                            <div class="input-group mb-2 mr-sm-2">
+                                {{ $data_rent->Tarifas->tar_precio }} x {{ $data_rent->Tarifas->tar_tiempo }}
+                            </div>
+                        </div>
+
+                        <div class="form-group col-4">
+                            <label class="text-danger">Tolerancia:</label>
+                            <div class="input-group mb-2 mr-sm-2">
+                                {{ $data_rent->Tarifas->tar_tolerancia }} Minutos
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">      
+                        <div class="form-group col-4">
+                            <label class="text-danger">Fecha Ingreso:</label>
+                            <div class="input-group mb-2 mr-sm-2">
+                                {{ \Carbon\Carbon::parse($data_rent->rent_feching)->format('d/m/Y H:m:s') }}
+                            </div>
+                        </div>
+
+                        <div class="form-group col-4" wire:ignore>
+                            <label class="text-danger">T. Transcurrido:</label>
+                            <div class="input-group mb-2 mr-sm-2">
+                                {{ $data_rent->tiempo }}
+                            </div>
+                        </div>
+
+                        <div class="form-group col-4" wire:ignore>
+                            <label class="text-danger">Total</label>
+                            <div class="input-group mb-2 mr-sm-2">
+                                S/ {{ number_format($data_rent->Total, 2) }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--div Datos del pago -->
+                    <div class="row">
+                        <div class="form-group col-4">
+                            <label class="text-danger">Serie</label>
                             <div class="input-group mb-2 mr-sm-2">
                                 <select class="form-control" wire:model="ing_serid">
                                     <option value="Elegir">Elegir</option>
@@ -19,13 +68,12 @@
                                     @endforeach
                                 </select>
                             </div>
-                            @error('ing_serid') <span class="error text-danger"
-                                    id="numdoc_message">{{ $message }}</span>
+                            @error('ing_serid') <span class="error text-danger">{{ $message }}</span>
                             @enderror
                         </div>
 
                         <div class="form-group col-4">
-                            <label>Tp. Pago</label>
+                            <label class="text-danger">Tp. Pago</label>
                             <div class="input-group mb-2 mr-sm-2">
                                 <select class="form-control" wire:model="ing_tppago">
                                     <option value="Elegir">Elegir</option>
@@ -34,56 +82,20 @@
                                     <option value="Visa">Visa</option>
                                 </select>
                             </div>
-                            @error('ing_tppago') <span class="error text-danger"
-                                    id="numdoc_message">{{ $message }}</span>
+                            @error('ing_tppago') <span class="error text-danger">{{ $message }}</span>
                             @enderror
                         </div>
 
                         <div class="form-group col-3">
-                            <label>Nro Ref</label>
+                            <label class="text-danger">Nro Ref</label>
                             <div class="input-group mb-2 mr-sm-2">
                                 <input wire:model="ing_nref" type="text" class="form-control" maxlength="11">
                             </div>
-                            @error('ing_nref') <span class="error text-danger"
-                                    id="numdoc_message">{{ $message }}</span>
+                            @error('ing_nref') <span class="error text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
 
-                    
-
-                    <div class="row">
-                        <div class="form-group col-4">
-                            <label>Subtotal</label>
-                            <div class="input-group mb-2 mr-sm-2">
-                                <input wire:model="ing_subtotal" type="text" class="form-control" maxlength="11"
-                                    disabled>
-                            </div>
-                            @error('ing_subtotal') <span class="error text-danger"
-                                id="numdoc_message">{{ $message }}</span> @enderror
-                        </div>
-
-                        <div class="form-group col-4">
-                            <label>IGV</label>
-                            <div class="input-group mb-2 mr-sm-2">
-                                <input wire:model="ing_igv" type="text" class="form-control" maxlength="11" disabled>
-                            </div>
-                            @error('ing_igv') <span class="error text-danger"
-                                    id="numdoc_message">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <div class="form-group col-4">
-                            <label>Total</label>
-                            <div class="input-group mb-2 mr-sm-2">
-                                <input wire:model="ing_total" type="text" class="form-control" maxlength="11"
-                                    disabled>
-                            </div>
-                            @error('ing_total') <span class="error text-danger"
-                                    id="numdoc_message">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
 
                     <div class="form-group">
                         <button wire:click.prevent="$emit('ticketrenta')" class="btn btn-primary mt-4">Registrar

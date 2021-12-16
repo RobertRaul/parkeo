@@ -7,8 +7,8 @@
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label>Tarifa</label>
-                        <select wire:model="rent_tarifa" class="form-control text-danger">
+                        <label class="text-danger">Tarifa:</label>
+                        <select wire:model="rent_tarifa" class="form-control text-primary">
                           <option value="Elegir">Elegir</option>
                           @foreach ($tarifas as $t)
                             <option value="{{$t->tar_id}}" class="form-control"> {{$t->tar_valor}} {{$t->tar_tiempo}} * S/ {{$t->tar_precio}}                                 
@@ -20,7 +20,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Dejo Llaves?</label>
+                        <label class="text-danger">Dejo Llaves:</label>
                         <select wire:model="rent_llaves" class="form-control">
                           <option value="Elegir">Elegir</option>
                           <option value="Si">Si</option>
@@ -30,7 +30,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Observacion</label>
+                        <label class="text-danger">Observacion:</label>
                         <textarea class="form-control" rows="2"  wire:model="rent_obser"></textarea>
                         @error('rent_obser') <span class="error text-danger">{{ $message }}</span> @enderror
                     </div>
