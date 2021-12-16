@@ -20,11 +20,11 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-barcode"></i></span>
                                             </div>
-                                            <input wire:model="barcode" type="text" id="code" class="form-control" 
+                                            <input wire:model="barcode" type="text" id="code" class="form-control"
                                             maxlength="9" placeholder="Escanea el código de barras"  wire:keydown.enter="$emit('darSalida','')" autofocus>
                                             <div class="input-group-append">
                                                 <span wire:click="$set('barcode','')" class="input-group-text"
-                                                    style="cursor:pointer; "><i class="fas fa-trash-alt"></i> 
+                                                    style="cursor:pointer; "><i class="fas fa-trash-alt"></i>
                                                 </span>
                                             </div>
                                         </div>
@@ -62,7 +62,7 @@
                                                         <span id="{{ $c->caj_id }}" style="cursor: pointer;"
                                                             data-status="{{ $c->caj_estado }}"
                                                             data-id="{{ $c->caj_id }}"
-                                                            data-barcode="{{ $c->caj_id }}" 
+                                                            data-barcode="{{ $c->caj_id }}"
                                                             wire:click="$emit('darSalida','{{$c->caj_id}}')"
                                                             class="badge-chip badge-danger mt-2 mb-2 ml-2 bs-popover col-sm-12">
                                                 @endif
@@ -85,21 +85,18 @@
                     @endif
                 </div>
             </div>
-            
+
         </div>
     @elseif($accion==1)
         @include('livewire.rentas.crear')
-    @elseif($accion==2)       
+    @elseif($accion==2)
         @include('livewire.rentas.ingreso')
-    @elseif($accion==3)
-        @include('livewire.rentas.probando')
     @endif
 </div>
 
 <script>
     function checkOut(eventName, accion) {
         window.livewire.emit(eventName, accion)
-
     }
 
     document.addEventListener('DOMContentLoaded', function() {

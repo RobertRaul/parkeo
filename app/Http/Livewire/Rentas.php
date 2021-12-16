@@ -43,29 +43,24 @@ class Rentas extends Component
     //propiedades para registrar un cliente
     public $clie_id, $clie_tpdi = 'Elegir', $clie_numdoc, $clie_nombres, $clie_celular, $clie_email;
 
-    // Id y Ver Estado
-    public $selected_id = null, $selected_id_edit = null;
-
-    public $viewmode = false, $accion = 0; //0 = Listado - 1 = Registro 2=Cobrar Ingreso;
+    //Para llamar a los modelos
+    public $accion = 0; //0 = Listado - 1 = Registrar un ticket 2=Cobrar Ingreso "registrar salida";
 
     //array publicas
     public $tarifas, $clientes, $tipodoc, $series;
-    public $clie_findID;
 
     //booleanos para verificar si el vehiculo se VEHICULO GENERAL Y Si el cliente es CLIENTE GENERAL
-    public $vehiculo_general = "si", $cliente_general = "si";
+    public $vehiculo_general = "no", $cliente_general = "no";
 
     //propiedades para registrar el ingreso
-    public $ing_cajid, $ing_rentid, $ing_serid = 'Elegir', $ing_serie, $ing_numero, $ing_tppago = 'Elegir', $ing_nref, $ing_subtotal, $ing_igv, $ing_total, $ing_motivo;
+    public $ing_rentid, $ing_serid = 'Elegir', $ing_serie, $ing_numero, $ing_tppago = 'Elegir', $ing_nref, $ing_subtotal=0, $ing_igv=0, $ing_total=0, $ing_motivo;
 
     //Caja
     public $caja_aperturada;
 
-    //prueba
-    public $fecha_ing, $fecha_sal, $rentas;
-
     //informacion para mostrar rentas
     public $data_rent;
+
 
     public function mount()
     {
@@ -166,41 +161,50 @@ class Rentas extends Component
             'rent_llaves' => 'not_in:Elegir',
         ]);
     }
-    //limpiar los inputs
-    public function resetInput()
-    {
-        $this->rent_tarifa = 'Elegir';
 
-        $this->rent_client = null;
-        $this->rent_cajonid = 'Elegir';
-        $this->rent_llaves = 'Elegir';
-        $this->rent_obser = null;
+      //limpiar los inputs
+      public function resetInput()
+      {
+          $this->rent_tarifa = 'Elegir';
+          $this->rent_client = null;
+          $this->rent_cajonid = 'Elegir';
+          $this->rent_llaves = 'Elegir';
+          $this->rent_obser = null;
+          $this->barcode=null;
 
-        $this->veh_placa = null;
-        $this->veh_modelo = null;
-        $this->veh_marca = null;
-        $this->veh_color = null;
-        $this->veh_foto = null;
+          $this->veh_placa = null;
+          $this->veh_modelo = null;
+          $this->veh_marca = null;
+          $this->veh_color = null;
+          $this->veh_foto = null;
 
-        $this->clie_tpdi = 'Elegir';
-        $this->clie_numdoc = null;
-        $this->clie_nombres = null;
-        $this->clie_celular = null;
-        $this->clie_email = null;
+          $this->clie_id=null;
+          $this->clie_tpdi = 'Elegir';
+          $this->clie_numdoc = null;
+          $this->clie_nombres = null;
+          $this->clie_celular = null;
+          $this->clie_email = null;
 
-        $this->ing_serid = 'Elegir';
-        $this->ing_tppago = 'Elegir';
+          $this->ing_rentid=null;
+          $this->ing_serid = 'Elegir';
+          $this->ing_serie = null;
+          $this->ing_numero=null;
+          $this->ing_tppago = 'Elegir';
+          $this-> ing_nref = null;
+          $this-> ing_subtotal= null;
+          $this-> ing_igv = null;
+          $this-> ing_total = null;
+          $this-> ing_motivo = null;
 
-        $this->viewmode = false;
+          $this->data_rent = null;
 
-        $this->accion = 0;
-    }
+          $this->accion = 0;
+      }
 
     //cancelar y limpiar imputs
     public function cancel()
     {
         $this->resetInput();
-        $this->viewmode = false;
     }
 
     //Elimina los mensajes de error luego de las validaciones
@@ -243,6 +247,7 @@ class Rentas extends Component
             $this->emit('msgOK', 'Renta Registrada Correctamente');
 
             $this->resetInput();
+            
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollback();
@@ -388,14 +393,13 @@ class Rentas extends Component
         }
     }
     //*****************************************INGRESO************************************************** */
-
-    public function Ingreso()
+    public function Ingreso($cajon_id,$tiempo_trans,$renta_id,$ing_total)
     {
 
         //reglas de validación
         $rules = [
-            'ing_serid'     => 'not_in:required',
-            'ing_tppago'     => 'not_in:required',
+            'ing_serid'     => 'not_in:Elegir|required',
+            'ing_tppago'     => 'not_in:Elegir|required',
         ];
 
         //mensajes personalizados
@@ -411,52 +415,86 @@ class Rentas extends Component
         DB::beginTransaction();
 
         try {
+            //obteemos la SERIE para registrar el numero de la serie
+            $serie = Serie::where('ser_id', $this->ing_serid)->get();
+
             //buscamos la caja activa del usuario
-            $caja = Caja::where('caj_st', 'Aperturado')->where('caj_usid', Auth::id());
+            $caja = Caja::where('caj_st', 'Open')->where('caj_usid', Auth::id())->get();
 
             $datos = [
-                'ing_cajid' => $this->ing_cajid,
-                'ing_rentid' => $this->ing_rentid,
+                'ing_cajid' => $caja[0]->caj_id,
+                'ing_rentid' => $renta_id,
                 'ing_serid' => $this->ing_serid,
-                'ing_serie' => $this->ing_serie,
-                'ing_numero' => $this->ing_numero,
+                'ing_serie' => $serie[0]->ser_serie,
+                'ing_numero' => $serie[0]->ser_numero,
                 'ing_tppago' => $this->ing_tppago,
                 'ing_nref' => $this->ing_nref,
-                'ing_subtotal' => $this->ing_subtotal,
-                'ing_igv' => $this->ing_igv,
-                'ing_total' => $this->ing_total,
+                'ing_subtotal' =>0.00, //$this->ing_subtotal,
+                'ing_igv' =>0.00, //$this->ing_igv,
+                'ing_total' => $ing_total,
                 'ing_usid' => Auth::id(),
             ];
+            //registramos el ingreso
+            $ingreso = Ingreso::create($datos);
+
+            //buscamos la renta y la ponemos como Finalizada
+            $renta = Renta::find($renta_id);
+            $renta->update([
+                'rent_fechsal' => Carbon::now(),
+                'rent_totalhoras' => $tiempo_trans,
+                'rent_estado' => 'Finalizada',
+            ]);
+
+            //activamos el cajon en el que estaba la renta
+            $cajon = Cajon::find($cajon_id);
+            $cajon->update([
+                'caj_estado' => 'Libre'
+            ]);
+
+            //incrementamos la numeracion de la serie
+                //$numero = $serie->ser_numero +1;
+            $serie=Serie::find($this->ing_serid);
+            $serie->update([
+                'ser_numero' => +1
+            ]);
+
+
+
+            $this->emit('closeIngreso');
+            $this->emit('msgOK', 'Salida Registrada Correctamente');
+
+            $this->resetInput();
+            DB::commit();
         } catch (\Throwable $th) {
-            //throw $th;
+            DB::rollback();
+            throw $th;
         }
     }
 
     //RECUPERAR INFORMACION DEL TICKET
-    public function MostrarTotales($id_cajon,$accion = 2)
-    {        
-       // $rent = null;
-       $this->accion= $accion;
+    public function MostrarTotales($id_cajon, $accion = 2)
+    {
+        // $rent = null;
+        $this->accion = $accion;
         //si el ID del cajon esta en vacio entonces buscan por el ID CAJON
-        if ($id_cajon != '') 
-        {
+        if ($id_cajon != '') {
             $rent = Renta::where('rent_cajonid', $id_cajon)
                 ->select('*', DB::RAW("'' as tiempo"), DB::RAW("0 as Total"))
                 ->where('rent_estado', 'Abierto')
                 ->orderBy('rent_id', 'desc')
                 ->first();
-        } 
-        else if($this->barcode != null)//buscan por el codigo de barras
+        } else if ($this->barcode != null) //buscan por el codigo de barras
         {
-            $rent = Renta::where('rent_id',$this->barcode)
-            ->select('*', DB::RAW("'' as tiempo"), DB::RAW("0 as Total"))
-            ->where('rent_estado', 'Abierto')
-            ->orderBy('rent_id', 'desc')
-            ->first();         
+            $rent = Renta::where('rent_id', $this->barcode)
+                ->select('*', DB::RAW("'' as tiempo"), DB::RAW("0 as Total"))
+                ->where('rent_estado', 'Abierto')
+                ->orderBy('rent_id', 'desc')
+                ->first();
         }
 
         if ($rent != null) {
             $inicio = Carbon::parse($rent->rent_feching);
+
             $final = new \DateTime(Carbon::now());
 
             $rent->tiempo = $inicio->diffInHours($final)  . ':' . $inicio->diff($final)->format('%I:%S'); //diferencia en horas + diferencia en segundos
@@ -465,11 +503,9 @@ class Rentas extends Component
 
             $this->data_rent = $rent;
             $this->emit('openIngreso');
-        } 
-        else 
-        {
-            $this->emit('msgERROR', 'No existe el registro'); 
-            $this->barcode='';        
+        } else {
+            $this->emit('msgERROR', 'No existe el registro');
+            $this->barcode = '';
             return;
         }
     }
@@ -493,27 +529,20 @@ class Rentas extends Component
         if ($minutos <= (60 + $tolerancia)) //SI EL TIEMPO EN MINNUTOS es igual a LA HORA + LA TOLERENCIA
         {
             $fraccion = $tarifa->tar_precio;
-        } 
-        else 
-        {
+        } else {
             $m = ($minutos % 60);
-           // dd($m);
-            if (in_array($m, range(0, $tolerancia))) 
-            { // después de la 1ra hora, se dan $tolerancia minutos de tolerancia al cliente
+            // dd($m);
+            if (in_array($m, range(0, $tolerancia))) { // después de la 1ra hora, se dan $tolerancia minutos de tolerancia al cliente
                 //
-            } 
-            else if (in_array($m, range(6, 30))) 
-            {
+            } else if (in_array($m, range(6, 30))) {
                 $fraccion = ($tarifa->tar_precio / 2);   //después de la 1ra hora, del minuto 6 al 30 se cobra 50% de la tarifa QUE TENGA
-            } 
-            else if (in_array($m, range(31, 59))) 
-            {
+            } else if (in_array($m, range(31, 59))) {
                 $fraccion = $tarifa->tar_precio;    //después de la 1ra hora, del minuto 31-60 se cobra tarifa completa QUE TENGA
             }
-           // dd($fraccion);
+            // dd($fraccion);
         }
         //retornamos el total a cobrar
-     //   dd($horasCompletas,$tarifa->tar_precio,$fraccion);
+        //   dd($horasCompletas,$tarifa->tar_precio,$fraccion);
         $total = (($horasCompletas * $tarifa->tar_precio) + $fraccion);
         return $total;
     }

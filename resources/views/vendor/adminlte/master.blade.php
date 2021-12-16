@@ -69,7 +69,7 @@
         <link rel="manifest" href="{{ asset('favicons/manifest.json') }}">
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="{{ asset('favicon/ms-icon-144x144.png') }}">
-    @endif    
+    @endif
 
 </head>
 
@@ -127,7 +127,11 @@
         });
 
         window.livewire.on('openIngreso', () =>{
-            $('#modalIngreso').modal('show');        
+            $('#modalIngreso').modal('show');
+        });
+
+          window.livewire.on('closeIngreso', () =>{
+            $('#modalIngreso').modal('hide');
         });
     </script>
 
