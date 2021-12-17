@@ -92,11 +92,7 @@ class Rentas extends Component
             ->join('tipo_vehiculo', 'tip_id', '=', 'caj_tipoid')
             ->orderBy('caj_id', 'asc')
             ->get();
-
-        foreach ($cajones as $c) {
-        }
         //********************************************************************* */
-
 
         return view('livewire.rentas.listado', [
             'cajones' => $cajones
@@ -247,7 +243,7 @@ class Rentas extends Component
             $this->emit('msgOK', 'Renta Registrada Correctamente');
 
             $this->resetInput();
-            
+
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollback();

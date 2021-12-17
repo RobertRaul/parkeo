@@ -37,7 +37,7 @@
                         <div class="form-group col-4">
                             <label class="text-danger">Fecha Ingreso:</label>
                             <div class="input-group mb-2 mr-sm-2">
-                                 {{ \Carbon\Carbon::parse($data_rent->rent_feching)->format('d/m/Y H:i:s') }}
+                                 {{ \Carbon\Carbon::parse($data_rent->rent_feching)->format('H:i:s d/m/Y') }}
                             </div>
                         </div>
 

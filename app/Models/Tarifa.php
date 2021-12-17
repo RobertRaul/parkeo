@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Tipo;
 use Illuminate\Database\Eloquent\Model;
 
 class Tarifa extends Model

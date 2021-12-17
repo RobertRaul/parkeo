@@ -29,4 +29,12 @@ class Caja extends Model
         // con $this hacemos referencia a esta clase "Caja" y belognsTo decimos: pertenece, entonces decimos, Una Caja pertenece a un Usuario
     }
 
+    public function Ingresos()
+    {
+        return $this->hasMany(Ingreso::class,'ing_cajid','caj_id');
+        //UNO A MUCHOS
+    }
+
+
+
 }

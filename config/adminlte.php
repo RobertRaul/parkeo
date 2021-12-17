@@ -321,6 +321,12 @@ return [
             'url' => 'rentas',
             'icon' => 'fas fa-parking',
         ],
+          //Egresos
+          [
+            'text' => 'Egresos',
+            'url' => 'egresos',
+            'icon' => 'fas fa-wallet',
+        ],
     ],
 
     /*
