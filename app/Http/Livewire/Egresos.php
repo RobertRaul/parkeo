@@ -23,7 +23,7 @@ class Egresos extends Component
     public $buscar = '';
 
     //propiedades
-    public $egr_motivo, $egr_total, $egr_anulm;
+    public $egr_motivo, $egr_total, $egr_anulm = 'pROBANDO';
     //Caja
     public $caja_aperturada;
 
