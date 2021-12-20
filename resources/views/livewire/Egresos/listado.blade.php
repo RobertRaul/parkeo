@@ -11,7 +11,7 @@ Egresos
 @endsection
 
 @section('card_body')
-
+    @include('livewire.egresos.crear')
 @endsection
 
 @section('table_header')

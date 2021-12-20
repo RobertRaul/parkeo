@@ -78,7 +78,7 @@
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        <button type="button" class="btn btn-secondary">
+                                        <button type="button" class="btn btn-secondary" wire:click='generar_reporte()'>
                                             <i class="fas fa-file-invoice-dollar"></i>
                                         </button>
                                     </td>
@@ -230,4 +230,17 @@
     // });
 
     // })
+
+    document.addEventListener('DOMContentLoaded',function ()
+       {
+            //el evento print se emite en la linea 192 del controlador Rentas
+            window.livewire.on('caja_pdf',ticket =>
+            {
+                //var ruta="{{ url('imprimir/pdf') }}"
+                var ruta="{{ route('caja_pdf') }}"
+                var w =window.open(ruta,"_blank","=width1,height=1")
+                //w.close()//cierra la ventana de impresion
+            })
+       })
+
 </script>

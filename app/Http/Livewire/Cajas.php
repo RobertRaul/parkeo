@@ -211,4 +211,11 @@ class Cajas extends Component
         $this->emit('msgINFO', 'Comprobante Anulado');
        // $this->resetInput();
     }
+
+    public function generar_reporte()
+    {
+        $this->emit('caja_pdf');
+    }
+
+
 }

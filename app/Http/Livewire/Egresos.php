@@ -23,7 +23,7 @@ class Egresos extends Component
     public $buscar = '';
 
     //propiedades
-    public $egr_motivo, $egr_total, $egr_anulm = 'pROBANDO';
+    public $egr_motivo, $egr_total ;
     //Caja
     public $caja_aperturada;
 
@@ -123,7 +123,6 @@ class Egresos extends Component
                 'egr_total' => $this->egr_total,
                 'egr_cajid' => $this->caja_aperturada,
             ];
-            dd($datos);
         //realizamos validacion para registrar
         $this->validate();
         Egreso::create($datos);
