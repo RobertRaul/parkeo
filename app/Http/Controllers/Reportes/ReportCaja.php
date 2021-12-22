@@ -5,14 +5,45 @@ namespace App\Http\Controllers\Reportes;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Reportes\PDF;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use phpDocumentor\Reflection\Types\This;
 use PhpParser\Node\Expr\FuncCall;
 
-class ReportCaja extends PDF
+class ReportCaja extends Controller
 {
-
-    public function tabla($idcaja)
+    public function Reporte_Caja($idcaja)
     {
+        $pdf = new PDF('L');
+        $pdf->AliasNbPages();
+        $pdf->Cabecera('Reporte General de Ingresos a Caja',$idcaja, auth()->user()->us_usuario,'L');
+        $pdf->AddPage();
+        $pdf->SetFont('Arial', 'B', 14);
+        //set width for each column (6 columns)
+        $pdf->SetWidths(array(20, 50, 20, 15, 20, 20, 20, 20, 20, 20, 55));
+        //set line height. This is the height of each lines, not rows.
+        $pdf->SetLineHeight(6);
+        //set alignment
+        $pdf->SetAligns(array('C', 'L', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'C', 'L'));
+        //add table heading using standard cells
+        //set font to bold
+        $pdf->SetFont('Arial', 'B', 11);
+        $pdf->Cell(20, 6, "Ticket", 1, 0, 'C');
+        $pdf->Cell(50, 6, "Cliente", 1, 0, 'C');
+        $pdf->Cell(20, 6, "Tp. Pago", 1, 0, 'C');
+        $pdf->Cell(15, 6, "Ref", 1, 0, 'C');
+        $pdf->Cell(20, 6, "Placa", 1, 0, 'C');
+        $pdf->Cell(20, 6, "Cajon", 1, 0, 'C');
+        $pdf->Cell(20, 6, "Tarifa", 1, 0, 'C');
+        $pdf->Cell(20, 6, "Horas", 1, 0, 'C');
+        $pdf->Cell(20, 6, "Total", 1, 0, 'C');
+        $pdf->Cell(20, 6, "Estado", 1, 0, 'C');
+        $pdf->Cell(55, 6, "Motivo Anulacion", 1, 0, 'C');
+        //add a new line
+        $pdf->Ln();
+        //reset font
+        $pdf->SetFont('Arial', '', 10);
+
         $data = DB::table('ingresos as i')
             ->join('cajas as c', 'c.caj_id', '=', 'i.ing_cajid')
             ->join('rentas as r', 'r.rent_id', '=', 'i.ing_rentid')
@@ -41,32 +72,29 @@ class ReportCaja extends PDF
             ->orderBy('i.ing_fechr')
             ->get();
 
-        // Anchuras de las columnas los ANCHOS
-        $w = array(15, 18, 40, 20, 20, 20, 20, 20, 20, 25, 25, 30);
-        // Cabeceras
-        $cabecera = array('Serie', 'Numero', 'Cliente', 'Tp. Pago', 'Nro Ref', 'Placa', 'Cajon', 'Tarifa', 'Horas', 'Total', 'Estado', 'Motivo');
-        for ($i = 0; $i < count($cabecera); $i++)
-            $this->Cell($w[$i], 7, $cabecera[$i], 1, 0, 'C');
-        $this->Ln();
-        // Datos
-        $resultado = json_decode($data);
-        foreach ($resultado as $row) {
-            $this->Cell($w[0], 6, $row[0], 'LR');
-            $this->Cell($w[1], 6, $row[1], 'LR');
-            $this->Cell($w[2], 6, $row[2], 'LR', 0, 'R');
-            $this->Cell($w[3], 6, $row[3], 'LR', 0, 'R');
-            $this->Ln();
+
+        //loop the data
+        foreach ($data as $item) {
+            //write data using Row() method containing array of values.
+
+
+            $pdf->Row(array(
+                $item->ing_serie,
+                $item->clie_nombres,
+                $item->ing_tppago,
+                $item->ing_nref,
+                $item->veh_placa,
+                $item->caj_desc,
+                'S/ '. $item->tar_precio,
+                $item->rent_totalhoras,
+               'S/ '. $item->ing_total,
+                $item->ing_estado= "Emitido"  ? "":$item->ing_estado,
+                $item->ing_motivo,
+            ));
         }
-        // Línea de cierre
-        $this->Cell(array_sum($w), 0, '', 'T');
+
+
+        $pdf->Output();
+        exit;
     }
 }
-
-$pdf = new ReportCaja('L');
-$pdf->AliasNbPages();
-$pdf->Cabecera('Reporte General de Caja', '322', 'ROBERT PS');
-$pdf->AddPage();
-$pdf->SetFont('Arial', 'B', 11);
-$pdf->tabla(9);
-$pdf->Output();
-exit;

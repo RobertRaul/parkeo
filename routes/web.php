@@ -35,4 +35,4 @@ Route::view('clientes', 'templates.clientes');
 Route::view('rentas', 'templates.rentas');
 Route::view('egresos', 'templates.egresos');
 
-Route::get('reportes/caja','Reportes\ReportCaja@Prueba')->name('caja_pdf');
+Route::get('reportes/caja/{idcaja}','Reportes\ReportCaja@Reporte_Caja')->name('caja_pdf');

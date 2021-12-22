@@ -212,9 +212,9 @@ class Cajas extends Component
        // $this->resetInput();
     }
 
-    public function generar_reporte()
+    public function generar_reporte($cajaid)
     {
-        $this->emit('caja_pdf');
+        $this->emit('caja_pdf',$cajaid);
     }
 
 
