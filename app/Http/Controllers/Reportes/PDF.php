@@ -62,7 +62,7 @@ class PDF extends Fpdf
         // Arial italic 8
         $this->SetFont('Arial', 'I', 8);
         // Número de página
-        $this->Cell(0, 10, 'Page ' . $this->PageNo() . '/{nb}', 0, 0, 'C');
+        $this->Cell(0, 10, 'Pagina ' . $this->PageNo() . '/{nb}', 0, 0, 'C');
     }
 
     //--------------------------------- PROBANDO NUEVA ------------------------------//
@@ -180,4 +180,29 @@ class PDF extends Fpdf
         }
         return $nl;
     }
+
+
+    function BasicTable($header, $data, $x = 0, $y = 0) {
+
+		$this->SetXY($x , $y);
+
+		// Header
+		foreach($header as $col)
+			$this->Cell(40 ,7,$col,1);
+		$this->Ln();
+
+		// Data
+		$i = 7;
+		$this->SetXY($x , $y + $i);
+		foreach($data as $row){
+			foreach($row as $col){
+				//$this->SetXY($x , $y + $i);
+				$this->Cell(40 ,6,$col,1);
+
+			}
+			$i= $i + 6 ;  // incremento el valor de la columna
+			$this->SetXY($x , $y + $i);
+		  //$this->Ln();
+		}
+	}
 }
