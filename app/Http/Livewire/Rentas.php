@@ -450,8 +450,9 @@ class Rentas extends Component
             //incrementamos la numeracion de la serie
                 //$numero = $serie->ser_numero +1;
             $serie=Serie::find($this->ing_serid);
+            $numero =$serie->ser_numero+1;
             $serie->update([
-                'ser_numero' => +1
+                'ser_numero' => $numero
             ]);
 
 

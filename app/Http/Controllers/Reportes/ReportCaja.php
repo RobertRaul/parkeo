@@ -86,7 +86,7 @@ class ReportCaja extends Controller
         foreach ($data as $item) {
             //write data using Row() method containing array of values.
             $pdf->Row(array(
-                $item->ing_serie,
+                $item->ing_serie .'-'. $item->ing_numero ,
                 $item->clie_nombres,
                 $item->ing_tppago,
                 $item->ing_nref,
@@ -95,7 +95,7 @@ class ReportCaja extends Controller
                 'S/ ' . $item->tar_precio,
                 $item->rent_totalhoras,
                 'S/ ' . $item->ing_total,
-                $item->ing_estado = "Emitido"  ? "" : $item->ing_estado,
+                $item->ing_estado == "Emitido"  ? "" : $item->ing_estado,
                 $item->ing_motivo,
             ));
         }
@@ -132,41 +132,47 @@ class ReportCaja extends Controller
             $pdf->Row(array(
                 $item->egr_motivo,
                 'S/ ' . $item->egr_total,
-                $item->egr_estado,
+                $item->egr_estado == "Emitido" ? "" : $item->egr_estado,
                 $item->egr_anulm,
             ));
         }
         $pdf->Ln();
-        $pdf->Ln();
-        $pdf->Ln();
+
         //-----------------------------------------------------FIN DE LOS EGRESOS ---------------------------------------------------------//
 
         //-----------------------------------------------------INICIO DETALLES ---------------------------------------------------------//}
+        $monto_inicial =DB::table('cajas')->where('caj_id','=',$idcaja)->sum('caj_minic');
+        $efectivo = DB::table('ingresos as i')
+                    ->join('cajas as c','c.caj_id','=','i.ing_cajid')
+                    ->where('i.ing_tppago','=','Efectivo')
+                    ->where('i.ing_cajid','=',$idcaja)
+                    ->sum('i.ing_total');
 
-        /*
+        $visa = DB::table('ingresos as i')
+        ->join('cajas as c','c.caj_id','=','i.ing_cajid')
+        ->where('i.ing_tppago','=','Visa')
+        ->where('i.ing_cajid','=',$idcaja)
+        ->sum('i.ing_total');
 
--- Ingresos Efctivo, Visa Mastercard
-SELECT SUM(i.ing_total),i.ing_tppago
-FROM ingresos i
-INNER JOIN cajas c ON c.caj_id=i.ing_id
-WHERE i.ing_cajid=16
-GROUP BY i.ing_tppago;
+        $mastercard = DB::table('ingresos as i')
+        ->join('cajas as c','c.caj_id','=','i.ing_cajid')
+        ->where('i.ing_tppago','=','Mastercard')
+        ->where('i.ing_cajid','=',$idcaja)
+        ->sum('i.ing_total');
 
--- Ingresos Anulados Total
-SELECT SUM(i.ing_total)
-FROM ingresos i
-INNER JOIN cajas c ON c.caj_id=i.ing_id
-WHERE i.ing_cajid=16 AND i.ing_estado='Anulado'
-GROUP BY i.ing_tppago;
+        $anulados = DB::table('ingresos as i')
+        ->join('cajas as c','c.caj_id','=','i.ing_cajid')
+        ->where('i.ing_estado','=','Anulado')
+        ->where('i.ing_cajid','=',$idcaja)
+        ->sum('i.ing_total');
 
--- Monto Inicial de caja
-SELECT caj_minic  FROM cajas WHERE caj_id=16;
+        $egresos =DB::table('egresos')
+                    ->where('egr_cajid','=',$idcaja)
+                    ->where('egr_estado','=','Emitido')
+                    ->sum('egr_total');
 
--- Total de Egresos
-SELECT SUM(egr_total) FROM egresos
-WHERE egr_cajid=16;
-         */
-
+        $total_efectivo=($efectivo +$monto_inicial)- $egresos;
+        $total_ingresos=$total_efectivo+$visa+$mastercard;
         //Inicio de la cabeceras
         $pdf->Ln(3);
         $pdf->SetFont('Arial', 'B', 12);
@@ -179,40 +185,39 @@ WHERE egr_cajid=16;
         $pdf->SetFont('Arial', '', 11);
         //generamos el espacio
         $pdf->Cell(50,10,'',0,0);
-        //los 3 detalles de manera HORIZONTAL
-
+        //los 3 detalles de manera HORIZONTAL  1RA FILA
         $pdf->Cell(30,5,'Monto Inicial:',1,0);
-        $pdf->Cell(30,5,number_format(0.00,2),1,0,'R');
+        $pdf->Cell(30,5,number_format($monto_inicial,2),1,0,'R');
         $pdf->Cell(30,5,'Efectivo:',1,0);
-        $pdf->Cell(30,5,number_format(0.00,2),1,0,'R');
+        $pdf->Cell(30,5,number_format($total_efectivo,2),1,0,'R');
         $pdf->Cell(30,5,'Anulados:',1,0);
-        $pdf->Cell(30,5,number_format(0.00,2),1,1,'R');
+        $pdf->Cell(30,5,number_format($anulados,2),1,1,'R');
 
         //generamos el espacio
         $pdf->Cell(50,10,'',0,0);
-        //siguientes 3 detalles de manera HORIZONTAL
+        //siguientes 3 detalles de manera HORIZONTAL  2DA FILA
         $pdf->Cell(30,5,'Efectivo:',1,0);
-        $pdf->Cell(30,5,number_format(0.00,2),1,0,'R');
+        $pdf->Cell(30,5,number_format($efectivo,2),1,0,'R');
         $pdf->Cell(30,5,'Visa:',1,0);
-        $pdf->Cell(30,5,number_format(0.00,2),1,0,'R');
+        $pdf->Cell(30,5,number_format($visa,2),1,0,'R');
         $pdf->Cell(60,5,'',0,1);
 
         //generamos el espacio
         $pdf->Cell(50,10,'',0,0);
-        //siguientes 3 detalles de manera HORIZONTAL
+        //siguientes 3 detalles de manera HORIZONTAL 3RA FILA
         $pdf->Cell(30,5,'Egresos:',1,0);
-        $pdf->Cell(30,5,number_format(0.00,2),1,0,'R');
+        $pdf->Cell(30,5,number_format($egresos,2),1,0,'R');
         $pdf->Cell(30,5,'Mastercard:',1,0);
-        $pdf->Cell(30,5,number_format(0.00,2),1,0,'R');
+        $pdf->Cell(30,5,number_format($mastercard,2),1,0,'R');
         $pdf->Cell(60,5,'',0,1);
 
-           //generamos el espacio
+           //generamos el espacio 4TA FILA
         $pdf->Cell(50,10,'',0,0);
         $pdf->SetFont('Arial', '', 12);
         $pdf->Cell(30,5,'Total Efectivo:',1,0);
-        $pdf->Cell(30,5,number_format(0.00,2),1,0,'R');
+        $pdf->Cell(30,5,number_format($total_efectivo,2),1,0,'R');
         $pdf->Cell(30,5,'Total Ingresos:',1,0);
-        $pdf->Cell(30,5,number_format(0.00,2),1,0,'R');
+        $pdf->Cell(30,5,number_format($total_ingresos,2),1,0,'R');
         $pdf->Cell(60,5,'',0,1);
 
         //----------------------------------------------------- FIN DETALLES ---------------------------------------------------------//

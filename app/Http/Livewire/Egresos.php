@@ -23,7 +23,7 @@ class Egresos extends Component
     public $buscar = '';
 
     //propiedades
-    public $egr_motivo, $egr_total ;
+    public $egr_motivo, $egr_total;
     //Caja
     public $caja_aperturada;
 
@@ -117,19 +117,49 @@ class Egresos extends Component
 
     public function registrar()
     {
-        $datos =
-            [
-                'egr_motivo' => $this->egr_motivo,
-                'egr_total' => $this->egr_total,
-                'egr_cajid' => $this->caja_aperturada,
-            ];
-        //realizamos validacion para registrar
-        $this->validate();
-        Egreso::create($datos);
-        $this->emit('closeModal');
-        $this->emit('msgOK', 'Egreso registrado');
+        if ($this->validar_monto() == true) {
+            $datos =
+                [
+                    'egr_motivo' => $this->egr_motivo,
+                    'egr_total' => $this->egr_total,
+                    'egr_cajid' => $this->caja_aperturada,
+                ];
+            //realizamos validacion para registrar
+            $this->validate();
+            Egreso::create($datos);
+            $this->emit('closeModal');
+            $this->emit('msgOK', 'Egreso registrado');
 
-        $this->resetInput();
+            $this->resetInput();
+        } else {
+            $this->emit('msgERROR', 'El Egreso supera el efectivo en caja');
+        }
+    }
+
+    public function validar_monto()
+    {
+        $efectivo = DB::table('ingresos as i')
+            ->join('cajas as c', 'c.caj_id', '=', 'i.ing_cajid')
+            ->where('i.ing_tppago', '=', 'Efectivo')
+            ->where('i.ing_cajid', '=', $this->caja_aperturada)
+            ->sum('i.ing_total');
+
+        $monto_inicial = DB::table('cajas')->where('caj_id', '=', $this->caja_aperturada)->sum('caj_minic');
+
+        $egresos = DB::table('egresos')
+            ->where('egr_cajid', '=', $this->caja_aperturada)
+            ->where('egr_estado','=','Emitido')
+            ->sum('egr_total');
+
+        //sumamos todos los ingresos
+        $efectivo_total=$efectivo+$monto_inicial;
+        //sumamos todos los egresos
+        $monto_egresos = $egresos + $this->egr_total;
+
+        if ($monto_egresos > $efectivo_total)
+            return false;
+
+        return true;
     }
 
     //Elimina los mensajes de error luego de las validaciones
