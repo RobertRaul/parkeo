@@ -36,3 +36,5 @@ Route::view('rentas', 'templates.rentas');
 Route::view('egresos', 'templates.egresos');
 
 Route::get('reportes/caja/{idcaja}','Reportes\ReportCaja@Reporte_Caja')->name('caja_pdf');
+
+Route::get('reportes/excel/tipovehiculo','Excel\TipoVehiculo@Reporte_Excel')->name('tipovehiculo_excel');

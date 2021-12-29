@@ -10,10 +10,12 @@
         &nbsp;Registros
     </div>
     <div class="">
-        <button type="button" wire:click="reporte_excel" class="btn btn-success">
-            <i class="fas fa-file-excel"></i>
+
+        <button type="button" class="btn btn-success" wire:click='report_xls'>
+            <i class="fas fa-file-excel">
+            </i>
         </button>
-        <button type="button" wire:click="reporte_pdf" class="btn btn-danger">
+        <button type="button"  class="btn btn-danger" wire:click="report_pdf">
             <i class="fas fa-file-pdf"></i>
         </button>
     </div>

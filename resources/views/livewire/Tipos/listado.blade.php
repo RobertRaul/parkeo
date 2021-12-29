@@ -87,3 +87,10 @@ Tipos de Vehiculos
 </tr>
 @endforeach
 @endsection
+
+
+@section('js')
+<script>
+    doc
+</script>
+@endsection

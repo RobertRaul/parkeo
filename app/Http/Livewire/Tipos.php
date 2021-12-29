@@ -180,4 +180,10 @@ class Tipos extends Component
         $this->resetErrorBag();
         $this->resetValidation();
     }
+
+    //Reportes
+    public function report_xls()
+    {
+        $this->emit('report_xls');
+    }
 }

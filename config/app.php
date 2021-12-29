@@ -180,6 +180,8 @@ return [
         Codedge\Fpdf\FpdfServiceProvider::class,
 
         Spatie\Permission\PermissionServiceProvider::class,
+        //Laravel Excel
+        Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
 
     /*
@@ -234,7 +236,9 @@ return [
         //Imagen
         'Image' => Intervention\Image\Facades\Image::class,
         //FPDF
-        'Fpdf' => Codedge\Fpdf\Facades\Fpdf::class
+        'Fpdf' => Codedge\Fpdf\Facades\Fpdf::class,
+        //Laravel Excel
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 
