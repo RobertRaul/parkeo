@@ -2,9 +2,11 @@
 
 namespace App\Http\Livewire;
 
+use App\Exports\TipoDocumentoExport;
 use Livewire\Component;
 use App\Models\TipoDocumento;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TipoDocumentos extends Component
 {
@@ -65,4 +67,16 @@ class TipoDocumentos extends Component
           $this->selected_id=null;
           $this->buscar='';
       }
+
+
+       //Reportes
+    public function report_xls()
+    {
+        return Excel::download(new TipoDocumentoExport,'tipodocumento.xlsx');
+    }
+
+    public function report_pdf()
+    {
+        $this->emit('pdf_tipodocumento');
+    }
 }

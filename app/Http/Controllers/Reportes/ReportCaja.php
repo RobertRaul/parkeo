@@ -3,13 +3,9 @@
 namespace App\Http\Controllers\Reportes;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Reportes\PDF;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use phpDocumentor\Reflection\Types\This;
-use PhpParser\Node\Expr\FuncCall;
 
 class ReportCaja extends Controller
 {
@@ -23,7 +19,7 @@ class ReportCaja extends Controller
 
         $pdf = new PDF('L');
         $pdf->AliasNbPages();
-        $pdf->Cabecera('Reporte General de Ingresos a Caja del dia ' . $fecha_apertura, $idcaja, auth()->user()->us_usuario, 'L');
+        $pdf->Cabecera('Reporte General de Ingresos a Caja del dia ' . $fecha_apertura, $idcaja, auth()->user()->us_usuario, 'L','Caja');
         $pdf->AddPage();
         $pdf->SetFont('Arial', 'B', 14);
         //-----------------------------------------------------INICIO DE LOS INGRESOS ---------------------------------------------------------//

@@ -2,7 +2,7 @@
 
 @section('name_component')
 <i class="fas fa-clipboard-list"></i>
-    Tipos de Comprobante 
+    Tipos de Comprobante
 @endsection
 
 {{-------------------- CABECERA DE LA TABLA  -------------------}}
@@ -52,8 +52,25 @@
 
                             </button>
                         @endif
-                    @endif                    
+                    @endif
                 </td>
             </tr>
         @endforeach
+@endsection
+
+
+@section('js')
+    <script>
+        document.addEventListener('DOMContentLoaded',function()
+        {
+            //el evento print se emite en la linea 192 del controlador Rentas
+            window.livewire.on('pdf_tipocomprobante', report =>
+            {
+                //var ruta="{{ url('imprimir/pdf') }}"
+                var ruta="{{ url('reportes/tipocomprobante/') }}"
+                var w =window.open(ruta,"_blank","=width1,height=1")
+                //w.close()//cierra la ventana de impresion
+            })
+        })
+    </script>
 @endsection

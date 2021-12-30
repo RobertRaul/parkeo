@@ -2,26 +2,26 @@
 
 namespace App\Exports;
 
-use App\Models\Tipo;
+use App\Models\TipoDocumento;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class TipoVehiculoExport implements FromCollection,WithHeadings,ShouldAutoSize,WithStyles
+class TipoDocumentoExport implements FromCollection,WithHeadings,ShouldAutoSize,WithStyles
 {
     /**
     * @return \Illuminate\Support\Collection
     */
     public function collection()
     {
-        return Tipo::select('tip_id','tip_desc','tip_estado')->get();
+        return TipoDocumento::select('tpdi_id','tpdi_desc','tpdi_estado')->whereNotIn('tpdi_id',[1])->get();
     }
 
     public function headings(): array
     {
-        return ['Id','Vehiculos','Estado'];
+        return ['Id','Descripcion','Estado'];
     }
 
     public function styles(Worksheet $sheet)

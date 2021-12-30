@@ -2,10 +2,12 @@
 
 namespace App\Http\Livewire;
 
+use App\Exports\TarifasExport;
 use Livewire\Component;
 use App\Models\Tarifa;
 use App\Models\Tipo;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Tarifas extends Component
 {
@@ -32,7 +34,7 @@ class Tarifas extends Component
             ->search($this->buscar)
             ->orderBy($this->Campo, $this->OrderBy)
             ->paginate($this->pagination);
-     
+
         return view('livewire.tarifas.listado', [
             'data' => $data
         ]);
@@ -167,4 +169,15 @@ class Tarifas extends Component
         $this->resetErrorBag();
         $this->resetValidation();
     }
+
+         //Reportes
+         public function report_xls()
+         {
+             return Excel::download(new TarifasExport,'tarifas.xlsx');
+         }
+
+         public function report_pdf()
+         {
+             $this->emit('pdf_tarifas');
+         }
 }

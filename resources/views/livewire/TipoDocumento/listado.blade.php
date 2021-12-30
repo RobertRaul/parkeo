@@ -57,3 +57,21 @@
             </tr>
         @endforeach
 @endsection
+
+
+
+@section('js')
+    <script>
+        document.addEventListener('DOMContentLoaded',function()
+        {
+            //el evento print se emite en la linea 192 del controlador Rentas
+            window.livewire.on('pdf_tipodocumento', report =>
+            {
+                //var ruta="{{ url('imprimir/pdf') }}"
+                var ruta="{{ url('reportes/tipodocumento/') }}"
+                var w =window.open(ruta,"_blank","=width1,height=1")
+                //w.close()//cierra la ventana de impresion
+            })
+        })
+    </script>
+@endsection

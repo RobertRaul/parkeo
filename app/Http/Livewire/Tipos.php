@@ -2,10 +2,12 @@
 
 namespace App\Http\Livewire;
 
+use App\Exports\TipoVehiculoExport;
 use Livewire\Component;
 use App\Models\Tipo;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 use Intervention\Image\ImageManagerStatic as Image;
 
@@ -184,6 +186,11 @@ class Tipos extends Component
     //Reportes
     public function report_xls()
     {
-        $this->emit('report_xls');
+        return Excel::download(new TipoVehiculoExport,'tiposvehiculo.xlsx');
+    }
+
+    public function report_pdf()
+    {
+        $this->emit('pdf_tipovehiculo');
     }
 }

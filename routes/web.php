@@ -35,6 +35,9 @@ Route::view('clientes', 'templates.clientes');
 Route::view('rentas', 'templates.rentas');
 Route::view('egresos', 'templates.egresos');
 
+//reportes PDF
 Route::get('reportes/caja/{idcaja}','Reportes\ReportCaja@Reporte_Caja')->name('caja_pdf');
-
-Route::get('reportes/excel/tipovehiculo','Excel\TipoVehiculo@Reporte_Excel')->name('tipovehiculo_excel');
+Route::get('reportes/tipovehiculo/','Reportes\ReportTipoVehiculos@reporte_pdf')->name('tpvehiculo_pdf');
+Route::get('reportes/tipocomprobante/','Reportes\ReportTipoComprobante@reporte_pdf')->name('tpcomprobante_pdf');
+Route::get('reportes/tipodocumento/','Reportes\ReportTipoDocumento@reporte_pdf')->name('tpdocumento_pdf');
+Route::get('reportes/tarifas/','Reportes\ReportTarifa@reporte_pdf')->name('tarifas_pdf');

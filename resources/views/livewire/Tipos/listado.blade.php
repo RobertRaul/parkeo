@@ -90,7 +90,17 @@ Tipos de Vehiculos
 
 
 @section('js')
-<script>
-    doc
-</script>
+    <script>
+        document.addEventListener('DOMContentLoaded',function()
+        {
+            //el evento print se emite en la linea 192 del controlador Rentas
+            window.livewire.on('pdf_tipovehiculo', report =>
+            {
+                //var ruta="{{ url('imprimir/pdf') }}"
+                var ruta="{{ url('reportes/tipovehiculo/') }}"
+                var w =window.open(ruta,"_blank","=width1,height=1")
+                //w.close()//cierra la ventana de impresion
+            })
+        })
+    </script>
 @endsection

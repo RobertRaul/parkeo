@@ -10,47 +10,68 @@ use Carbon\Carbon;
 
 class PDF extends Fpdf
 {
-    private $titul, $caj_id, $user_id, $tipo;
-    public function Cabecera($titulo, $caj_id, $user_id, $tipo)
+    private $titul, $caj_id, $user_id, $tipo_hoja, $tipo_report;
+    public function Cabecera($titulo, $caj_id, $user_id, $tipo_hoja, $tipo_report)
     {
         $this->titul = $titulo;
         $this->caj_id = $caj_id;
         $this->user_id = $user_id;
-        $this->tipo = $tipo;
+        $this->tipo_hoja = $tipo_hoja;
+        $this->tipo_report=$tipo_report;
     }
     // Cabecera de página
     function Header()
     {
-        if ($this->tipo == 'L') //TIPO DE HOJA HORIZONTAL
+        //Si el reporte es de tipo "REPORTES" mostrara esta cabecera
+        if ($this->tipo_report == 'Reportes')
         {
-            // Logo
-            $this->Image(asset('images/parkeo/parking.png'), 10, 5, 20);
-            $this->SetFont('Arial', 'B', 15);
-            $this->Cell(120);
-            $this->Cell(60, 6, $this->titul, 0, 0, 'C');
-            $this->SetFont('Arial', '', 11);
-            $this->Cell(100, 6, 'Fecha:' . Carbon::now()->format('d/m/Y'), 0, 0, 'R');
-            $this->Ln();
-            $this->Cell(120);
-            $this->Cell(60, 6, 'Codigo: ' . $this->caj_id . ' - ' . 'Usuario: ' . $this->user_id, 0, 0, 'C');
-            $this->Cell(100, 6, 'Hora:' . Carbon::now()->format('H:i:s'), 0, 0, 'R');
-            $this->Ln(20);
-        } else //TIPO DE HOJA  EN VERTICAL
+                // Logo
+                $this->Image(asset('images/parkeo/parking.png'), 10, 5, 20);
+                $this->SetFont('Arial', 'B', 15);
+
+                $this->Cell(80);
+                $this->Cell(30, 6, $this->titul, 0, 0, 'C');
+                $this->SetFont('Arial', '', 11);
+                $this->Cell(85, 6, 'Fecha:' . Carbon::now()->format('d/m/Y'), 0, 0, 'R');
+                $this->Ln();
+                $this->Cell(80);
+                $this->Cell(115, 6, 'Hora:' . Carbon::now()->format('H:i:s'), 0, 0, 'R');
+                $this->Ln(15);
+        }
+        //Si el reporte es de tipo caja, mostrara esta cabecera
+        else if ($this->tipo_report == 'Caja')
         {
-            // Logo
-            $this->Image(asset('images/parkeo/parking.png'), 10, 5, 20);
-            $this->SetFont('Arial', 'B', 15);
+            if ($this->tipo_hoja == 'L') //TIPO DE HOJA HORIZONTAL
+            {
+                // Logo
+                $this->Image(asset('images/parkeo/parking.png'), 10, 5, 20);
+                $this->SetFont('Arial', 'B', 15);
+                $this->Cell(120);
+                $this->Cell(60, 6, $this->titul, 0, 0, 'C');
+                $this->SetFont('Arial', '', 11);
+                $this->Cell(100, 6, 'Fecha:' . Carbon::now()->format('d/m/Y'), 0, 0, 'R');
+                $this->Ln();
+                $this->Cell(120);
+                $this->Cell(60, 6, 'Codigo: ' . $this->caj_id . ' - ' . 'Usuario: ' . $this->user_id, 0, 0, 'C');
+                $this->Cell(100, 6, 'Hora:' . Carbon::now()->format('H:i:s'), 0, 0, 'R');
+                $this->Ln(20);
+            } else //TIPO DE HOJA  EN VERTICAL
+            {
+                // Logo
+                $this->Image(asset('images/parkeo/parking.png'), 10, 5, 20);
+                $this->SetFont('Arial', 'B', 15);
 
 
-            $this->Cell(80);
-            $this->Cell(30, 6, $this->titul, 0, 0, 'C');
-            $this->SetFont('Arial', '', 11);
-            $this->Cell(85, 6, 'Fecha:' . Carbon::now()->format('d/m/Y'), 0, 0, 'R');
-            $this->Ln();
-            $this->Cell(80);
-            $this->Cell(30, 6, 'Codigo: ' . $this->caj_id . ' - ' . 'Usuario: ' . $this->user_id, 0, 0, 'C');
-            $this->Cell(85, 6, 'Hora:' . Carbon::now()->format('H:i:s'), 0, 0, 'R');
-            $this->Ln(20);
+                $this->Cell(80);
+                $this->Cell(30, 6, $this->titul, 0, 0, 'C');
+                $this->SetFont('Arial', '', 11);
+                $this->Cell(85, 6, 'Fecha:' . Carbon::now()->format('d/m/Y'), 0, 0, 'R');
+                $this->Ln();
+                $this->Cell(80);
+                $this->Cell(30, 6, 'Codigo: ' . $this->caj_id . ' - ' . 'Usuario: ' . $this->user_id, 0, 0, 'C');
+                $this->Cell(85, 6, 'Hora:' . Carbon::now()->format('H:i:s'), 0, 0, 'R');
+                $this->Ln(20);
+            }
         }
     }
 
@@ -182,27 +203,27 @@ class PDF extends Fpdf
     }
 
 
-    function BasicTable($header, $data, $x = 0, $y = 0) {
+    function BasicTable($header, $data, $x = 0, $y = 0)
+    {
 
-		$this->SetXY($x , $y);
+        $this->SetXY($x, $y);
 
-		// Header
-		foreach($header as $col)
-			$this->Cell(40 ,7,$col,1);
-		$this->Ln();
+        // Header
+        foreach ($header as $col)
+            $this->Cell(40, 7, $col, 1);
+        $this->Ln();
 
-		// Data
-		$i = 7;
-		$this->SetXY($x , $y + $i);
-		foreach($data as $row){
-			foreach($row as $col){
-				//$this->SetXY($x , $y + $i);
-				$this->Cell(40 ,6,$col,1);
-
-			}
-			$i= $i + 6 ;  // incremento el valor de la columna
-			$this->SetXY($x , $y + $i);
-		  //$this->Ln();
-		}
-	}
+        // Data
+        $i = 7;
+        $this->SetXY($x, $y + $i);
+        foreach ($data as $row) {
+            foreach ($row as $col) {
+                //$this->SetXY($x , $y + $i);
+                $this->Cell(40, 6, $col, 1);
+            }
+            $i = $i + 6;  // incremento el valor de la columna
+            $this->SetXY($x, $y + $i);
+            //$this->Ln();
+        }
+    }
 }
