@@ -21,8 +21,8 @@
         @include('actions.headerorder',['campo_a_ordenar' => 'tip_desc']) Tp. Vehiculo</th>
 
     <th class="text-center" wire:click="Header_Orderby('caj_desc')" class="text-center" style="cursor: pointer;">
-        @include('actions.headerorder',['campo_a_ordenar' => 'caj_desc']) Caja</th>
-    
+        @include('actions.headerorder',['campo_a_ordenar' => 'caj_desc']) Cajones</th>
+
     <th class="text-center" wire:click="Header_Orderby('caj_estado')" class="text-center" style="cursor: pointer;">
         @include('actions.headerorder',['campo_a_ordenar' => 'caj_estado']) Estado</th>
 
@@ -51,7 +51,7 @@
                 <button wire:click="edit({{ $d->caj_id}})" type="button" class="btn btn-warning" data-toggle="modal" data-target="#Modal">
                     <i class="fas fa-pencil-alt"></i>
                 </button>
-                                {{----------------------------activar desactivar------------------------------------}}             
+                                {{----------------------------activar desactivar------------------------------------}}
                 @if ($d->caj_estado == 'Libre')
                     @if ($selected_id == $d->caj_id)
                         <button wire:click="Desactivar_Activar({{ $d->caj_id }},'Ocupado')" type="button"
@@ -70,7 +70,7 @@
                             class="btn btn-success"><i class="fas fa-arrow-up"></i>
                         </button>
                     @endif
-                @endif                           
+                @endif
             </td>
         </tr>
     @endforeach

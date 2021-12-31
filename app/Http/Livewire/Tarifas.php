@@ -170,14 +170,14 @@ class Tarifas extends Component
         $this->resetValidation();
     }
 
-         //Reportes
-         public function report_xls()
-         {
-             return Excel::download(new TarifasExport,'tarifas.xlsx');
-         }
+    //Reportes
+    public function report_xls()
+    {
+        return Excel::download(new TarifasExport,'tarifas.xlsx');
+    }
 
-         public function report_pdf()
-         {
-             $this->emit('pdf_tarifas');
-         }
+    public function report_pdf()
+    {
+        $this->emit('pdf_tarifas');
+    }
 }

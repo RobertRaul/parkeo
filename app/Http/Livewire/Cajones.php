@@ -2,10 +2,12 @@
 
 namespace App\Http\Livewire;
 
+use App\Exports\CajonesExport;
 use Livewire\Component;
 use App\Models\Cajon;
 use App\Models\Tipo;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Cajones extends Component
 {
@@ -107,7 +109,7 @@ class Cajones extends Component
                 'caj_tipoid' => $this->caj_tipoid,
             ];
         //realizamos validacion para registrar
-        if ($this->selected_id_edit <= 0) 
+        if ($this->selected_id_edit <= 0)
         {
             $this->validate();
             Cajon::create($datos);
@@ -154,4 +156,15 @@ class Cajones extends Component
         $this->resetErrorBag();
         $this->resetValidation();
     }
+
+      //Reportes
+      public function report_xls()
+      {
+          return Excel::download(new CajonesExport,'cajones.xlsx');
+      }
+
+      public function report_pdf()
+      {
+          $this->emit('pdf_cajones');
+      }
 }
