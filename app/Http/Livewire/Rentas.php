@@ -261,7 +261,7 @@ class Rentas extends Component
 
     protected $listeners = [
         'ticketrenta' => 'ticket_renta',
-        'cargar_data' => 'buscar_paciente',
+        'cargar_data' => 'buscar_cliente',
         'renta_mensaje' => 'renta_mensaje',
         'darSalida' => 'MostrarTotales'
     ];
@@ -269,6 +269,23 @@ class Rentas extends Component
     public function renta_mensaje()
     {
         $this->emit('msgERROR', 'Debe Realiza una apertura de caja para el dia de hoy');
+    }
+
+    public function validar_cajon($idcajon)
+    {
+        $data=Cajon::where('caj_estado','Libre')
+                    ->where('caj_id','=',$idcajon)
+                    ->first();
+        if($data)
+        {
+            $this->rent_cajonid=$idcajon;
+            $this->emit('openModalTicket');
+        }
+        else
+        {
+            $this->emit('msgINFO', 'El cajon ya fue ocupado por otro vehiculo');
+        }
+
     }
 
     //meotod registrar y actualizar
@@ -301,8 +318,9 @@ class Rentas extends Component
                 'veh_foto' => $this->veh_foto,
             ];
             //validamos si se selecciono el CLiente general
-            if ($this->cliente_general == "yes") {
-                $datos[0]['rent_client'] = 1;
+            if ($this->cliente_general == "yes") 
+            {
+                $datos['rent_client'] = 1;
             } else //en esta opcion tenemos 2 formar **1 Si el usuario busco un paciente entonces ya no registramos **2 hacemos el registro desde cero
             {
                 if ($this->clie_id > 0) {
@@ -318,18 +336,18 @@ class Rentas extends Component
                     ]);
                     $clien = Cliente::create($datos_cliente);
                     $idclie = $clien->clie_id;
-                    $datos[0]['rent_client'] = $idclie;
+                    $datos['rent_client'] = $idclie;
                 }
             }
 
             //validamos si se selecciono un VEHICULO GENERAL
             if ($this->vehiculo_general == "yes")
-                $datos[0]['rent_vehiculo'] = 1; //podnemos el ID del VEHICULO GENERAL EN LA DATA
+                $datos['rent_vehiculo'] = 1; //podnemos el ID del VEHICULO GENERAL EN LA DATA
             else {
                 $this->validate([
                     'veh_placa' => 'required',
                     'veh_modelo' => 'required',
-                    'veh_foto'   =>  'image|mimes:jpeg,png,jpg,gif,svg|max:4096',
+                    'veh_foto'   =>  'image|mimes:jpeg,png,jpg,gif,svg|max:4096|nullable',
                 ]);
                 /***************************VEHICULO******************************** */
                 //Verificamos que la se haya cargado una imagen
@@ -369,7 +387,7 @@ class Rentas extends Component
             throw $th;
         }
     }
-    public function buscar_paciente($value)
+    public function buscar_cliente($value)
     {
         if ($value != "Buscar") {
             $data = Cliente::find($value);
@@ -474,13 +492,15 @@ class Rentas extends Component
         // $rent = null;
         $this->accion = $accion;
         //si el ID del cajon esta en vacio entonces buscan por el ID CAJON
-        if ($id_cajon != '') {
+        if ($id_cajon != '') 
+        {
             $rent = Renta::where('rent_cajonid', $id_cajon)
                 ->select('*', DB::RAW("'' as tiempo"), DB::RAW("0 as Total"))
                 ->where('rent_estado', 'Abierto')
                 ->orderBy('rent_id', 'desc')
                 ->first();
-        } else if ($this->barcode != null) //buscan por el codigo de barras
+        } 
+        else if ($this->barcode != null) //buscan por el codigo de barras
         {
             $rent = Renta::where('rent_id', $this->barcode)
                 ->select('*', DB::RAW("'' as tiempo"), DB::RAW("0 as Total"))
@@ -489,7 +509,8 @@ class Rentas extends Component
                 ->first();
         }
 
-        if ($rent != null) {
+        if ($rent != null) 
+        {
             $inicio = Carbon::parse($rent->rent_feching);
 
             $final = new \DateTime(Carbon::now());
@@ -500,7 +521,8 @@ class Rentas extends Component
 
             $this->data_rent = $rent;
             $this->emit('openIngreso');
-        } else {
+        } else 
+        {
             $this->emit('msgERROR', 'No existe el registro');
             $this->barcode = '';
             return;

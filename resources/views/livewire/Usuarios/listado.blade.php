@@ -1,16 +1,20 @@
 @extends('actions.listado')
 
 @section('name_component')
-<i class="fas fa-users-cog"></i>
+    <i class="fas fa-users-cog"></i>
     Usuarios
 @endsection
 
 @section('button_new')
-    @include('actions.btnnuevo-modal')
+    @include('actions.btnnuevo-modal',['nuevo' => 'usuarios_nuevo'])
 @endsection
 
 @section('card_body')
     @include('livewire.usuarios.crear')
+@endsection
+
+@section('btn_reports')
+    @include('actions.btnreportes',['reports' => 'usuarios_reportes'])
 @endsection
 
 @section('table_header')
@@ -40,11 +44,11 @@
         <tr>
             <td class="text-center">{{ $d->us_id }} </td>
 
-            <td class="text-center" >{{ $d->us_usuario }} </td>
+            <td class="text-center">{{ $d->us_usuario }} </td>
 
             <td class="text-center">{{ $d->us_rol }} </td>
 
-            <td>{{ $d->Empleados->emp_apellidos}} {{ $d->Empleados->emp_nombres}} </td>
+            <td>{{ $d->Empleados->emp_apellidos }} {{ $d->Empleados->emp_nombres }} </td>
 
             <td class="text-center">{{ $d->us_fechr }}</td>
 
@@ -57,32 +61,34 @@
             </td>
 
             <td class="text-center">
-                                {{----------------------------editar------------------------------------}}
-                <button wire:click="edit({{ $d->us_id}})" type="button" class="btn btn-warning" data-toggle="modal" data-target="#Modal">
-                    <i class="fas fa-pencil-alt"></i>
-                </button>
-                                {{----------------------------activar desactivar------------------------------------}}
-                @if ($d->us_estado == 'Activo')
-                    @if ($selected_id == $d->us_id)
-                        <button wire:click="Desactivar_Activar({{$d->us_id}},'Desactivado')" type="button"
-                            class="btn btn-secondary"><i class="fa fa-check"></i></button>
+                @can('usuarios_acciones')
+                    {{-- --------------------------editar---------------------------------- --}}
+                    <button wire:click="edit({{ $d->us_id }})" type="button" class="btn btn-warning" data-toggle="modal"
+                        data-target="#Modal">
+                        <i class="fas fa-pencil-alt"></i>
+                    </button>
+                    {{-- --------------------------activar desactivar---------------------------------- --}}
+                    @if ($d->us_estado == 'Activo')
+                        @if ($selected_id == $d->us_id)
+                            <button wire:click="Desactivar_Activar({{ $d->us_id }},'Desactivado')" type="button"
+                                class="btn btn-secondary"><i class="fa fa-check"></i></button>
+                        @else
+                            <button wire:click="Confirmar_Desactivar({{ $d->us_id }})" type="button"
+                                class="btn btn-danger"><i class="fas fa-arrow-down"></i>
+                            </button>
+                        @endif
                     @else
-                        <button wire:click="Confirmar_Desactivar({{$d->us_id}})" type="button"
-                            class="btn btn-danger"><i class="fas fa-arrow-down"></i>
-                        </button>
+                        @if ($selected_id == $d->us_id)
+                            <button wire:click="Desactivar_Activar({{ $d->us_id }},'Activo')" type="button"
+                                class="btn btn-secondary"><i class="fas fa-check"></i></i></button>
+                        @else
+                            <button wire:click="Confirmar_Desactivar({{ $d->us_id }})" type="button"
+                                class="btn btn-success"><i class="fas fa-arrow-up"></i>
+                            </button>
+                        @endif
                     @endif
-                @else
-                    @if ($selected_id == $d->us_id)
-                        <button wire:click="Desactivar_Activar({{$d->us_id}},'Activo')" type="button"
-                            class="btn btn-secondary"><i class="fas fa-check"></i></i></button>
-                    @else
-                        <button wire:click="Confirmar_Desactivar({{$d->us_id}})" type="button"
-                            class="btn btn-success"><i class="fas fa-arrow-up"></i>
-                        </button>
-                    @endif
-                @endif
+                @endcan
             </td>
         </tr>
     @endforeach
 @endsection
-

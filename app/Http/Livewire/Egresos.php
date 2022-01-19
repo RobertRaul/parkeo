@@ -178,4 +178,15 @@ class Egresos extends Component
         $this->emit('msgINFO', 'Egreso Anulado');
         $this->resetInput();
     }
+
+       //Reportes
+       public function report_xls()
+       {
+        $this->emit('msgERROR', 'Este modulo no tiene esa funcion');
+       }
+   
+       public function report_pdf()
+       {
+        $this->emit('msgERROR', 'Este modulo no tiene esa funcion');
+       }
 }

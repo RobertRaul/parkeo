@@ -6,6 +6,8 @@ use Livewire\Component;
 use App\Models\Empleado;
 use App\Models\TipoDocumento;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\EmpleadosExport;
 
 class Empleados extends Component
 {
@@ -193,5 +195,16 @@ class Empleados extends Component
     {
         $this->resetErrorBag();
         $this->resetValidation();
+    }
+
+    //Reportes
+    public function report_xls()
+    {
+        return Excel::download(new EmpleadosExport,'empleados.xlsx');
+    }
+
+    public function report_pdf()
+    {
+        $this->emit('pdf_empleados');
     }
 }

@@ -54,10 +54,12 @@
                                                 @if ($c->caj_estado == 'Libre')
                                                     <span id="{{ $c->caj_id }}" style="cursor: pointer;"
                                                         data-status="{{ $c->caj_estado }}"
-                                                        data-id="{{ $c->caj_id }}" data-toggle="modal"
-                                                        data-target="#modalTicket"
+                                                        data-id="{{ $c->caj_id }}" 
+                                                        {{-- data-toggle="modal" data-target="#modalTicket" --}}
                                                         class="badge-chip badge-success mt-2 mb-2 ml-2 bs-popover col-sm-12"
-                                                        wire:click="$set('rent_cajonid','{{ $c->caj_id }}')">
+                                                        {{-- wire:click="$set('rent_cajonid','{{ $c->caj_id }}')" --}}
+                                                        wire:click="validar_cajon('{{$c->caj_id}} ')"
+                                                        >
                                                     @else
                                                         <span id="{{ $c->caj_id }}" style="cursor: pointer;"
                                                             data-status="{{ $c->caj_estado }}"

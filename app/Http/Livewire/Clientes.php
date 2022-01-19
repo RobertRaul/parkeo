@@ -2,10 +2,12 @@
 
 namespace App\Http\Livewire;
 
+use App\Exports\ClientesExport;
 use Livewire\Component;
 use App\Models\Cliente;
 use App\Models\TipoDocumento;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Clientes extends Component
 {
@@ -179,4 +181,16 @@ class Clientes extends Component
           $this->resetErrorBag();
           $this->resetValidation();
       }
+
+      
+    //Reportes
+    public function report_xls()
+    {
+        return Excel::download(new ClientesExport,'clientes.xlsx');
+    }
+
+    public function report_pdf()
+    {
+        $this->emit('pdf_clientes');
+    }
 }

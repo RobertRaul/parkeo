@@ -5,10 +5,10 @@
 Egresos
 @endsection
 
-
 @section('button_new')
-@include('actions.btnnuevo-modal')
+@include('actions.btnnuevo-modal',['nuevo' =>'egresos_nuevo'])
 @endsection
+
 
 @section('card_body')
     @include('livewire.egresos.crear')

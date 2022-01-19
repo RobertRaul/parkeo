@@ -133,6 +133,10 @@
           window.livewire.on('closeIngreso', () =>{
             $('#modalIngreso').modal('hide');
         });
+
+        window.livewire.on('openModalTicket', () =>{
+            $('#modalTicket').modal('show');
+        });
     </script>
 
 </body>

@@ -1,3 +1,4 @@
+@can($nuevo)
 <div class="col-md-2 float-right">
     <div class="text-right">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Modal" >
@@ -6,3 +7,4 @@
         </button>
     </div>
 </div>
+@endcan

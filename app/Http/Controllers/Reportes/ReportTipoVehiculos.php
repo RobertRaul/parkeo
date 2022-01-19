@@ -40,7 +40,8 @@ class ReportTipoVehiculos extends Controller
                 $item->tip_estado,
             ));
         }
-
+        // es el margen exacto para corregir el pie de pagina
+        $pdf->SetLeftMargin(10);
         $pdf->Output();
         exit;
     }

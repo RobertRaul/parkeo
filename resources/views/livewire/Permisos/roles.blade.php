@@ -4,9 +4,9 @@
             <h6 class="text-center"><b>Listado de Roles</b></h6>
             <div class="input-group mb-4">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">
+                    {{-- <span class="input-group-text">
                         <i class="fas fa-trash-alt"></i>
-                    </span>
+                    </span> --}}
                 </div>
                 <input type="text" id="rolName" class="form-control" autocomplete="off">
                 <input type="hidden" id="rolId">

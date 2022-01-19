@@ -2,11 +2,13 @@
 
 namespace App\Http\Livewire;
 
+use App\Exports\SeriesExport;
 use Livewire\Component;
 use App\Models\Serie;
 use App\Models\TipoComprobante;
 use Livewire\WithPagination;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Series extends Component
 {
@@ -175,4 +177,15 @@ class Series extends Component
         $this->resetErrorBag();
         $this->resetValidation();
     }
+
+      //Reportes
+      public function report_xls()
+      {
+          return Excel::download(new SeriesExport,'series.xlsx');
+      }
+  
+      public function report_pdf()
+      {
+          $this->emit('pdf_series');
+      }
 }

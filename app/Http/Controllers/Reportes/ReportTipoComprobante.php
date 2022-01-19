@@ -39,7 +39,8 @@ class ReportTipoComprobante extends Controller
                 $item->tpc_estado,
             ));
         }
-
+        // es el margen exacto para corregir el pie de pagina
+        $pdf->SetLeftMargin(10);
         $pdf->Output();
         exit;
     }

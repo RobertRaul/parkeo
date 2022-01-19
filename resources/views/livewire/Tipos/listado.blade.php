@@ -6,11 +6,15 @@ Tipos de Vehiculos
 @endsection
 
 @section('button_new')
-@include('actions.btnnuevo-modal')
+@include('actions.btnnuevo-modal',['nuevo' =>'vehiculos_nuevo'])
 @endsection
 
 @section('card_body')
 @include('livewire.tipos.crear')
+@endsection
+
+@section('btn_reports')
+    @include('actions.btnreportes',['reports' =>'vehiculos_reportes'])   
 @endsection
 
 
@@ -57,6 +61,9 @@ Tipos de Vehiculos
     </td>
 
     <td class="text-center">
+        @can('vehiculos_acciones')
+            
+ 
         {{----------------------------editar------------------------------------}}
         <button wire:click="edit({{ $d->tip_id}})" type="button" class="btn btn-warning" data-toggle="modal"
             data-target="#Modal">
@@ -83,6 +90,7 @@ Tipos de Vehiculos
         </button>
         @endif
         @endif
+        @endcan
     </td>
 </tr>
 @endforeach

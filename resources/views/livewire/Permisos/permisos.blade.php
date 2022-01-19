@@ -2,20 +2,20 @@
     <div class="row">
         <div class="col-sm-12 col-md-7">
             <h6 class="text-center"><b>Listado de Permisos</b></h6>
-            <div class="input-group">
-                   {{--
+            <div class="input-group mb-4">
+                   
                 <div class="input-group-prepend">
-                    <span class="input-group-text">
+                    {{-- <span class="input-group-text">
                         <i class="fas fa-trash-alt"></i>
-                    </span>
+                    </span> --}}
                 </div>
-             <input type="text" id="permisoName" class="form-control" autocomplete="off">
+             <input type="text" id="permisoName" class="form-control" autocomplete="off" wire:keydown.enter="$emit('CrearPermiso',$('#permisoName').val(),$('#permisoId').val())">
                 <input type="hidden" id="permisoId">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" wire:click="CrearRol($('#permisoName').val(), $('#permisoId').val())">
+                    <span class="input-group-text" wire:click="$emit('CrearPermiso',$('#permisoName').val(),$('#permisoId').val())">
                         <i class="fas fa-save"></i>
                     </span>
-                </div> --}}
+                </div>
             </div>
 
         <div class="table-responsive">
@@ -24,6 +24,7 @@
                     <tr>
                         <th class="text-center">Permisos</th>
                         <th class="text-center">Roles Con el Permiso</th>
+                        <th class="text-center">Acciones</th>
                         {{-- <th class="text-center">Acciones</th> --}}
                         <th class="text-center">
                             <div class="n-check">
@@ -43,17 +44,19 @@
                         <tr>
                             <td> {{$p->name}} </td>
                             <td class="text-center"> {{\App\Models\User::permission($p->name)->count()}} </td>
-                            {{-- <td class="text-center">
+                            <td class="text-center">
 
-                                {{-- <button type="button" class="btn btn-warning" style="cursor: pointer" onclick="showPermission('{{$p}}')">
+                                 <button type="button" class="btn btn-warning" style="cursor: pointer" onclick="showPermission('{{$p}}')">
                                     <i class="fas fa-pencil-alt"></i>
                                 </button> 
 
+                              
                                 @if (\App\Models\User::permission($p->name)->count() <=0)
-                                    <a href="javascript:void(0)" onclick="Confirmar('{{$p->id}}')" title="Eliminar Permiso">
+                                <button type="button" class="btn btn-danger" onclick="Confirm_p('{{$p->id}}')">                                
                                     <i class="fas fa-trash text-center"></i>
-                                @endif
-                            </td> --}}
+                                </button>
+                                @endif                       
+                            </td>
                             <td class="text-center">
 
                                     {{-- ESTE ES UN CONTROL PERSONALIZADO DE ADMINLTE/forms/general elements --}}
@@ -63,9 +66,10 @@
                                     </div>
                             </td>
                         </tr>
-                    @endforeach
+                    @endforeach                    
                 </tbody>
-            </table>
+            </table>   
+           
         </div>
     </div>
 

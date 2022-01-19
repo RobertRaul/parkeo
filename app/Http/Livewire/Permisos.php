@@ -8,14 +8,18 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use App\Models\User;
 use DB;
-use Monolog\Handler\RollbarHandler;
+use Livewire\WithPagination;
 
 class Permisos extends Component
 {
+    //paginado
+    use WithPagination;
+    //Tipo de paginacion
+    protected $paginationTheme = 'bootstrap';
     //creacion de variables publicas
-    public $permisoTitle = 'Crear', $rolTitle = 'Crear', $userSelected="Seleccionar";
+    public $permisoTitle = 'Crear', $rolTitle = 'Crear', $userSelected = "Seleccionar";
     //roles
-    public $tab = 'roles', $rolSelected="Seleccionar";
+    public $tab = 'roles', $rolSelected = "Seleccionar";
 
     public function render()
     {
@@ -40,7 +44,8 @@ class Permisos extends Component
         }
 
         //---------------------------------------------------PERMISOS ----------------------------------------------------------------//
-        $permisos = Permission::select('*', DB::RAW("0 as checked"))->get();
+        $permisos = Permission::select('*', DB::RAW("0 as checked"))->orderBy('id', 'desc')
+            ->get();
 
         //verificamos que haya algun permiso seleccionado
         if ($this->rolSelected != '' && $this->rolSelected != 'Seleccionar') {
@@ -60,7 +65,7 @@ class Permisos extends Component
         return view('livewire.permisos.listado', [
             'roles' => $roles,
             'permisos' => $permisos,
-            'usuarios' => User::select('us_id', 'us_usuario')->get(),
+            'usuarios' => User::select('us_id', 'us_usuario')->where('us_estado', '=', 'Activo')->get(),
         ]);
     }
 
@@ -97,8 +102,9 @@ class Permisos extends Component
             ]);
             $this->emit('msgOK', 'Rol registrado correctamente');
             $this->resetInput();
+        } else {
+            $this->emit('msgERROR', 'Registre un rol valido');
         }
-
     }
 
     public function UpdateRol($rolNombre, $rolId)
@@ -127,8 +133,7 @@ class Permisos extends Component
     {
         if ($this->userSelected) {
             $user = User::find($this->userSelected);
-            if ($user)
-            {
+            if ($user) {
                 //este metodo eliminar el rol anterior y se le asigna uno nuevo
                 $user->syncRoles($rolesList);
                 $this->emit('msgOK', 'Roles asignados correctamente');
@@ -163,21 +168,27 @@ class Permisos extends Component
 
     public function SavePermiso($permisoNombre)
     {
-        $permiso = Permission::where('name', $permisoNombre)->first();
-        if ($permiso) {
-            $this->emit('msgERROR', 'El permiso que intentas registrar ya existe en el sistema');
-            return;
+        if ($permisoNombre) 
+        {
+            $permiso = Permission::where('name', $permisoNombre)->first();
+            if ($permiso) {
+                $this->emit('msgERROR', 'El permiso que intentas registrar ya existe en el sistema');
+                return;
+            }
+            Permission::create([
+                'name' => $permisoNombre
+            ]);
+            $this->emit('msgOK', 'Permiso registrado correctamente');
+            $this->resetInput();
+        } 
+        else {
+            $this->emit('msgERROR', 'Registre un permiso valido');
         }
-        Permission::create([
-            'name' => $permisoNombre
-        ]);
-        $this->emit('msgOK', 'Permiso registrado correctamente');
-        $this->resetInput();
     }
 
     public function UpdatePermiso($permisoNombre, $permisoId)
     {
-        $permiso = Permission::where('name', $permisoNombre)->where('id', '<>', $permisoId) - first();
+        $permiso = Permission::where('name', $permisoNombre)->where('id', '<>', $permisoId)->first();
         if ($permiso) {
             $this->emit('msgERROR', 'El permiso que intentas registrar ya existe en el sistema');
             return;

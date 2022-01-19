@@ -19,7 +19,7 @@
                         <div class="form-group col-4">
                             <label class="text-danger">Tarifa:</label>
                             <div class="input-group mb-2 mr-sm-2">
-                                <b>{{ $data_rent->Tarifas->tar_precio }} x {{ $data_rent->Tarifas->tar_tiempo }}</b>
+                                <b>S/ {{ $data_rent->Tarifas->tar_precio }} x {{ $data_rent->Tarifas->tar_tiempo }}</b>
                             </div>
                         </div>
 

@@ -1,16 +1,20 @@
 @extends('actions.listado')
 
 @section('name_component')
-<i class="fas fa-user-friends"></i>
+    <i class="fas fa-user-friends"></i>
     Empleados
 @endsection
 
 @section('button_new')
-    @include('actions.btnnuevo-modal')
+    @include('actions.btnnuevo-modal',['nuevo' => 'empleados_nuevo'])
 @endsection
 
 @section('card_body')
     @include('livewire.empleados.crear')
+@endsection
+
+@section('btn_reports')
+    @include('actions.btnreportes',['reports' => 'empleados_reportes'])
 @endsection
 
 @section('table_header')
@@ -49,7 +53,7 @@
         <tr>
             <td class="text-center">{{ $d->emp_id }} </td>
             <td class="text-center">{{ $d->tpdi_desc }} </td>
-            <td >{{ $d->emp_numdoc }} </td>
+            <td>{{ $d->emp_numdoc }} </td>
             <td>{{ $d->emp_apellidos }} </td>
             <td>{{ $d->emp_nombres }} </td>
             <td class="text-center">{{ $d->emp_celular }} </td>
@@ -65,31 +69,49 @@
             </td>
 
             <td class="text-center">
-                                {{----------------------------editar------------------------------------}}
-                <button wire:click="edit({{ $d->emp_id}})" type="button" class="btn btn-warning" data-toggle="modal" data-target="#Modal">
-                    <i class="fas fa-pencil-alt"></i>
-                </button>
-                                {{----------------------------activar desactivar------------------------------------}}
-                @if ($d->emp_estado == 'Activo')
-                    @if ($selected_id == $d->emp_id)
-                        <button wire:click="Desactivar_Activar({{ $d->emp_id }},'Desactivado')" type="button"
-                            class="btn btn-secondary"><i class="fa fa-check"></i></button>
+                @can('empleados_acciones')
+                    {{-- --------------------------editar---------------------------------- --}}
+                    <button wire:click="edit({{ $d->emp_id }})" type="button" class="btn btn-warning" data-toggle="modal"
+                        data-target="#Modal">
+                        <i class="fas fa-pencil-alt"></i>
+                    </button>
+                    {{-- --------------------------activar desactivar---------------------------------- --}}
+                    @if ($d->emp_estado == 'Activo')
+                        @if ($selected_id == $d->emp_id)
+                            <button wire:click="Desactivar_Activar({{ $d->emp_id }},'Desactivado')" type="button"
+                                class="btn btn-secondary"><i class="fa fa-check"></i></button>
+                        @else
+                            <button wire:click="Confirmar_Desactivar({{ $d->emp_id }})" type="button"
+                                class="btn btn-danger"><i class="fas fa-arrow-down"></i>
+                            </button>
+                        @endif
                     @else
-                        <button wire:click="Confirmar_Desactivar({{ $d->emp_id }})" type="button"
-                            class="btn btn-danger"><i class="fas fa-arrow-down"></i>
-                        </button>
+                        @if ($selected_id == $d->emp_id)
+                            <button wire:click="Desactivar_Activar({{ $d->emp_id }},'Activo')" type="button"
+                                class="btn btn-secondary"><i class="fas fa-check"></i></i></button>
+                        @else
+                            <button wire:click="Confirmar_Desactivar({{ $d->emp_id }})" type="button"
+                                class="btn btn-success"><i class="fas fa-arrow-up"></i>
+                            </button>
+                        @endif
                     @endif
-                @else
-                    @if ($selected_id == $d->emp_id)
-                        <button wire:click="Desactivar_Activar({{ $d->emp_id }},'Activo')" type="button"
-                            class="btn btn-secondary"><i class="fas fa-check"></i></i></button>
-                    @else
-                        <button wire:click="Confirmar_Desactivar({{ $d->emp_id }})" type="button"
-                            class="btn btn-success"><i class="fas fa-arrow-up"></i>
-                        </button>
-                    @endif
-                @endif
+                @endcan
             </td>
         </tr>
     @endforeach
+@endsection
+
+
+@section('js')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            //el evento print se emite en la linea 192 del controlador Rentas
+            window.livewire.on('pdf_empleados', report => {
+                //var ruta="{{ url('imprimir/pdf') }}"
+                var ruta = "{{ url('reportes/empleados/') }}"
+                var w = window.open(ruta, "_blank", "=width1,height=1")
+                //w.close()//cierra la ventana de impresion
+            })
+        })
+    </script>
 @endsection

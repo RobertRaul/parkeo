@@ -1,16 +1,20 @@
 @extends('actions.listado')
 
 @section('name_component')
-<i class="fas fa-user-friends"></i>
+    <i class="fas fa-user-friends"></i>
     Clientes
 @endsection
 
 @section('button_new')
-    @include('actions.btnnuevo-modal')
+    @include('actions.btnnuevo-modal',['nuevo' =>'clientes_nuevo'])
 @endsection
 
 @section('card_body')
     @include('livewire.clientes.crear')
+@endsection
+
+@section('btn_reports')
+    @include('actions.btnreportes',['reports' => 'clientes_reports'])
 @endsection
 
 @section('table_header')
@@ -57,31 +61,49 @@
             </td>
 
             <td class="text-center">
-                                {{----------------------------editar------------------------------------}}
-                <button wire:click="edit({{ $d->clie_id}})" type="button" class="btn btn-warning" data-toggle="modal" data-target="#Modal">
-                    <i class="fas fa-pencil-alt"></i>
-                </button>
-                                {{----------------------------activar desactivar------------------------------------}}
-                @if ($d->clie_estado == 'Activo')
-                    @if ($selected_id == $d->clie_id)
-                        <button wire:click="Desactivar_Activar({{ $d->clie_id }},'Desactivado')" type="button"
-                            class="btn btn-secondary"><i class="fa fa-check"></i></button>
+                @can('clientes_acciones')
+                    {{-- --------------------------editar---------------------------------- --}}
+                    <button wire:click="edit({{ $d->clie_id }})" type="button" class="btn btn-warning" data-toggle="modal"
+                        data-target="#Modal">
+                        <i class="fas fa-pencil-alt"></i>
+                    </button>
+                    {{-- --------------------------activar desactivar---------------------------------- --}}
+                    @if ($d->clie_estado == 'Activo')
+                        @if ($selected_id == $d->clie_id)
+                            <button wire:click="Desactivar_Activar({{ $d->clie_id }},'Desactivado')" type="button"
+                                class="btn btn-secondary"><i class="fa fa-check"></i></button>
+                        @else
+                            <button wire:click="Confirmar_Desactivar({{ $d->clie_id }})" type="button"
+                                class="btn btn-danger"><i class="fas fa-arrow-down"></i>
+                            </button>
+                        @endif
                     @else
-                        <button wire:click="Confirmar_Desactivar({{ $d->clie_id }})" type="button"
-                            class="btn btn-danger"><i class="fas fa-arrow-down"></i>
-                        </button>
+                        @if ($selected_id == $d->clie_id)
+                            <button wire:click="Desactivar_Activar({{ $d->clie_id }},'Activo')" type="button"
+                                class="btn btn-secondary"><i class="fas fa-check"></i></i></button>
+                        @else
+                            <button wire:click="Confirmar_Desactivar({{ $d->clie_id }})" type="button"
+                                class="btn btn-success"><i class="fas fa-arrow-up"></i>
+                            </button>
+                        @endif
                     @endif
-                @else
-                    @if ($selected_id == $d->clie_id)
-                        <button wire:click="Desactivar_Activar({{ $d->clie_id }},'Activo')" type="button"
-                            class="btn btn-secondary"><i class="fas fa-check"></i></i></button>
-                    @else
-                        <button wire:click="Confirmar_Desactivar({{ $d->clie_id }})" type="button"
-                            class="btn btn-success"><i class="fas fa-arrow-up"></i>
-                        </button>
-                    @endif
-                @endif
+                @endcan
             </td>
         </tr>
     @endforeach
+@endsection
+
+
+@section('js')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            //el evento print se emite en la linea 192 del controlador Rentas
+            window.livewire.on('pdf_clientes', report => {
+                //var ruta="{{ url('imprimir/pdf') }}"
+                var ruta = "{{ url('reportes/clientes/') }}"
+                var w = window.open(ruta, "_blank", "=width1,height=1")
+                //w.close()//cierra la ventana de impresion
+            })
+        })
+    </script>
 @endsection

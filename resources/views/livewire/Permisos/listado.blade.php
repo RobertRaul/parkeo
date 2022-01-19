@@ -150,5 +150,26 @@
         $('table#tblPermisos input[type=checkbox]').attr('disabled','true');
     }
 
+     //funcion eliminar roles
+     function Confirm_p(id)
+    {
+        Swal.fire({
+                title: 'Confirmar',
+                text: '¿Deseas Eliminar el Permiso?',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Aceptar',
+                cancelButtonText: 'Cancelar',
+            }).then((result)=>{
+                if (result.value)
+                {
+                    window.livewire.emit('destroyPermiso', id)
+                    swal.close()
+                }
+            })
+    }
+
 
 </script>

@@ -2,13 +2,15 @@
 
 namespace App\Http\Livewire;
 
+use App\Exports\UsuariosExport;
 use App\Models\Empleado;
 use Livewire\Component;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Livewire\WithPagination;
-
+use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Controllers\Reportes\ReportUsuarios;
 
 class Usuarios extends Component
 {
@@ -115,7 +117,7 @@ class Usuarios extends Component
     }
     //meotod registrar y actualizar
     public function store_update()
-    {       
+    {
         $datos =
             [
                 'us_usuario'   => $this->us_usuario,
@@ -179,5 +181,17 @@ class Usuarios extends Component
     {
         $this->resetErrorBag();
         $this->resetValidation();
+    }
+
+    //Reportes
+    public function report_xls()
+    {
+        return Excel::download(new UsuariosExport, 'usuarios.xlsx');
+    }
+
+    public function report_pdf()
+    {
+        //aqui esta algo raro ya que el evento no funcona, se esta llamando directamente desde el templtes/usuarios/
+        $this->emit('pdf_usuarios');        
     }
 }

@@ -6,11 +6,15 @@
 @endsection
 
 @section('button_new')
-    @include('actions.btnnuevo-modal')
+    @include('actions.btnnuevo-modal',['nuevo' => 'series_nuevo'])
 @endsection
 
 @section('card_body')
     @include('livewire.series.crear')
+@endsection
+
+@section('btn_reports')
+    @include('actions.btnreportes',['reports'=>'series_reportes'])   
 @endsection
 
 @section('table_header')
@@ -52,6 +56,9 @@
             </td>
 
             <td class="text-center">
+                @can('series_acciones')
+                    
+               
                                 {{----------------------------editar------------------------------------}}
                 <button wire:click="edit({{ $d->ser_id}})" type="button" class="btn btn-warning" data-toggle="modal" data-target="#Modal">
                     <i class="fas fa-pencil-alt"></i>
@@ -75,8 +82,26 @@
                             class="btn btn-success"><i class="fas fa-arrow-up"></i>
                         </button>
                     @endif
-                @endif                           
+                @endif    
+
+                @endcan
             </td>
         </tr>
     @endforeach
+@endsection
+
+@section('js')
+    <script>
+        document.addEventListener('DOMContentLoaded',function()
+        {
+            //el evento print se emite en la linea 192 del controlador Rentas
+            window.livewire.on('pdf_series', report =>
+            {
+                //var ruta="{{ url('imprimir/pdf') }}"
+                var ruta="{{ url('reportes/series/') }}"
+                var w =window.open(ruta,"_blank","=width1,height=1")
+                //w.close()//cierra la ventana de impresion
+            })
+        })
+    </script>
 @endsection

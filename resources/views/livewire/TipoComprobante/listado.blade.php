@@ -5,6 +5,10 @@
     Tipos de Comprobante
 @endsection
 
+@section('btn_reports')
+    @include('actions.btnreportes',['reports' =>'comprobantes_reportes'])   
+@endsection
+
 {{-------------------- CABECERA DE LA TABLA  -------------------}}
 
 @section('table_header')
@@ -37,6 +41,7 @@
                 </td>
 
                 <td class="text-center">
+                    @can('comprobantes_acciones')                                      
                     @if ($d->tpc_estado=='Activo')
                         @if ($selected_id==$d->tpc_id)
                             <button wire:click="Desactivar_Activar({{ $d->tpc_id }},'Desactivado')" type="button" class="btn btn-secondary"><i class="fa fa-check"></i></button>
@@ -53,6 +58,7 @@
                             </button>
                         @endif
                     @endif
+                    @endcan
                 </td>
             </tr>
         @endforeach

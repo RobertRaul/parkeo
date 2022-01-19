@@ -239,7 +239,7 @@
         $('#cliente_select').on('change',function(e){
             //cuando se haga el cambio del select capturamos el valor y lo pondemos en data
             var data = $('#cliente_select').select2("val")
-            @this.set('clie_findID',data);
+           // @this.set('clie_findID',data);
             window.livewire.emit('cargar_data',data)
         });
     });

@@ -188,7 +188,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'inicio',
+    'dashboard_url' => 'home',//es la url del dashboard
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -239,18 +239,21 @@ return [
                         'text' => 'Tipos Vehiculos',
                         'url' => 'tipos',
                         'icon' => 'fas fa-car-alt',
+                        'can' =>'vehiculos_acceso',
                     ],
                       //Tipo de Comprobante
                     [
                         'text' => 'Tipo Comprobante',
                         'url' => 'tipocomprobante',
                         'icon' => 'fas fa-clipboard-list',
+                        'can' =>'comprobantes_acceso',
                     ],
                     //Tipo de Documento
                     [
                         'text' => 'Tipo de Documento',
                         'url' => 'tipodocumento',
                         'icon' => 'far fa-id-card',
+                        'can' =>'documentos_acceso',
                     ],
                 ],
         ],
@@ -263,30 +266,35 @@ return [
                         'text' => 'Tarifas',
                         'url' => 'tarifas',
                         'icon' => 'fas fa-money-bill',
+                        'can' =>'tarifas_acceso',
                     ],
                     //Cajones
                     [
                         'text' => 'Cajones',
                         'url' => 'cajones',
                         'icon' => 'fas fa-grip-horizontal',
+                        'can' =>'cajones_acceso',
                     ],
                     //Empleado
                     [
                         'text' => 'Empleados',
                         'url' => 'empleados',
                         'icon' => 'fas fa-user-friends',
+                        'can' =>'empleados_acceso',
                     ],
                       //Clientes
                     [
                     'text' => 'Clientes',
                     'url' => 'clientes',
                     'icon' => 'fas fa-fw fa-user',
+                    'can' =>'clientes_acceso',
                     ],
                       //Series
                       [
                         'text' => 'Series',
                         'url' => 'series',
                         'icon' => 'fas fa-digital-tachograph',
+                        'can' =>'series_acceso',
                     ],
             ],
         ],
@@ -299,12 +307,14 @@ return [
                         'text' => 'Permisos',
                         'url' => 'permisos',
                         'icon' => 'fas fa-key',
+                        'can' =>'permisos_acceso',
                     ],
                     //Usuarios
                     [
                         'text' => 'Usuarios',
                         'url' => 'usuarios',
                         'icon' => 'fas fa-users-cog',
+                        'can' =>'usuarios_acceso',                        
                     ],
 
             ],
@@ -314,18 +324,21 @@ return [
             'text' => 'Cajas',
             'url' => 'cajas',
             'icon' => 'fas fa-cash-register',
+            'can' =>'cajas_acceso',
         ],
           //Rentas
         [
             'text' => 'Rentas',
             'url' => 'rentas',
             'icon' => 'fas fa-parking',
+            'can' =>'rentas_acceso',
         ],
           //Egresos
           [
             'text' => 'Egresos',
             'url' => 'egresos',
             'icon' => 'fas fa-wallet',
+            'can' =>'egresos_acceso',
         ],
     ],
 
