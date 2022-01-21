@@ -7,10 +7,13 @@ use Illuminate\Http\Request;
 use Codedge\Fpdf\Fpdf\Fpdf;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Models\Empresa;
 
 class PDF extends Fpdf
 {
     private $titul, $caj_id, $user_id, $tipo_hoja, $tipo_report;
+    private $logo_ruta;
+
     public function Cabecera($titulo, $caj_id, $user_id, $tipo_hoja, $tipo_report)
     {
         $this->titul = $titulo;
@@ -18,6 +21,12 @@ class PDF extends Fpdf
         $this->user_id = $user_id;
         $this->tipo_hoja = $tipo_hoja;
         $this->tipo_report=$tipo_report;
+
+        $emp=Empresa::findOrFail(1);
+        if($emp->empr_logo == null)
+            $this->logo_ruta=asset('images/logo/no_logo.png');
+        else
+            $this->logo_ruta=asset('images/logo/'.$emp->empr_logo);
     }
     // Cabecera de página
     function Header()
@@ -26,7 +35,8 @@ class PDF extends Fpdf
         if ($this->tipo_report == 'Reportes')
         {
                 // Logo
-                $this->Image(asset('images/parkeo/parking.png'), 10, 5, 20);
+               //$this->Image(asset('images/parkeo/parking.png'), 10, 5, 20);
+               $this->Image($this->logo_ruta, 10, 5, 30 , 20);
                 $this->SetFont('Arial', 'B', 15);
 
                 $this->Cell(80);
@@ -44,7 +54,8 @@ class PDF extends Fpdf
             if ($this->tipo_hoja == 'L') //TIPO DE HOJA HORIZONTAL
             {
                 // Logo
-                $this->Image(asset('images/parkeo/parking.png'), 10, 5, 20);
+                //$this->Image(asset('images/parkeo/parking.png'), 10, 5, 20);
+                $this->Image($this->logo_ruta, 10, 5, 30 , 20);
                 $this->SetFont('Arial', 'B', 15);
                 $this->Cell(120);
                 $this->Cell(60, 6, $this->titul, 0, 0, 'C');
@@ -58,7 +69,8 @@ class PDF extends Fpdf
             } else //TIPO DE HOJA  EN VERTICAL
             {
                 // Logo
-                $this->Image(asset('images/parkeo/parking.png'), 10, 5, 20);
+                //$this->Image(asset('images/parkeo/parking.png'), 10, 5, 20);
+                $this->Image($this->logo_ruta, 10, 5, 30 , 20);
                 $this->SetFont('Arial', 'B', 15);
 
 

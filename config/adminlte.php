@@ -255,6 +255,12 @@ return [
                         'icon' => 'far fa-id-card',
                         'can' =>'documentos_acceso',
                     ],
+                    //Empresa
+                    [
+                        'text' => 'Empresa',
+                        'url' => 'empresa',
+                        'icon' => 'fas fa-database',
+                    ],
                 ],
         ],
         [
@@ -314,7 +320,7 @@ return [
                         'text' => 'Usuarios',
                         'url' => 'usuarios',
                         'icon' => 'fas fa-users-cog',
-                        'can' =>'usuarios_acceso',                        
+                        'can' =>'usuarios_acceso',
                     ],
 
             ],

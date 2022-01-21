@@ -39,6 +39,7 @@ Route::middleware(['auth'])->group(function () {
     Route::view('clientes', 'templates.clientes')->middleware('permission:clientes_acceso');
     Route::view('rentas', 'templates.rentas')->middleware('permission:rentas_acceso');
     Route::view('egresos', 'templates.egresos')->middleware('permission:egresos_acceso');
+    Route::view('empresa', 'templates.empresa');
 
     //reportes PDF
     Route::get('reportes/caja/{idcaja}', 'Reportes\ReportCaja@Reporte_Caja')->name('caja_pdf');
@@ -51,4 +52,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('reportes/clientes/', 'Reportes\ReportClientes@reporte_pdf')->name('clientes_pdf');
     Route::get('reportes/series/', 'Reportes\ReportSeries@reporte_pdf')->name('series_pdf');
     Route::get('reportes/usuarios/', 'Reportes\ReportUsuarios@reporte_pdf')->name('usuarios_pdf');
+
+    //Rutas Imprimir Tickets
+    Route::get('print/ticket/{id}','TicketController@TicketRenta');
 });

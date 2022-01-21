@@ -54,7 +54,7 @@
                                                 @if ($c->caj_estado == 'Libre')
                                                     <span id="{{ $c->caj_id }}" style="cursor: pointer;"
                                                         data-status="{{ $c->caj_estado }}"
-                                                        data-id="{{ $c->caj_id }}" 
+                                                        data-id="{{ $c->caj_id }}"
                                                         {{-- data-toggle="modal" data-target="#modalTicket" --}}
                                                         class="badge-chip badge-success mt-2 mb-2 ml-2 bs-popover col-sm-12"
                                                         {{-- wire:click="$set('rent_cajonid','{{ $c->caj_id }}')" --}}
@@ -126,6 +126,12 @@
             $("#modelo_message").text('');
             var valu = $(this).is(':checked') ? "yes" : "no";
             @this.set('vehiculo_general', valu);
+        })
+
+        window.livewire.on('ticketren', ticket =>{
+            var ruta = "{{ url('print/ticket') }}"+ '/' + ticket
+            var w = window.open(ruta,"_blank", "width=100, height=100")
+            //w.close()
         })
     })
 </script>
