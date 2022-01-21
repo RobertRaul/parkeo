@@ -131,7 +131,7 @@
         window.livewire.on('ticketren', ticket =>{
             var ruta = "{{ url('print/ticket') }}"+ '/' + ticket
             var w = window.open(ruta,"_blank", "width=100, height=100")
-            //w.close()
+            w.close()
         })
     })
 </script>
