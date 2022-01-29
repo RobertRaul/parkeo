@@ -11,6 +11,6 @@ class Empresa extends Model
     public $timestamps=false;
 
     protected $fillable= ['empr_ruc','empr_razon','empr_email','empr_logo',
-    'empr_direcc','empr_telef'];
+    'empr_direcc','empr_telef','empr_impr'];
 
 }

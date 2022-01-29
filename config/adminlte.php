@@ -260,6 +260,7 @@ return [
                         'text' => 'Empresa',
                         'url' => 'empresa',
                         'icon' => 'fas fa-database',
+                        'can' =>'empresa_acceso',
                     ],
                 ],
         ],

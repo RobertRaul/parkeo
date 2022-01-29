@@ -57,12 +57,38 @@
                 @error('empr_email') <span class="error text-danger">{{ $message }}</span> @enderror
             </div>
 
+            <div class="col-md-2">
+                <label for="">Impresora Tickets:</label>
+                <select  class="form-control" wire:model='empr_impr'>
+                    <option value="Seleccionar">Seleccionar</option>
+                    @foreach ($impresoras as $i)
+                        <option value="{{ $i }}">{{ $i }}</option>
+                    @endforeach
+                </select>
+                @error('empr_impr') <span class="error text-danger">{{ $message }}</span> @enderror
+            </div>
+
         </div>
 
         <div class="form-row mt-2">
             <div class="col-md-3">
                 <button type="button" class="btn btn-primary" wire:click='Guardar' >Guardar</button>
+                <button type="button" class="btn btn-primary" wire:click='ListadoImpresoras' >Probando</button>
             </div>
         </div>
     </div>
 </div>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded',function()
+    {
+        window.onload = function()
+        {
+            window.livewire.emit("carga_impresora")
+        };
+    })
+</script>
+
+

@@ -47,7 +47,6 @@ class Egresos extends Component
             ->orderBy($this->Campo, $this->OrderBy)
             ->paginate($this->pagination);
 
-
         return view('livewire.egresos.validar', [
             'data' => $data
         ]);
@@ -184,7 +183,7 @@ class Egresos extends Component
        {
         $this->emit('msgERROR', 'Este modulo no tiene esa funcion');
        }
-   
+
        public function report_pdf()
        {
         $this->emit('msgERROR', 'Este modulo no tiene esa funcion');

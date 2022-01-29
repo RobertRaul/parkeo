@@ -24,7 +24,7 @@ class PDF extends Fpdf
 
         $emp=Empresa::findOrFail(1);
         if($emp->empr_logo == null)
-            $this->logo_ruta=asset('images/logo/no_logo.png');
+            $this->logo_ruta=asset('images/logo/sin_logo.jpg');
         else
             $this->logo_ruta=asset('images/logo/'.$emp->empr_logo);
     }

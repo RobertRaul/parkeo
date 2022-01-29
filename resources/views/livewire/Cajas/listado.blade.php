@@ -78,7 +78,7 @@
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        <button type="button" class="btn btn-secondary" wire:click='generar_reporte({{ $c->caj_id }})'>
+                                        <button type="button" class="btn btn-info" wire:click='generar_reporte({{ $c->caj_id }})' title="Genera Reporte de Caja">
                                             <i class="fas fa-file-invoice-dollar"></i>
                                         </button>
                                     </td>
@@ -141,15 +141,15 @@
                                     <td class="text-center">
                                         <h5>
                                             @if ($d->ing_estado =='Emitido')
-                                            <button type="button" class="btn btn-secondary">
+                                            <button type="button" class="btn btn-info" title="Reimprimir Ticket de Salida" onclick="reimprimir({{ $d->ing_id }})">
                                                 <i class="fas fa-print"></i>
                                             </button>
-                                            <button type="button" class="btn btn-danger"
+                                            <button type="button" class="btn btn-danger" title="Anular Ticket"
                                                 onclick="Anular_Comprobante('{{$d->ing_id}}','{{$d->ing_serie}}-{{$d->ing_numero}}')">
                                                 <i class="fas fa-arrow-down"></i>
                                             </button>
                                             @else
-                                            <button type="button" class="btn btn-secondary" disabled>
+                                            <button type="button" class="btn btn-info" disabled>
                                                 <i class="fas fa-print"></i>
                                             </button>
                                             <button type="button" class="btn btn-danger" disabled>
@@ -223,13 +223,12 @@
         });
     }
 
-    // document.addEventListener('DOMContentLoaded', function() {
-
-    //     $('#tabla_caja tbody tr').click(function() {
-    //     $(this).addClass('bg-success').siblings().removeClass('bg-success');
-    // });
-
-    // })
+         function reimprimir($idingreso)
+        {
+            var ruta = "{{ url('ticket/salida') }}"+ '/' + $idingreso
+            var w = window.open(ruta,"_blank", "width=100, height=100")
+            w.close()
+        }
 
     document.addEventListener('DOMContentLoaded',function ()
        {

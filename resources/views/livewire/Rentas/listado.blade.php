@@ -20,8 +20,8 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fas fa-barcode"></i></span>
                                             </div>
-                                            <input wire:model="barcode" type="text" id="code" class="form-control"
-                                            maxlength="9" placeholder="Escanea el código de barras"  wire:keydown.enter="$emit('darSalida','')" autofocus>
+                                            <input wire:model="barcode" type="text" id="code" class="form-control" maxlength="9"
+                                            placeholder="Escanea el código de barras"  wire:keydown.enter="$emit('darSalida','')" autofocus>
                                             <div class="input-group-append">
                                                 <span wire:click="$set('barcode','')" class="input-group-text"
                                                     style="cursor:pointer; "><i class="fas fa-trash-alt"></i>
@@ -97,7 +97,8 @@
 </div>
 
 <script>
-    function checkOut(eventName, accion) {
+    function checkOut(eventName, accion)
+    {
         window.livewire.emit(eventName, accion)
     }
 
@@ -128,8 +129,14 @@
             @this.set('vehiculo_general', valu);
         })
 
-        window.livewire.on('ticketren', ticket =>{
-            var ruta = "{{ url('print/ticket') }}"+ '/' + ticket
+        window.livewire.on('ticketingreso', ticket =>{
+            var ruta = "{{ url('ticket/ingreso') }}"+ '/' + ticket
+            var w = window.open(ruta,"_blank", "width=100, height=100")
+            w.close()
+        })
+
+        window.livewire.on('ticketsalida', ticket =>{
+            var ruta = "{{ url('ticket/salida') }}"+ '/' + ticket
             var w = window.open(ruta,"_blank", "width=100, height=100")
             w.close()
         })

@@ -60,6 +60,7 @@ class Rentas extends Component
 
     //informacion para mostrar rentas
     public $data_rent;
+    public $totales; //
 
 
     public function mount()
@@ -241,7 +242,7 @@ class Rentas extends Component
 
             $this->emit('closeModalTicketVisita');
             $this->emit('msgOK', 'Renta Registrada Correctamente');
-            $this->emit('ticketren',$rent->rent_id);
+            $this->emit('ticketingreso',$rent->rent_id);
             $this->resetInput();
 
             DB::commit();
@@ -250,106 +251,106 @@ class Rentas extends Component
             throw $th;
         }
     }
-        //METODO PARA REGISTRAR LA RENTA, con los datos del CLIENTE, Y VEHICULO
-        public function ticket_renta()
-        {
-            DB::beginTransaction();
-            try {
-                $datos = [
-                    'rent_tarid' =>  $this->rent_tarifa,
-                    'rent_vehiculo'   => 1,
-                    'rent_client'  =>  1,
-                    'rent_cajonid' => $this->rent_cajonid,
-                    'rent_llaves' => $this->rent_llaves,
-                    'rent_obser' => $this->rent_obser,
-                    'rent_feching' => Carbon::now(),
-                    'rent_usid' => Auth::id(),
-                ];
-                $datos_cliente = [
-                    'clie_tpdi' => $this->clie_tpdi,
-                    'clie_numdoc' => $this->clie_numdoc,
-                    'clie_nombres' => $this->clie_nombres,
-                    'clie_celular' => $this->clie_celular,
-                    'clie_email' => $this->clie_email,
-                ];
-                $datos_vehiculo = [
-                    'veh_placa' => $this->veh_placa,
-                    'veh_modelo' => $this->veh_modelo,
-                    'veh_marca' => $this->veh_marca,
-                    'veh_color' => $this->veh_color,
-                    'veh_foto' => $this->veh_foto,
-                ];
-                //validamos si se selecciono el CLiente general
-                if ($this->cliente_general == "yes")
-                {
-                    $datos['rent_client'] = 1;
-                } else //en esta opcion tenemos 2 formar **1 Si el usuario busco un paciente entonces ya no registramos **2 hacemos el registro desde cero
-                {
-                    if ($this->clie_id > 0) {
+    //METODO PARA REGISTRAR LA RENTA, con los datos del CLIENTE, Y VEHICULO
+    public function ticket_renta()
+    {
+        DB::beginTransaction();
+        try {
+            $datos = [
+                'rent_tarid' =>  $this->rent_tarifa,
+                'rent_vehiculo'   => 1,
+                'rent_client'  =>  1,
+                'rent_cajonid' => $this->rent_cajonid,
+                'rent_llaves' => $this->rent_llaves,
+                'rent_obser' => $this->rent_obser,
+                'rent_feching' => Carbon::now(),
+                'rent_usid' => Auth::id(),
+            ];
+            $datos_cliente = [
+                'clie_tpdi' => $this->clie_tpdi,
+                'clie_numdoc' => $this->clie_numdoc,
+                'clie_nombres' => $this->clie_nombres,
+                'clie_celular' => $this->clie_celular,
+                'clie_email' => $this->clie_email,
+            ];
+            $datos_vehiculo = [
+                'veh_placa' => $this->veh_placa,
+                'veh_modelo' => $this->veh_modelo,
+                'veh_marca' => $this->veh_marca,
+                'veh_color' => $this->veh_color,
+                'veh_foto' => $this->veh_foto,
+            ];
+            //validamos si se selecciono el CLiente general
+            if ($this->cliente_general == "yes")
+            {
+                $datos['rent_client'] = 1;
+            } else //en esta opcion tenemos 2 formar **1 Si el usuario busco un paciente entonces ya no registramos **2 hacemos el registro desde cero
+            {
+                if ($this->clie_id > 0) {
 
-                        $datos['rent_client'] = $this->clie_id; //cargamos el ID recuperado a la renta
+                    $datos['rent_client'] = $this->clie_id; //cargamos el ID recuperado a la renta
 
-                    } else {
-                        $this->validate([
-                            'clie_tpdi' => 'not_in:Elegir',
-                            'clie_numdoc'   => 'required|numeric|unique:clientes,clie_numdoc',
-                            'clie_nombres'  => 'required|string',
-                            'clie_celular'  => 'required|numeric',
-                        ]);
-                        $clien = Cliente::create($datos_cliente);
-                        $idclie = $clien->clie_id;
-                        $datos['rent_client'] = $idclie;
-                    }
-                }
-
-                //validamos si se selecciono un VEHICULO GENERAL
-                if ($this->vehiculo_general == "yes")
-                    $datos['rent_vehiculo'] = 1; //podnemos el ID del VEHICULO GENERAL EN LA DATA
-                else {
+                } else {
                     $this->validate([
-                        'veh_placa' => 'required',
-                        'veh_modelo' => 'required',
-                        'veh_foto'   =>  'image|mimes:jpeg,png,jpg,gif,svg|max:4096|nullable',
+                        'clie_tpdi' => 'not_in:Elegir',
+                        'clie_numdoc'   => 'required|numeric|unique:clientes,clie_numdoc',
+                        'clie_nombres'  => 'required|string',
+                        'clie_celular'  => 'required|numeric',
                     ]);
-                    /***************************VEHICULO******************************** */
-                    //Verificamos que la se haya cargado una imagen
-                    if (!empty($this->veh_foto)) {
-                        $image = $this->veh_foto;
-                        $nameImg = 'vehiculo-' . substr(uniqid(rand(), true), 8, 8) . '.' . $image->getClientOriginalExtension();
-                        $move = Image::make($image)->save('images/parkeo/vehiculos/' . $nameImg);
-
-                        if ($move) {
-                            $datos_vehiculo = array_merge($datos_vehiculo, ['veh_foto' => $nameImg]);
-                        }
-                    }
-                    $veh = Vehiculo::create($datos_vehiculo);
-                    $idveh = $veh->veh_id;
-                    $datos['rent_vehiculo'] = $idveh; //podnemos el id del vehiculo registrado
+                    $clien = Cliente::create($datos_cliente);
+                    $idclie = $clien->clie_id;
+                    $datos['rent_client'] = $idclie;
                 }
-                //validamos datos para la renta
-                $this->validate([
-                    'rent_tarifa' => 'not_in:Elegir',
-                    'rent_llaves' => 'not_in:Elegir',
-                    'rent_cajonid' => 'not_in:Elegir',
-                ]);
-                $rent =Renta::create($datos);
-                //desactivamos el cajon  y lo ponemos en ocupado
-                $cajon = Cajon::find($this->rent_cajonid);
-                $cajon->update([
-                    'caj_estado' => 'Ocupado'
-                ]);
-
-                $this->emit('closeModalTicketVisita');
-                $this->emit('msgOK', 'Renta Registrada Correctamente');
-                $this->emit('ticketren',$rent->rent_id);
-                $this->resetInput();
-                DB::commit();
-
-            } catch (\Throwable $th) {
-                DB::rollback();
-                throw $th;
             }
+
+            //validamos si se selecciono un VEHICULO GENERAL
+            if ($this->vehiculo_general == "yes")
+                $datos['rent_vehiculo'] = 1; //podnemos el ID del VEHICULO GENERAL EN LA DATA
+            else {
+                $this->validate([
+                    'veh_placa' => 'required',
+                    'veh_modelo' => 'required',
+                    'veh_foto'   =>  'image|mimes:jpeg,png,jpg,gif,svg|max:4096|nullable',
+                ]);
+                /***************************VEHICULO******************************** */
+                //Verificamos que la se haya cargado una imagen
+                if (!empty($this->veh_foto)) {
+                    $image = $this->veh_foto;
+                    $nameImg = 'vehiculo-' . substr(uniqid(rand(), true), 8, 8) . '.' . $image->getClientOriginalExtension();
+                    $move = Image::make($image)->save('images/parkeo/vehiculos/' . $nameImg);
+
+                    if ($move) {
+                        $datos_vehiculo = array_merge($datos_vehiculo, ['veh_foto' => $nameImg]);
+                    }
+                }
+                $veh = Vehiculo::create($datos_vehiculo);
+                $idveh = $veh->veh_id;
+                $datos['rent_vehiculo'] = $idveh; //podnemos el id del vehiculo registrado
+            }
+            //validamos datos para la renta
+            $this->validate([
+                'rent_tarifa' => 'not_in:Elegir',
+                'rent_llaves' => 'not_in:Elegir',
+                'rent_cajonid' => 'not_in:Elegir',
+            ]);
+            $rent =Renta::create($datos);
+            //desactivamos el cajon  y lo ponemos en ocupado
+            $cajon = Cajon::find($this->rent_cajonid);
+            $cajon->update([
+                'caj_estado' => 'Ocupado'
+            ]);
+
+            $this->emit('closeModalTicketVisita');
+            $this->emit('msgOK', 'Renta Registrada Correctamente');
+            $this->emit('ticketingreso',$rent->rent_id);
+            $this->resetInput();
+            DB::commit();
+
+        } catch (\Throwable $th) {
+            DB::rollback();
+            throw $th;
         }
+    }
     //creamos esta funcion para que cuando hagan click cambiemos el valor de las vairables a false, esto
     //quiere decir que registraran Clientes y Vehiculos
     public function ticketrenta()
@@ -385,7 +386,6 @@ class Rentas extends Component
         {
             $this->emit('msgINFO', 'El cajon ya fue ocupado por otro vehiculo');
         }
-
     }
 
 
@@ -409,9 +409,8 @@ class Rentas extends Component
         }
     }
     //*****************************************INGRESO************************************************** */
-    public function Ingreso($cajon_id,$tiempo_trans,$renta_id,$ing_total)
+    public function Ingreso($cajon_id,$tiempo_trans,$renta_id,$total)
     {
-
         //reglas de validación
         $rules = [
             'ing_serid'     => 'not_in:Elegir|required',
@@ -436,7 +435,7 @@ class Rentas extends Component
 
             //buscamos la caja activa del usuario
             $caja = Caja::where('caj_st', 'Open')->where('caj_usid', Auth::id())->get();
-
+            $total_ = str_replace (',', '' , $total);
             $datos = [
                 'ing_cajid' => $caja[0]->caj_id,
                 'ing_rentid' => $renta_id,
@@ -447,7 +446,7 @@ class Rentas extends Component
                 'ing_nref' => $this->ing_nref,
                 'ing_subtotal' =>0.00, //$this->ing_subtotal,
                 'ing_igv' =>0.00, //$this->ing_igv,
-                'ing_total' => $ing_total,
+                'ing_total' => $total_,
                 'ing_usid' => Auth::id(),
             ];
             //registramos el ingreso
@@ -479,7 +478,7 @@ class Rentas extends Component
 
             $this->emit('closeIngreso');
             $this->emit('msgOK', 'Salida Registrada Correctamente');
-
+            $this->emit('ticketsalida',$ingreso->ing_id);
             $this->resetInput();
             DB::commit();
         } catch (\Throwable $th) {
@@ -491,8 +490,6 @@ class Rentas extends Component
     //RECUPERAR INFORMACION DEL TICKET
     public function MostrarTotales($id_cajon, $accion = 2)
     {
-        // $rent = null;
-        $this->accion = $accion;
         //si el ID del cajon esta en vacio entonces buscan por el ID CAJON
         if ($id_cajon != '')
         {
@@ -511,23 +508,23 @@ class Rentas extends Component
                 ->first();
         }
 
-        if ($rent != null)
+
+        if (is_null($rent))
         {
+            $this->emit('msgERROR', 'No existe el codigo de parkeo');
+           $this->barcode = '';
+            $this->id_cajon = '';
+        }
+        else
+        {
+            $this->accion = $accion;
+
             $inicio = Carbon::parse($rent->rent_feching);
-
             $final = new \DateTime(Carbon::now());
-
             $rent->tiempo = $inicio->diffInHours($final)  . ':' . $inicio->diff($final)->format('%I:%S'); //diferencia en horas + diferencia en segundos
-
             $rent->Total = $this->calculateTotal($inicio, $rent->rent_tarid);
-
             $this->data_rent = $rent;
             $this->emit('openIngreso');
-        } else
-        {
-            $this->emit('msgERROR', 'No existe el registro');
-            $this->barcode = '';
-            return;
         }
     }
 
