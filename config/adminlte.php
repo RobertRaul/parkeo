@@ -64,9 +64,9 @@ return [
     |
     */
 
-    'usermenu_enabled' => false, /* El por que no funciona el menu de usuario en el inicio es por la clase ya que esta full blanco */
+    'usermenu_enabled' => true, /* El por que no funciona el menu de usuario en el inicio es por la clase ya que esta full blanco */
     'usermenu_header' => false,
-    'usermenu_header_class' => 'bg-primary',
+    'usermenu_header_class' => 'bg-dark',
     'usermenu_image' => false,
     'usermenu_desc' => false,
     'usermenu_profile_url' => false,
@@ -88,7 +88,7 @@ return [
     'layout_fixed_sidebar' => null,
     'layout_fixed_navbar' => null,
     'layout_fixed_footer' => null,
-    'layout_dark_mode' => null,
+    'layout_dark_mode' => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -225,11 +225,6 @@ return [
     */
 
     'menu' => [
-        // Sidebar items:
-        [
-            'type' => 'sidebar-menu-search',
-            'text' => 'search',
-        ],
         [
             'text' => 'Configuracion',
             'icon'    => 'fas fa-cog',

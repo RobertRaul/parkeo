@@ -22,7 +22,6 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 use App\Models\Ingreso;
 use App\Models\Serie;
-use PhpParser\Node\Expr\FuncCall;
 
 class Rentas extends Component
 {
@@ -372,11 +371,32 @@ class Rentas extends Component
         $this->emit('msgERROR', 'Debe Realiza una apertura de caja para el dia de hoy');
     }
 
+    public function Reimpresion_TicketIngreso($cajon)
+    {
+        $id= Cajon::select('rentas.rent_id')
+                    ->join('rentas','rentas.rent_cajonid','=','cajones.caj_id')
+                    ->where('cajones.caj_desc','=',$cajon)
+                    ->where('rentas.rent_estado','=','Abierto')
+                    ->first();
+        if($id)
+        {
+            $this->emit('ticketingreso',$id->rent_id);
+        }
+        else
+        {
+            $this->emit('msgERROR', 'No hay ninguna Renta activa con ese Cajon');
+        }
+    }
+
     public function validar_cajon($idcajon)
     {
-        $data=Cajon::where('caj_estado','Libre')
+       /* $data=Cajon::where('caj_estado','Libre')
                     ->where('caj_id','=',$idcajon)
-                    ->first();
+                    ->first();*/
+
+        $data =  Renta::where('rent_cajonid','=',$idcajon)
+                        ->where('rent_estado','=','Abierto')
+                        ->first();
         if($data)
         {
             $this->rent_cajonid=$idcajon;
