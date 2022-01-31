@@ -22,49 +22,57 @@
 
 @section('auth_body')
     <form action="{{ $login_url }}" method="post">
-        {{ csrf_field() }}
+        @csrf
 
-        {{-- Usuario field --}}
+        {{-- Email field --}}
         <div class="input-group mb-3">
-            <input type="text" name="us_usuario" class="form-control {{ $errors->has('us_usuario') ? 'is-invalid' : '' }}"
-                   value="{{ old('us_usuario') }}" placeholder="Usuario" autofocus>
+            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
+                   value="{{ old('email') }}" placeholder="{{ __('adminlte::adminlte.email') }}" autofocus>
+
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-user {{ config('adminlte.classes_auth_icon', '') }}"></span>
+                    <span class="fas fa-envelope {{ config('adminlte.classes_auth_icon', '') }}"></span>
                 </div>
             </div>
-            @if($errors->has('us_usuario'))
-                <div class="invalid-feedback">
-                    <strong>{{ $errors->first('us_usuario') }}</strong>
-                </div>
-            @endif
+
+            @error('email')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
 
         {{-- Password field --}}
         <div class="input-group mb-3">
-            <input type="password" name="password" class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
+            <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
                    placeholder="{{ __('adminlte::adminlte.password') }}">
+
             <div class="input-group-append">
                 <div class="input-group-text">
                     <span class="fas fa-lock {{ config('adminlte.classes_auth_icon', '') }}"></span>
                 </div>
             </div>
-            @if($errors->has('password'))
-                <div class="invalid-feedback">
-                    <strong>{{ $errors->first('password') }}</strong>
-                </div>
-            @endif
+
+            @error('password')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
 
         {{-- Login field --}}
         <div class="row">
-            {{-- <div class="col-7">
-                <div class="icheck-primary">
-                    <input type="checkbox" name="remember" id="remember">
-                    <label for="remember">{{ __('adminlte::adminlte.remember_me') }}</label>
+            <div class="col-7">
+                <div class="icheck-primary" title="{{ __('adminlte::adminlte.remember_me_hint') }}">
+                    <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+
+                    <label for="remember">
+                        {{ __('adminlte::adminlte.remember_me') }}
+                    </label>
                 </div>
-            </div> --}}
-            <div class="col-12">
+            </div>
+
+            <div class="col-5">
                 <button type=submit class="btn btn-block {{ config('adminlte.classes_auth_btn', 'btn-flat btn-primary') }}">
                     <span class="fas fa-sign-in-alt"></span>
                     {{ __('adminlte::adminlte.sign_in') }}
@@ -75,8 +83,8 @@
     </form>
 @stop
 
-{{-- @section('auth_footer')
-    Password reset link
+@section('auth_footer')
+    {{-- Password reset link --}}
     @if($password_reset_url)
         <p class="my-0">
             <a href="{{ $password_reset_url }}">
@@ -85,7 +93,7 @@
         </p>
     @endif
 
-    Register link
+    {{-- Register link --}}
     @if($register_url)
         <p class="my-0">
             <a href="{{ $register_url }}">
@@ -93,4 +101,4 @@
             </a>
         </p>
     @endif
-@stop --}}
+@stop

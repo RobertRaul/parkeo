@@ -104,41 +104,6 @@
     {{-- Custom Scripts --}}
     @yield('adminlte_js')
 
-
-    <script>
-
-        window.livewire.on('msgOK',mensaje=>{
-            toastr.success(mensaje,"Informe",{timeOut: 2000})
-        });
-        window.livewire.on('msgERROR',mensaje=>{
-            toastr.error(mensaje,"Informe",{timeOut: 2000})
-        });
-        window.livewire.on('msgEDIT',mensaje=>{
-            toastr.warning(mensaje,"Informe",{timeOut: 2000})
-        });
-        window.livewire.on('msgINFO',mensaje=>{
-            toastr.info(mensaje,"Informe",{timeOut: 2000})
-        });
-        window.livewire.on('closeModal', () =>{
-            $('#Modal').modal('hide');
-        });
-        window.livewire.on('closeModalTicketVisita', () =>{
-            $('#modalTicket').modal('hide');
-        });
-
-        window.livewire.on('openIngreso', () =>{
-            $('#modalIngreso').modal('show');
-        });
-
-          window.livewire.on('closeIngreso', () =>{
-            $('#modalIngreso').modal('hide');
-        });
-
-        window.livewire.on('openModalTicket', () =>{
-            $('#modalTicket').modal('show');
-        });
-    </script>
-
 </body>
 
 </html>

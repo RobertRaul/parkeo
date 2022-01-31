@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -42,7 +43,7 @@ class User extends Authenticatable
         return $this->hasOne(Empleado::class,'emp_id','us_empid');
     }
 
-    
+
     public function Rentas()
     {
         return $this->hasMany(Renta::class,'rent_usid','us_id');
@@ -56,4 +57,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+/*
+    public function adminlte_desc()
+    {
+        return Auth::user()->us_usuario;
+    }*/
 }
